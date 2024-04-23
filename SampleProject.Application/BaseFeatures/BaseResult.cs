@@ -51,13 +51,13 @@ public class BaseResult
 
     public void Success()
     {
-        NotFound(Resources.Messages.SuccessAction);
+        Success(Resources.Messages.SuccessAction);
     }
 
     public void Success(string message)
     {
         StatusCode = StatusCodes.Status200OK;
-        AddErrorMessage(message);
+        AddSuccessMessage(message);
     }
 
     public void NotFound()

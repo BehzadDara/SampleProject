@@ -2,7 +2,7 @@
 
 namespace SampleProject.Domain.BaseModels;
 
-public class Entity
+public abstract class Entity
 {
     [Key]
     public Guid Id { get; set; }

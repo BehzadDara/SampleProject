@@ -1,6 +1,6 @@
 ﻿namespace SampleProject.Application.BaseViewModels;
 
-public class TrackableEntityViewModel : EntityViewModel
+public abstract class TrackableEntityViewModel : EntityViewModel
 {
     public DateTime CreatedAt { get; set; }
     public string CreatedBy { get; set; } = string.Empty;

@@ -15,7 +15,7 @@ public class GetAllSampleModelsQueryHandler(IUnitOfWork unitOfWork, SampleModelM
         var viewModels = mapper.ToViewModel(entities);
 
         result.AddValue(viewModels);
-        result.AddSuccessMessage(Resources.Messages.SuccessAction);
+        result.Success();
         return result;
     }
 }

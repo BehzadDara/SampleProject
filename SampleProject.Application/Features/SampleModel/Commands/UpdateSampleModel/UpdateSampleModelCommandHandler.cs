@@ -13,7 +13,7 @@ public class UpdateSampleModelCommandHandler(IUnitOfWork unitOfWork, SampleModel
         var existEntity = await unitOfWork.SampleModelRepository.GetByIdAsync(request.Id, cancellationToken);
         if (existEntity is null)
         {
-            result.AddErrorMessage(Resources.Messages.NotFound);
+            result.NotFound();
             return result;
         }
 
@@ -21,7 +21,7 @@ public class UpdateSampleModelCommandHandler(IUnitOfWork unitOfWork, SampleModel
         await unitOfWork.SampleModelRepository.UpdateAsync(entity, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
 
-        result.AddSuccessMessage(Resources.Messages.SuccessAction);
+        result.Success();
         return result;
     }
 }

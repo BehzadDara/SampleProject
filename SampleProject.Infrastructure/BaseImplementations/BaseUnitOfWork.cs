@@ -1,5 +1,4 @@
 ﻿using SampleProject.Domain.BaseInterfaces;
-using SampleProject.Infrastructure.Repositories;
 
 namespace SampleProject.Infrastructure.Implementations;
 

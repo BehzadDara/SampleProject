@@ -1,6 +1,6 @@
 ﻿namespace SampleProject.Domain.BaseModels;
 
-public class TrackableEntity : Entity
+public abstract class TrackableEntity : Entity
 {
     public DateTime CreatedAt { get; set; }
     public string CreatedBy { get; set; } = string.Empty;

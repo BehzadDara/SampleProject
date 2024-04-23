@@ -1,6 +1,6 @@
 ﻿namespace SampleProject.Application.BaseViewModels;
 
-public class EntityViewModel
+public abstract class EntityViewModel
 {
     public Guid Id { get; set; }
 }

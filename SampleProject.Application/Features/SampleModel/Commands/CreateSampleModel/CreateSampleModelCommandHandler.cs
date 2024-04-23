@@ -14,7 +14,7 @@ public class CreateSampleModelCommandHandler(IUnitOfWork unitOfWork, SampleModel
         await unitOfWork.SampleModelRepository.AddAsync(entity, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
 
-        result.AddSuccessMessage(Resources.Messages.SuccessAction);
+        result.Success();
         return result;
     }
 }

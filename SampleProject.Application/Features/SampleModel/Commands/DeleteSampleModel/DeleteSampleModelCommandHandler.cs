@@ -12,14 +12,14 @@ public class DeleteSampleModelCommandHandler(IUnitOfWork unitOfWork) : IBaseComm
         var existEntity = await unitOfWork.SampleModelRepository.GetByIdAsync(request.Id, cancellationToken);
         if (existEntity is null)
         {
-            result.AddErrorMessage(Resources.Messages.NotFound);
+            result.NotFound();
             return result;
         }
 
         await unitOfWork.SampleModelRepository.DeleteAsync(existEntity, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
 
-        result.AddSuccessMessage(Resources.Messages.SuccessAction);
+        result.Success();
         return result;
     }
 }

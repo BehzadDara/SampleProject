@@ -1,4 +1,6 @@
-﻿namespace SampleProject.Application.BaseFeature;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace SampleProject.Application.BaseFeature;
 
 public class BaseResult<T> : BaseResult
 {
@@ -13,6 +15,7 @@ public class BaseResult<T> : BaseResult
 public class BaseResult
 {
     public bool IsSuccess { get; set; }
+    public int StatusCode { get; set; }
 
     public List<string> Errors { get; set; } = [];
 
@@ -44,6 +47,28 @@ public class BaseResult
     public void AddSuccessMessages(List<string> messages)
     {
         messages.ForEach(AddSuccessMessage);
+    }
+
+    public void Success()
+    {
+        NotFound(Resources.Messages.SuccessAction);
+    }
+
+    public void Success(string message)
+    {
+        StatusCode = StatusCodes.Status200OK;
+        AddErrorMessage(message);
+    }
+
+    public void NotFound()
+    {
+        NotFound(Resources.Messages.NotFound);
+    }
+
+    public void NotFound(string message)
+    {
+        StatusCode = StatusCodes.Status404NotFound;
+        AddErrorMessage(message);
     }
 
     private void Failed()

@@ -21,7 +21,7 @@ public class GetSampleModelByIdQueryHandler(IUnitOfWork unitOfWork, SampleModelM
         var viewModel = mapper.ToViewModel(entity);
 
         result.AddValue(viewModel);
-        result.AddSuccessMessage(Resources.Messages.SuccessAction);
+        result.Success();
         return result;
     }
 }

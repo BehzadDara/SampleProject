@@ -4,12 +4,8 @@ using SampleProject.Infrastructure.Implementations;
 
 namespace SampleProject.Infrastructure;
 
-public class SampleProjectDBContext : BaseDBContext
+public class SampleProjectDBContext(DbContextOptions<SampleProjectDBContext> options) : BaseDBContext(options)
 {
-    protected SampleProjectDBContext(DbContextOptions options) : base(options)
-    {
-    }
-
     public DbSet<SampleModel> SampleModels { get; set; }
 
     /*protected override void OnModelCreating(ModelBuilder modelBuilder)

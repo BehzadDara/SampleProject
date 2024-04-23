@@ -1,10 +1,9 @@
 ﻿using SampleProject.Application.BaseFeature;
-using SampleProject.Application.Mapper;
 using SampleProject.Domain.Interfaces;
 
 namespace SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
 
-public class UpdateSampleModelCommandHandler(IUnitOfWork unitOfWork, SampleModelMapper mapper) : IBaseCommandQueryHandler<UpdateSampleModelCommand>
+public class UpdateSampleModelCommandHandler(IUnitOfWork unitOfWork) : IBaseCommandQueryHandler<UpdateSampleModelCommand>
 {
     public async Task<BaseResult> Handle(UpdateSampleModelCommand request, CancellationToken cancellationToken)
     {
@@ -17,7 +16,7 @@ public class UpdateSampleModelCommandHandler(IUnitOfWork unitOfWork, SampleModel
             return result;
         }
 
-        var entity = mapper.ToEntity(request);
+        var entity = request.ToEntity();
         await unitOfWork.SampleModelRepository.UpdateAsync(entity, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
 

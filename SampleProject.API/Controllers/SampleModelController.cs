@@ -1,13 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SampleProject.Application;
 using SampleProject.Application.Features.SampleModel.Commands.CreateSampleModel;
 using SampleProject.Application.Features.SampleModel.Commands.DeleteSampleModel;
 using SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
 using SampleProject.Application.Features.SampleModel.Queries.GetAllSampleModels;
 using SampleProject.Application.Features.SampleModel.Queries.GetGenderEnum;
 using SampleProject.Application.Features.SampleModel.Queries.GetSampleModelById;
-using System.Runtime.CompilerServices;
 
 namespace SampleProject.API.Controllers;
 
@@ -61,14 +59,6 @@ public class SampleModelController(IMediator mediator) : BaseController
     public async Task<IActionResult> GenderEnum()
     {
         var result = await mediator.Send(new GetGenderEnumQuery());
-        return BaseApiResult(result);
-    }
-
-    [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetA()
-    {
-        var result = await mediator.Send(new AQuery("Hi"));
         return BaseApiResult(result);
     }
 }

@@ -1,11 +1,10 @@
 ﻿using SampleProject.Application.BaseFeature;
-using SampleProject.Application.Mapper;
 using SampleProject.Application.ViewModels;
 using SampleProject.Domain.Interfaces;
 
 namespace SampleProject.Application.Features.SampleModel.Queries.GetSampleModelById;
 
-public class GetSampleModelByIdQueryHandler(IUnitOfWork unitOfWork, SampleModelMapper mapper) : IBaseCommandQueryHandler<GetSampleModelByIdQuery, SampleModelViewModel>
+public class GetSampleModelByIdQueryHandler(IUnitOfWork unitOfWork) : IBaseCommandQueryHandler<GetSampleModelByIdQuery, SampleModelViewModel>
 {
     public async Task<BaseResult<SampleModelViewModel>> Handle(GetSampleModelByIdQuery request, CancellationToken cancellationToken)
     {
@@ -18,7 +17,7 @@ public class GetSampleModelByIdQueryHandler(IUnitOfWork unitOfWork, SampleModelM
             return result;
         }
 
-        var viewModel = mapper.ToViewModel(entity);
+        var viewModel = entity.ToViewModel();
 
         result.AddValue(viewModel);
         result.Success();

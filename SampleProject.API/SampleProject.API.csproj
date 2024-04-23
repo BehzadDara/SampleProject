@@ -8,8 +8,10 @@
 
   <ItemGroup>
 	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+	<PackageReference Include="MediatR" Version="11.1.0" />
+	<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
   </ItemGroup>
 
   <ItemGroup>

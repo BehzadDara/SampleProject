@@ -1,6 +1,9 @@
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using SampleProject.Application.Mapper;
+using SampleProject.Application;
+using SampleProject.Application.BaseFeature;
+using SampleProject.Application.BaseViewModels;
+using SampleProject.Application.Features.SampleModel.Queries.GetGenderEnum;
 using SampleProject.Domain.BaseInterfaces;
 using SampleProject.Infrastructure;
 using SampleProject.Infrastructure.Implementations;
@@ -9,11 +12,12 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddMediatR(typeof(SampleProjectProfile).GetTypeInfo().Assembly);
+builder.Services.AddMediatR(typeof(Program).GetTypeInfo().Assembly);
+
+builder.Services.AddTransient<IRequestHandler<GetGenderEnumQuery, BaseResult<IList<EnumViewModel>>>, GetGenderEnumQueryHandler>();
+//builder.Services.AddTransient<IBaseCommandQueryHandler<IBaseCommandQuery<BaseResult>>>();
 
 builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddDbContext<SampleProjectDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SampleProjectConnection")),

@@ -8,13 +8,13 @@ namespace SampleProject.Infrastructure.Repositories;
 
 public class SampleModelRepository(BaseDBContext dbContext) : BaseRepository<SampleModel>(dbContext), ISampleModelRepository
 {
-    public async Task<Tuple<int, IList<SampleModel>>> GetByFilter(BaseSpecification<SampleModel> specification, CancellationToken cancellationToken = default)
+    public async Task<(int TotalCount, IList<SampleModel> Data)> GetByFilter(BaseSpecification<SampleModel> specification, CancellationToken cancellationToken = default)
     {
         var query = Set.Specify(specification).Where(x => !x.IsDeleted);
 
         var totalCount = await query.CountAsync(x => !x.IsDeleted, cancellationToken);
         var data = await query.Skip(specification.Skip).Take(specification.Take).ToListAsync(cancellationToken);
 
-        return Tuple.Create<int, IList<SampleModel>>(totalCount, data);
+        return (totalCount, data);
     }
 }

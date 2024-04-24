@@ -1,4 +1,4 @@
-﻿using SampleProject.Application.BaseFeature;
+﻿using SampleProject.Application.BaseFeatures;
 using SampleProject.Application.ViewModels;
 
 namespace SampleProject.Application.Features.SampleModel.Queries.GetSampleModelById;

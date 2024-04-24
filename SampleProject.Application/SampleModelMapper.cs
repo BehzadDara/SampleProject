@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Humanizer;
+using SampleProject.Application.BaseViewModels;
 using SampleProject.Application.Features.SampleModel.Commands.CreateSampleModel;
 using SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
 using SampleProject.Application.ViewModels;
@@ -11,7 +13,9 @@ public static class SampleModelMapper
     public static SampleModelViewModel ToViewModel(this SampleModel input)
     {
         var config = new MapperConfiguration(cfg => 
-            cfg.CreateMap<SampleModel, SampleModelViewModel>());
+            cfg.CreateMap<SampleModel, SampleModelViewModel>()
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(
+                       src => new EnumViewModel((int)src.Gender, src.Gender.ToString(), src.Gender.Humanize()))));
 
         var mapper = new Mapper(config);
 
@@ -21,7 +25,9 @@ public static class SampleModelMapper
     public static IList<SampleModelViewModel> ToViewModel(this IList<SampleModel> input)
     {
         var config = new MapperConfiguration(cfg =>
-            cfg.CreateMap<SampleModel, SampleModelViewModel>());
+            cfg.CreateMap<SampleModel, SampleModelViewModel>()
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(
+                       src => new EnumViewModel((int)src.Gender, src.Gender.ToString(), src.Gender.Humanize()))));
 
         var mapper = new Mapper(config);
 
@@ -38,13 +44,13 @@ public static class SampleModelMapper
         return mapper.Map<SampleModel>(input);
     }
 
-    public static SampleModel ToEntity(this UpdateSampleModelCommand input)
+    public static SampleModel ToEntity(this UpdateSampleModelCommand input, SampleModel entity)
     {
         var config = new MapperConfiguration(cfg =>
             cfg.CreateMap<UpdateSampleModelCommand, SampleModel>());
 
         var mapper = new Mapper(config);
 
-        return mapper.Map<SampleModel>(input);
+        return mapper.Map(input, entity);
     }
 }

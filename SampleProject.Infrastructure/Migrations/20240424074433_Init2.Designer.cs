@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SampleProject.Infrastructure;
 
@@ -11,9 +12,11 @@ using SampleProject.Infrastructure;
 namespace SampleProject.Infrastructure.Migrations
 {
     [DbContext(typeof(SampleProjectDBContext))]
-    partial class SampleProjectDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240424074433_Init2")]
+    partial class Init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,9 +56,8 @@ namespace SampleProject.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

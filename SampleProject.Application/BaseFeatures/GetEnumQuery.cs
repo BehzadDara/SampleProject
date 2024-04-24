@@ -1,5 +1,4 @@
-﻿using SampleProject.Application.BaseFeature;
-using SampleProject.Application.BaseViewModels;
+﻿using SampleProject.Application.BaseViewModels;
 
 namespace SampleProject.Application.BaseFeatures;
 

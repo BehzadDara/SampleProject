@@ -1,4 +1,4 @@
-﻿using SampleProject.Application.BaseFeature;
+﻿using SampleProject.Application.BaseFeatures;
 using SampleProject.Application.ViewModels;
 using SampleProject.Domain.Interfaces;
 
@@ -13,7 +13,7 @@ public class GetSampleModelByIdQueryHandler(IUnitOfWork unitOfWork) : IBaseComma
         var entity = await unitOfWork.SampleModelRepository.GetByIdAsync(request.Id, cancellationToken);
         if (entity is null)
         {
-            result.AddErrorMessage(Resources.Messages.NotFound);
+            result.NotFound();
             return result;
         }
 

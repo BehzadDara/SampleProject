@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SampleProject.Application.BaseFeature;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using SampleProject.Application.BaseFeatures;
+using SampleProject.Application.BaseViewModels;
+using SampleProject.Application.Features.SampleModel.Queries.GetGenderEnum;
 
 namespace SampleProject.API;
 
 [ApiController]
 [Route("[controller]/[action]")]
-public abstract class BaseController() : ControllerBase
+public abstract class BaseController : ControllerBase
 {
     protected string PrivateCurrentUser {  get; private set; } = string.Empty;
 
@@ -19,21 +22,12 @@ public abstract class BaseController() : ControllerBase
         }
     }
 
-    protected IActionResult BaseApiResult<T>(BaseResult<T> result)
-    {
-        return result.StatusCode switch
-        {
-            StatusCodes.Status200OK => Ok(result),
-            StatusCodes.Status404NotFound => NotFound(result),
-            _ => throw new Exception()
-        };
-    }
-
     protected IActionResult BaseApiResult(BaseResult result)
     {
         return result.StatusCode switch
         {
             StatusCodes.Status200OK => Ok(result),
+            StatusCodes.Status400BadRequest => BadRequest(result),
             StatusCodes.Status404NotFound => NotFound(result),
             _ => throw new Exception()
         };

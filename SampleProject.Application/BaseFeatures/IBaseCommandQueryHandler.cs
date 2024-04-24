@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace SampleProject.Application.BaseFeature;
+namespace SampleProject.Application.BaseFeatures;
 
 public interface IBaseCommandQueryHandler<in TRequest, TResult> : IRequestHandler<TRequest, BaseResult<TResult>> 
     where TRequest : IRequest<BaseResult<TResult>>

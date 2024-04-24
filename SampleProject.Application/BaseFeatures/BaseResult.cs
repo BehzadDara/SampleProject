@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
+using System.Text.Json.Serialization;
 
-namespace SampleProject.Application.BaseFeature;
+namespace SampleProject.Application.BaseFeatures;
 
 public class BaseResult<T> : BaseResult
 {
@@ -14,16 +16,22 @@ public class BaseResult<T> : BaseResult
 
 public class BaseResult
 {
+    #region Properties
     public bool IsSuccess { get; set; }
-    public int StatusCode { get; set; }
+
+    [JsonIgnore] public int StatusCode { get; set; }
 
     public List<string> Errors { get; set; } = [];
 
-    public List<string> Successes { get; set; } = [];
+    public Dictionary<string, List<string>> ValidationErrors { get; set; } = [];
 
+    public List<string> Successes { get; set; } = [];
+    #endregion
+
+    #region ErrorMessage
     public void AddErrorMessage(string message)
     {
-        if (message != null && !Errors.Contains(message))
+        if (!string.IsNullOrEmpty(message) && !Errors.Contains(message))
         {
             Errors.Add(message);
             Failed();
@@ -34,10 +42,12 @@ public class BaseResult
     {
         messages.ForEach(AddErrorMessage);
     }
+    #endregion
 
+    #region SuccessMessage
     public void AddSuccessMessage(string message)
     {
-        if (message != null && !Successes.Contains(message))
+        if (!string.IsNullOrEmpty(message) && !Successes.Contains(message))
         {
             Successes.Add(message);
             Succeed();
@@ -48,7 +58,31 @@ public class BaseResult
     {
         messages.ForEach(AddSuccessMessage);
     }
+    #endregion
 
+    #region ValidationErrorMessage
+    public void AddValidationErrorMessage(string key, string message)
+    {
+        if (!string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(message))
+        {
+            if (!ValidationErrors.TryGetValue(key, out List<string>? value))
+            {
+                value = ([]);
+                ValidationErrors[key] = value;
+            }
+
+            value.Add(message);
+            Failed();
+        }
+    }
+    public void AddValidationErrorMessages(List<ValidationFailure> messages)
+    {
+        messages.ForEach(message => AddValidationErrorMessage(message.PropertyName, message.ErrorMessage));
+    }
+
+    #endregion
+
+    #region Success
     public void Success()
     {
         Success(Resources.Messages.SuccessAction);
@@ -59,7 +93,9 @@ public class BaseResult
         StatusCode = StatusCodes.Status200OK;
         AddSuccessMessage(message);
     }
+    #endregion
 
+    #region NotFound
     public void NotFound()
     {
         NotFound(Resources.Messages.NotFound);
@@ -70,14 +106,31 @@ public class BaseResult
         StatusCode = StatusCodes.Status404NotFound;
         AddErrorMessage(message);
     }
+    #endregion
+
+    #region BadRequest
+    public void BadRequest(List<ValidationFailure> errors)
+    {
+        BadRequest(errors, Resources.Messages.BadRequest);
+    }
+
+    public void BadRequest(List<ValidationFailure> errors, string message)
+    {
+        StatusCode = StatusCodes.Status400BadRequest;
+        AddValidationErrorMessages(errors);
+        AddErrorMessage(message);
+    }
+    #endregion
+
+    #region IsSuccess
+    private void Succeed()
+    {
+        IsSuccess = true;
+    }
 
     private void Failed()
     {
         IsSuccess = false;
     }
-
-    private void Succeed()
-    {
-        IsSuccess = true;
-    }
+    #endregion
 }

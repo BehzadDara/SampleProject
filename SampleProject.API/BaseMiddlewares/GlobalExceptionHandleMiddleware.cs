@@ -1,4 +1,4 @@
-﻿using SampleProject.API.BaseExceptions;
+﻿using SampleProject.Application.BaseExceptions;
 using SampleProject.Resources;
 using System.Data.Common;
 using System.Net;

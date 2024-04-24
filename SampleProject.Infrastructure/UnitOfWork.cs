@@ -1,9 +1,10 @@
-﻿using SampleProject.Infrastructure.Implementations;
+﻿using SampleProject.Domain.Interfaces;
+using SampleProject.Infrastructure.Implementations;
 using SampleProject.Infrastructure.Repositories;
 
 namespace SampleProject.Infrastructure;
 
-public class UnitOfWork(BaseDBContext dbContext) : BaseUnitOfWork(dbContext)
+public class UnitOfWork(BaseDBContext dbContext, ISampleModelRepository sampleModelRepository) : BaseUnitOfWork(dbContext), IUnitOfWork
 {
-    public SampleModelRepository SampleModelRepository { get; init; } = new(dbContext);
+    public ISampleModelRepository SampleModelRepository { get; init; } = sampleModelRepository;
 }

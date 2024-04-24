@@ -1,4 +1,4 @@
-﻿using SampleProject.Application.BaseFeature;
+﻿using SampleProject.Application.BaseFeatures;
 using SampleProject.Domain.Interfaces;
 
 namespace SampleProject.Application.Features.SampleModel.Commands.DeleteSampleModel;

@@ -1,4 +1,4 @@
-﻿using SampleProject.Application.BaseFeature;
+﻿using SampleProject.Application.BaseFeatures;
 using SampleProject.Application.ViewModels;
 using SampleProject.Domain.Interfaces;
 

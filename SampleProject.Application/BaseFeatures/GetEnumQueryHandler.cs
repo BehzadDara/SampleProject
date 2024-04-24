@@ -1,5 +1,4 @@
 ﻿using Humanizer;
-using SampleProject.Application.BaseFeature;
 using SampleProject.Application.BaseViewModels;
 
 namespace SampleProject.Application.BaseFeatures;
@@ -17,8 +16,7 @@ public abstract class GetEnumQueryHandler<TEnum> : IBaseCommandQueryHandler<GetE
             var enumList = Enum.GetValues(typeof(TEnum)).Cast<TEnum>();
             data = enumList.Select(x => new EnumViewModel
             (
-                //(int)x,
-                0,
+                Convert.ToInt32(x),
                 x.ToString(),
                 x.Humanize()
             )).ToList();

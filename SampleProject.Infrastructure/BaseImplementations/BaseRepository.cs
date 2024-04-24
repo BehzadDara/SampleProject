@@ -12,8 +12,7 @@ public class BaseRepository<TEntity>(BaseDBContext _dbContext) : IBaseRepository
     {
         if (entity is TrackableEntity trackable)
         {
-            trackable.CreatedAt = DateTime.Now;
-            trackable.CreatedBy = "Test";
+            trackable.Created("User Create");
         }
 
         try
@@ -31,8 +30,7 @@ public class BaseRepository<TEntity>(BaseDBContext _dbContext) : IBaseRepository
     {
         if (entity is TrackableEntity trackable)
         {
-            trackable.UpdatedAt = DateTime.Now;
-            trackable.UpdatedBy = "Test";
+            trackable.Updated("User Update");
         }
 
         try
@@ -56,9 +54,7 @@ public class BaseRepository<TEntity>(BaseDBContext _dbContext) : IBaseRepository
         {
             if (entity is TrackableEntity trackable)
             {
-                trackable.IsDeleted = true;
-                trackable.DeletedAt = DateTime.Now;
-                trackable.DeletedBy = "Test";
+                trackable.Deleted("User Delete");
 
                 await Task.Run(() =>
                 {
@@ -83,7 +79,7 @@ public class BaseRepository<TEntity>(BaseDBContext _dbContext) : IBaseRepository
 
     public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var entity = await Set.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+        var entity = await Set.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
 
         if (entity is TrackableEntity trackable && trackable.IsDeleted)
         {
@@ -93,19 +89,21 @@ public class BaseRepository<TEntity>(BaseDBContext _dbContext) : IBaseRepository
         return entity;
     }
 
-    /*public Task<TEntity> GetAsync(Specification<T> spec, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IList<TEntity>> ListAsync(Specification<T> spec, CancellationToken cancellationToken = default)
+    /*public Task<IList<TEntity>> ListAsync(Specification<T> spec, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }*/
 
     public async Task<IList<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        var list = await Set.ToListAsync(cancellationToken);
+        var query = Set.AsNoTracking();
+
+        if (typeof(TEntity).IsSubclassOf(typeof(TrackableEntity)))
+        {
+            query = query.Where(e => !(e as TrackableEntity)!.IsDeleted);
+        }
+
+        var list = await query.ToListAsync(cancellationToken);
 
         return list;
     }

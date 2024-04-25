@@ -122,6 +122,19 @@ public class BaseResult
     }
     #endregion
 
+    #region Unauthorized
+    public void Unauthorized()
+    {
+        Unauthorized(Resources.Messages.Unauthorized);
+    }
+
+    public void Unauthorized(string message)
+    {
+        StatusCode = StatusCodes.Status401Unauthorized;
+        AddErrorMessage(message);
+    }
+    #endregion
+
     #region IsSuccess
     private void Succeed()
     {

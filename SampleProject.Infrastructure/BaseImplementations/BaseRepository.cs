@@ -4,7 +4,10 @@ using SampleProject.Domain.BaseModels;
 
 namespace SampleProject.Infrastructure.Implementations;
 
-public class BaseRepository<TEntity>(BaseDBContext _dbContext) : IBaseRepository<TEntity> where TEntity : Entity
+public class BaseRepository<TEntity>(
+    BaseDBContext _dbContext,
+    ICurrentUser currentUser
+    ) : IBaseRepository<TEntity> where TEntity : Entity
 {
     protected DbSet<TEntity> Set => _dbContext.Set<TEntity>();
 
@@ -12,7 +15,7 @@ public class BaseRepository<TEntity>(BaseDBContext _dbContext) : IBaseRepository
     {
         if (entity is TrackableEntity trackable)
         {
-            trackable.Created("User Create");
+            trackable.Created(currentUser.UserName);
         }
 
         try
@@ -30,7 +33,7 @@ public class BaseRepository<TEntity>(BaseDBContext _dbContext) : IBaseRepository
     {
         if (entity is TrackableEntity trackable)
         {
-            trackable.Updated("User Update");
+            trackable.Updated(currentUser.UserName);
         }
 
         try
@@ -54,7 +57,7 @@ public class BaseRepository<TEntity>(BaseDBContext _dbContext) : IBaseRepository
         {
             if (entity is TrackableEntity trackable)
             {
-                trackable.Deleted("User Delete");
+                trackable.Deleted(currentUser.UserName);
 
                 await Task.Run(() =>
                 {

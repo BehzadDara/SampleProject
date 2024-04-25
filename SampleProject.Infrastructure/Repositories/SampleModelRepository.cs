@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SampleProject.Domain.BaseInterfaces;
 using SampleProject.Domain.BaseSpecificationConfig;
 using SampleProject.Domain.Interfaces;
 using SampleProject.Domain.Models;
@@ -6,7 +7,10 @@ using SampleProject.Infrastructure.Implementations;
 
 namespace SampleProject.Infrastructure.Repositories;
 
-public class SampleModelRepository(BaseDBContext dbContext) : BaseRepository<SampleModel>(dbContext), ISampleModelRepository
+public class SampleModelRepository(
+    BaseDBContext dbContext,
+    ICurrentUser currentUser
+    ) : BaseRepository<SampleModel>(dbContext, currentUser), ISampleModelRepository
 {
     public async Task<(int TotalCount, IList<SampleModel> Data)> GetByFilter(BaseSpecification<SampleModel> specification, CancellationToken cancellationToken = default)
     {

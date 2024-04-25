@@ -86,5 +86,14 @@ namespace SampleProject.Resources {
                 return ResourceManager.GetString("SuccessAction", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unauthorized!.
+        /// </summary>
+        public static string Unauthorized {
+            get {
+                return ResourceManager.GetString("Unauthorized", resourceCulture);
+            }
+        }
     }
 }

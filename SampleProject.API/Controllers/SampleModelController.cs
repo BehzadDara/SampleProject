@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SampleProject.API.BaseControllers;
 using SampleProject.Application.BaseViewModels;
 using SampleProject.Application.Features.SampleModel.Commands.CreateSampleModel;
 using SampleProject.Application.Features.SampleModel.Commands.DeleteSampleModel;
@@ -40,8 +42,10 @@ public class SampleModelController(IMediator mediator) : BaseController
     }
 
     [HttpPost]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Create(CreateSampleModelCommand request)
     {
         var result = await mediator.Send(request);
@@ -49,8 +53,10 @@ public class SampleModelController(IMediator mediator) : BaseController
     }
 
     [HttpPut]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(UpdateSampleModelCommand request)
     {
@@ -59,7 +65,9 @@ public class SampleModelController(IMediator mediator) : BaseController
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(Guid id)
     {

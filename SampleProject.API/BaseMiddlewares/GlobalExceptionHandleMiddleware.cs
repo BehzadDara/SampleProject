@@ -1,19 +1,14 @@
-﻿using SampleProject.Application.BaseExceptions;
-using SampleProject.Resources;
-using System.Data.Common;
-using System.Net;
+﻿namespace SampleProject.API.BaseMiddlewares;
 
-namespace SampleProject.API.BaseMiddlewares;
-
-public class GlobalExceptionHandleMiddleware : IMiddleware
+public class GlobalExceptionHandleMiddleware(RequestDelegate next)
 {
-    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+    public async Task Invoke(HttpContext context)
     {
         try
         {
             await next(context);
         }
-        catch (NotFoundException ex)
+        catch (Exception ex)
         {
 
         }

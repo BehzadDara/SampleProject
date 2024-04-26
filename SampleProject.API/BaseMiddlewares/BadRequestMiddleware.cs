@@ -24,10 +24,7 @@ public class BadRequestMiddleware<TRequest>(RequestDelegate next, IValidator<TRe
                 return;
             }
         }
-        catch
-        {
-
-        }
+        catch { }
 
         await next(context);
     }

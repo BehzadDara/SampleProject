@@ -1,0 +1,130 @@
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using SampleProject.Domain.BaseInterfaces;
+using System.Reflection;
+using System.Text;
+
+namespace SampleProject.API;
+
+public static class BaseDependencyInjection
+{
+    //builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehavior<,>));
+    //builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+    public static IServiceCollection BaseRegister(this IServiceCollection services, IConfiguration configuration)
+    {
+        services
+            .RegisterControllers()
+            .RegisterMediatR()
+            .RegisterValidator()
+            .RegisterAuthentication(configuration)
+            .RegisterCurrentUser()
+            .RegisterSwagger()
+            .RegisterCors();
+
+        return services;
+    }
+
+    private static IServiceCollection RegisterControllers(this IServiceCollection services)
+    {
+        services.AddControllers();
+        services.AddEndpointsApiExplorer();
+
+        return services;
+    }
+
+    private static IServiceCollection RegisterMediatR(this IServiceCollection services)
+    {
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        return services;
+    }
+
+    private static IServiceCollection RegisterValidator(this IServiceCollection services)
+    {
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly()); 
+        return services;
+    }
+
+    private static IServiceCollection RegisterAuthentication(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = configuration["Jwt:Issuer"],
+                ValidAudience = configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"] ?? "AlternativeKey"))
+            };
+        });
+
+        return services;
+    }
+
+    private static IServiceCollection RegisterCurrentUser(this IServiceCollection services)
+    {
+        services.AddHttpContextAccessor();
+        services.AddSingleton<ICurrentUser, CurrentUser>();
+
+        return services;
+    }
+
+    private static IServiceCollection RegisterSwagger(this IServiceCollection services)
+    {
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Sample Project",
+                Version = "v1"
+            });
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Please insert JWT into field",
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                BearerFormat = "JWT",
+                Scheme = "bearer"
+            });
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+            //c.OperationFilter<SecurityRequirementsOperationFilter>();
+        });
+
+        return services;
+    }
+
+    private static IServiceCollection RegisterCors(this IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("allowall", policy =>
+            {
+                policy
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+            });
+        });
+
+        return services;
+    }
+}

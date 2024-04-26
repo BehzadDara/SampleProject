@@ -16,8 +16,8 @@ public static class AppUseExtensions
 
     public static IApplicationBuilder UsingBadRequestMiddleware(this IApplicationBuilder app)
     {
-        app.UseMiddleware<BadRequestMiddleware<CreateSampleModelCommand>>();
-        app.UseMiddleware<BadRequestMiddleware<UpdateSampleModelCommand>>();
+        //app.UseMiddleware<BadRequestMiddleware<CreateSampleModelCommand>>();
+        app.UseMiddleware<BadRequestMiddleware>();
 
         return app;
     }

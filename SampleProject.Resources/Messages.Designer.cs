@@ -70,6 +70,24 @@ namespace SampleProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Forbidden!.
+        /// </summary>
+        public static string Forbidden {
+            get {
+                return ResourceManager.GetString("Forbidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal Server Error!.
+        /// </summary>
+        public static string InternalServerError {
+            get {
+                return ResourceManager.GetString("InternalServerError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not Found!.
         /// </summary>
         public static string NotFound {

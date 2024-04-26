@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using SampleProject.Domain.BaseModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -49,10 +48,20 @@ public class LoginCommandHandler(IConfiguration config) : IBaseCommandQueryHandl
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"] ?? "AlternativeKey"));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        List<string> permissions = [];
+        if (username.Equals("string"))
+        {
+            permissions.Add("CanDelete");
+        }
+        var permissionClaims = permissions.Select(value => new Claim("Permissions", value));
+
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier,username)
         };
+
+        claims = [.. claims, .. permissionClaims];
 
         var token = new JwtSecurityToken(
             config["Jwt:Issuer"],

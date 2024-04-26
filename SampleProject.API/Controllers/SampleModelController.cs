@@ -42,7 +42,7 @@ public class SampleModelController(IMediator mediator) : BaseController
     }
 
     [HttpPost]
-    [Authorize]
+    //[Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -65,7 +65,7 @@ public class SampleModelController(IMediator mediator) : BaseController
     }
 
     [HttpDelete("{id}")]
-    [Authorize]
+    [Authorize(Policy = "CanDeletePolicy")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

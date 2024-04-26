@@ -135,6 +135,32 @@ public class BaseResult
     }
     #endregion
 
+    #region Forbidden
+    public void Forbidden()
+    {
+        Forbidden(Resources.Messages.Forbidden);
+    }
+
+    public void Forbidden(string message)
+    {
+        StatusCode = StatusCodes.Status403Forbidden;
+        AddErrorMessage(message);
+    }
+    #endregion
+
+    #region InternalServerError
+    public void InternalServerError()
+    {
+        InternalServerError(Resources.Messages.InternalServerError);
+    }
+
+    public void InternalServerError(string message)
+    {
+        StatusCode = StatusCodes.Status500InternalServerError;
+        AddErrorMessage(message);
+    }
+    #endregion
+
     #region IsSuccess
     private void Succeed()
     {

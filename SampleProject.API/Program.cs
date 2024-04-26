@@ -49,8 +49,8 @@ builder.Services.AddTransient<IRequestHandler<DeleteSampleModelCommand, BaseResu
 
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehavior<,>));
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+//builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehavior<,>));
+//builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 builder.Services.AddTransient<IValidator<CreateSampleModelCommand>, CreateSampleModelValidator>();
 builder.Services.AddTransient<IValidator<UpdateSampleModelCommand>, UpdateSampleModelValidator>();
@@ -68,7 +68,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? "AlternativeKey"))
     };
 });
-
 
 
 builder.Services.AddHttpContextAccessor();
@@ -112,7 +111,6 @@ builder.Services.AddSwaggerGen(c =>
             Array.Empty<string>()
         }
     });
-    //c.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
     //c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
@@ -127,11 +125,17 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("CanDeletePolicy", policy =>
+        policy.RequireClaim("Permissions", "CanDelete"));
+
 var app = builder.Build();
 
 app.UseMiddleware<UnauthorizedMiddleware>();
-//app.UseMiddleware<BadRequestMiddleware>();
-app.UseMiddleware<GlobalExceptionHandleMiddleware>();
+app.UseMiddleware<ForbiddenMiddleware>();
+app.UseMiddleware<BadRequestMiddleware<CreateSampleModelCommand>>();
+app.UseMiddleware<BadRequestMiddleware<UpdateSampleModelCommand>>();
+app.UseMiddleware<InternalServerErrorMiddleware>();
 
 app.UseCors("allowall");
 
@@ -144,6 +148,5 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-
 
 app.Run();

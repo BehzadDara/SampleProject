@@ -68,6 +68,7 @@ public class SampleModelController(IMediator mediator) : BaseController
     [Authorize(Policy = "CanDeletePolicy")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(Guid id)
     {

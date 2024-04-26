@@ -1,4 +1,6 @@
 ﻿using SampleProject.API.BaseMiddlewares;
+using SampleProject.Application.Features.SampleModel.Commands.CreateSampleModel;
+using SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
 
 namespace SampleProject.API;
 
@@ -19,6 +21,8 @@ public static class BaseAppUseExtensions
     {
         app.UseMiddleware<UnauthorizedMiddleware>();
         app.UseMiddleware<ForbiddenMiddleware>();
+        //app.UseMiddleware<BadRequestMiddleware<CreateSampleModelCommand>>();
+        //app.UseMiddleware<BadRequestMiddleware<UpdateSampleModelCommand>>();
         app.UseMiddleware<InternalServerErrorMiddleware>();
 
         return app;

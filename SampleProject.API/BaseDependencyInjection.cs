@@ -2,15 +2,14 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SampleProject.Application.BaseFeatures;
 using SampleProject.Domain.BaseInterfaces;
-using System.Reflection;
 using System.Text;
 
 namespace SampleProject.API;
 
 public static class BaseDependencyInjection
 {
-    //builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehavior<,>));
     //builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
     public static IServiceCollection BaseRegister(this IServiceCollection services, IConfiguration configuration)
@@ -37,13 +36,15 @@ public static class BaseDependencyInjection
 
     private static IServiceCollection RegisterMediatR(this IServiceCollection services)
     {
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(BaseResult<>)));
+
         return services;
     }
 
     private static IServiceCollection RegisterValidator(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly()); 
+        services.AddValidatorsFromAssemblyContaining(typeof(BaseResult<>)); 
+
         return services;
     }
 

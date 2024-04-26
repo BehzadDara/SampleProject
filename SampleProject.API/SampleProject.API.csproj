@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BaseConfigureServices\**" />
+    <Compile Remove="ConfigureServices\**" />
+    <Content Remove="BaseConfigureServices\**" />
+    <Content Remove="ConfigureServices\**" />
+    <EmbeddedResource Remove="BaseConfigureServices\**" />
+    <EmbeddedResource Remove="ConfigureServices\**" />
+    <None Remove="BaseConfigureServices\**" />
+    <None Remove="ConfigureServices\**" />
+  </ItemGroup>
+
+  <ItemGroup>
 	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
@@ -17,11 +28,6 @@
   <ItemGroup>
     <ProjectReference Include="..\SampleProject.Application\SampleProject.Application.csproj" />
     <ProjectReference Include="..\SampleProject.Infrastructure\SampleProject.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ConfigureServices\" />
-    <Folder Include="BaseConfigureServices\" />
   </ItemGroup>
 
 </Project>

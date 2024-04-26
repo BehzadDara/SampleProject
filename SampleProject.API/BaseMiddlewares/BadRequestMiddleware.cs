@@ -4,16 +4,16 @@ using System.Text.Json;
 
 namespace SampleProject.API.BaseMiddlewares;
 
-public class BadRequestMiddleware(RequestDelegate next, IServiceProvider serviceProvider) //where TRequest : class
+public class BadRequestMiddleware<TRequest>(RequestDelegate next, IServiceProvider serviceProvider) where TRequest : IBaseCommandQuery
 {
     public async Task Invoke(HttpContext context)
     {
         try
         {
-            var request = await context.Request.ReadFromJsonAsync<IBaseCommandQuery>()
+            var request = await context.Request.ReadFromJsonAsync<TRequest>()
                 ?? throw new Exception();
 
-            var validator = serviceProvider.GetService<IValidator<IBaseCommandQuery>>() 
+            var validator = serviceProvider.GetService<IValidator<TRequest>>() 
                 ?? throw new Exception();
 
             var validationResult = await validator.ValidateAsync(request);

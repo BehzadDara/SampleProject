@@ -10,8 +10,6 @@ namespace SampleProject.API;
 
 public static class BaseDependencyInjection
 {
-    //builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
     public static IServiceCollection BaseRegister(this IServiceCollection services, IConfiguration configuration)
     {
         services

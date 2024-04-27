@@ -6,6 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SampleProject.Application.BaseFeatures;
 using SampleProject.Application.BaseFeatures.GetEnum;
+using SampleProject.Application.BaseViewModels;
+using SampleProject.Application.Features.SampleModel.Queries.GetGenderEnum;
 using SampleProject.Domain.BaseInterfaces;
 using SampleProject.Domain.Enums;
 using System.Text;
@@ -43,6 +45,7 @@ public static class BaseDependencyInjection
     private static IServiceCollection RegisterMediatR(this IServiceCollection services)
     {
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(BaseResult<>)));
+        //services.AddTransient(typeof(IRequestHandler<GetEnumQuery<>, BaseResult<IList<EnumViewModel>>>), typeof(GetEnumQueryHandler<>));
         //services.AddTransient(typeof(IBaseCommandQueryHandler<>), typeof(GetEnumQueryHandler<>));
         //services.AddScoped<IBaseCommandQueryHandler<GetEnumQuery<GenderEnum>>, GetEnumQueryHandler<GenderEnum>>();
 

@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SampleProject.API.BaseOperationFilters;
 using SampleProject.Application.BaseFeatures;
 using SampleProject.Domain.BaseInterfaces;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace SampleProject.API;
 
@@ -26,7 +28,10 @@ public static class BaseDependencyInjection
 
     private static IServiceCollection RegisterControllers(this IServiceCollection services)
     {
-        services.AddControllers();
+        services
+            .AddControllers()
+            .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
         services.AddEndpointsApiExplorer();
 
         return services;
@@ -105,8 +110,10 @@ public static class BaseDependencyInjection
                     Array.Empty<string>()
                 }
             });
+            //c.OperationFilter<EnumOperationFilter>();
             //c.OperationFilter<SecurityRequirementsOperationFilter>();
         });
+        //services.AddSwaggerGenNewtonsoftSupport();
 
         return services;
     }

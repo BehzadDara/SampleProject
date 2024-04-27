@@ -4,6 +4,7 @@ using SampleProject.Application.BaseViewModels;
 using SampleProject.Application.Features.SampleModel.Commands.CreateSampleModel;
 using SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
 using SampleProject.Application.ViewModels;
+using SampleProject.Domain.Enums;
 using SampleProject.Domain.Models;
 
 namespace SampleProject.Application;
@@ -15,7 +16,7 @@ public static class SampleModelMapper
         var config = new MapperConfiguration(cfg => 
             cfg.CreateMap<SampleModel, SampleModelViewModel>()
             .ForMember(dest => dest.Gender, opt => opt.MapFrom(
-                       src => new EnumViewModel((int)src.Gender, src.Gender.ToString(), src.Gender.Humanize()))));
+                       src => new EnumViewModel(src.Gender))));
 
         var mapper = new Mapper(config);
 
@@ -27,7 +28,7 @@ public static class SampleModelMapper
         var config = new MapperConfiguration(cfg =>
             cfg.CreateMap<SampleModel, SampleModelViewModel>()
             .ForMember(dest => dest.Gender, opt => opt.MapFrom(
-                       src => new EnumViewModel((int)src.Gender, src.Gender.ToString(), src.Gender.Humanize()))));
+                       src => new EnumViewModel(src.Gender))));
 
         var mapper = new Mapper(config);
 

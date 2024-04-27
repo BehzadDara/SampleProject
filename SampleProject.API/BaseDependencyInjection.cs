@@ -10,6 +10,7 @@ using SampleProject.Application.BaseViewModels;
 using SampleProject.Application.Features.SampleModel.Queries.GetGenderEnum;
 using SampleProject.Domain.BaseInterfaces;
 using SampleProject.Domain.Enums;
+using Serilog;
 using System.Reflection;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
@@ -68,7 +69,9 @@ public static class BaseDependencyInjection
 
     public static IServiceCollection RegisterLog(this IServiceCollection services)
     {
-        services.AddLogging();
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .CreateLogger();
 
         return services;
     }

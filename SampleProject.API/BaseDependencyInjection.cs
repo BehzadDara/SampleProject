@@ -10,6 +10,7 @@ using SampleProject.Application.BaseViewModels;
 using SampleProject.Application.Features.SampleModel.Queries.GetGenderEnum;
 using SampleProject.Domain.BaseInterfaces;
 using SampleProject.Domain.Enums;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -44,7 +45,9 @@ public static class BaseDependencyInjection
 
     private static IServiceCollection RegisterMediatR(this IServiceCollection services)
     {
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(BaseResult<>)));
+        //services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(BaseResult<>)));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
         //services.AddTransient(typeof(IRequestHandler<GetEnumQuery<>, BaseResult<IList<EnumViewModel>>>), typeof(GetEnumQueryHandler<>));
         //services.AddTransient(typeof(IBaseCommandQueryHandler<>), typeof(GetEnumQueryHandler<>));
         //services.AddScoped<IBaseCommandQueryHandler<GetEnumQuery<GenderEnum>>, GetEnumQueryHandler<GenderEnum>>();
@@ -54,7 +57,9 @@ public static class BaseDependencyInjection
 
     private static IServiceCollection RegisterValidator(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssemblyContaining(typeof(BaseResult<>)); 
+        //services.AddValidatorsFromAssemblyContaining(typeof(BaseResult<>));
+
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         return services;
     }

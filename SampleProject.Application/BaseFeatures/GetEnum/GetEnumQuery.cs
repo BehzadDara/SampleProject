@@ -3,5 +3,5 @@
 namespace SampleProject.Application.BaseFeatures.GetEnum;
 
 public record GetEnumQuery<TEnum>(
-    ) : IBaseCommandQuery<IList<EnumViewModel>>
-     where TEnum : Enum;
+    ): IBaseCommandQuery<IList<EnumViewModel>> 
+    where TEnum : Enum;

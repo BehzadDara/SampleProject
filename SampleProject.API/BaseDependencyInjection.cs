@@ -11,6 +11,7 @@ using SampleProject.Application.Features.SampleModel.Queries.GetGenderEnum;
 using SampleProject.Domain.BaseInterfaces;
 using SampleProject.Domain.Enums;
 using System.Reflection;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -24,6 +25,7 @@ public static class BaseDependencyInjection
             .RegisterControllers()
             .RegisterMediatR()
             .RegisterValidator()
+            .RegisterLog()
             .RegisterAuthentication(configuration)
             .RegisterCurrentUser()
             .RegisterSwagger()
@@ -45,10 +47,10 @@ public static class BaseDependencyInjection
 
     private static IServiceCollection RegisterMediatR(this IServiceCollection services)
     {
-        //services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(BaseResult<>)));
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(BaseResult<>)));
+        //services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-        //services.AddTransient(typeof(IRequestHandler<GetEnumQuery<>, BaseResult<IList<EnumViewModel>>>), typeof(GetEnumQueryHandler<>));
+        //services.AddTransient(typeof(IBaseCommandQueryHandler<GetEnumQuery, BaseResult<IList<EnumViewModel>>>), typeof(GetEnumQueryHandler<>));
         //services.AddTransient(typeof(IBaseCommandQueryHandler<>), typeof(GetEnumQueryHandler<>));
         //services.AddScoped<IBaseCommandQueryHandler<GetEnumQuery<GenderEnum>>, GetEnumQueryHandler<GenderEnum>>();
 
@@ -59,7 +61,14 @@ public static class BaseDependencyInjection
     {
         //services.AddValidatorsFromAssemblyContaining(typeof(BaseResult<>));
 
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+        return services;
+    }
+
+    public static IServiceCollection RegisterLog(this IServiceCollection services)
+    {
+        services.AddLogging();
 
         return services;
     }

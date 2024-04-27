@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace SampleProject.API.BaseMiddlewares;
 
-public class InternalServerErrorMiddleware(RequestDelegate next)
+public class InternalServerErrorMiddleware(RequestDelegate next, ILogger logger)
 {
     public async Task Invoke(HttpContext context)
     {
@@ -14,8 +14,10 @@ public class InternalServerErrorMiddleware(RequestDelegate next)
         }
         catch (Exception ex)
         {
+            logger.LogError(ex.Message);
+
             var result = new BaseResult();
-            result.InternalServerError(ex.Message);
+            result.InternalServerError();
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

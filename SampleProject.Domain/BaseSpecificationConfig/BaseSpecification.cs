@@ -1,5 +1,4 @@
 ﻿using SampleProject.Domain.BaseEnums;
-using SampleProject.Domain.BaseInterfaces;
 using System.Linq.Expressions;
 
 namespace SampleProject.Domain.BaseSpecificationConfig;

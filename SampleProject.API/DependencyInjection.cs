@@ -15,7 +15,6 @@ public static class DependencyInjection
     {
         services
             .RegisterRepositories()
-            .RegisterValidators()
             .RegisterDBContext(configuration)
             .RegisterAuthentication();
 
@@ -26,14 +25,6 @@ public static class DependencyInjection
     {
         services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
         services.AddScoped(typeof(ISampleModelRepository), typeof(SampleModelRepository));
-
-        return services;
-    }
-
-    private static IServiceCollection RegisterValidators(this IServiceCollection services)
-    {
-        services.AddTransient<IValidator<CreateSampleModelCommand>, CreateSampleModelValidator>();
-        services.AddTransient<IValidator<UpdateSampleModelCommand>, UpdateSampleModelValidator>();
 
         return services;
     }

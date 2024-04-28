@@ -22,6 +22,7 @@ public static class BaseDependencyInjection
             .RegisterMediatR()
             .RegisterValidator()
             .RegisterLog()
+            .RegisterMemoryCache()
             .RegisterAuthentication(configuration)
             .RegisterCurrentUser()
             .RegisterSwagger()
@@ -71,6 +72,13 @@ public static class BaseDependencyInjection
         {
             loggingBuilder.AddSerilog(dispose: true);
         });
+
+        return services;
+    }
+
+    public static IServiceCollection RegisterMemoryCache(this IServiceCollection services)
+    {
+        services.AddMemoryCache();
 
         return services;
     }

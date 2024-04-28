@@ -161,6 +161,19 @@ public class BaseResult
     }
     #endregion
 
+    #region InternalServerError
+    public void TooManyRequest()
+    {
+        TooManyRequest(Resources.Messages.TooManyRequest);
+    }
+
+    public void TooManyRequest(string message)
+    {
+        StatusCode = StatusCodes.Status429TooManyRequests;
+        AddErrorMessage(message);
+    }
+    #endregion
+
     #region IsSuccess
     private void Succeed()
     {

@@ -132,6 +132,9 @@
   <data name="SuccessAction" xml:space="preserve">
     <value>Success Action!</value>
   </data>
+  <data name="TooManyRequest" xml:space="preserve">
+    <value>Too Many Request!</value>
+  </data>
   <data name="Unauthorized" xml:space="preserve">
     <value>Unauthorized!</value>
   </data>

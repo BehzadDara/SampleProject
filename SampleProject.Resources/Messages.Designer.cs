@@ -106,6 +106,15 @@ namespace SampleProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Too Many Request!.
+        /// </summary>
+        public static string TooManyRequest {
+            get {
+                return ResourceManager.GetString("TooManyRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unauthorized!.
         /// </summary>
         public static string Unauthorized {

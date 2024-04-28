@@ -19,6 +19,7 @@ public static class BaseAppUseExtensions
 
     public static IApplicationBuilder UsingMiddlewares(this IApplicationBuilder app)
     {
+        app.UseMiddleware<RateLimitMiddleware>();
         app.UseMiddleware<UnauthorizedMiddleware>();
         app.UseMiddleware<ForbiddenMiddleware>();
         app.UseMiddleware<GlobalExceptionMiddleware>();

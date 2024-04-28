@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SampleProject.Application.BaseBehaviours;
 using SampleProject.Application.BaseFeatures;
 using SampleProject.Domain.BaseInterfaces;
 using Serilog;
 using Serilog.Events;
-using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -42,7 +43,11 @@ public static class BaseDependencyInjection
 
     private static IServiceCollection RegisterMediatR(this IServiceCollection services)
     {
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(BaseResult<>)));
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssemblyContaining(typeof(BaseResult<>));
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(BaseValidationBehaviour<,>));
+        });
 
         return services;
     }

@@ -21,7 +21,7 @@ public static class BaseAppUseExtensions
     {
         app.UseMiddleware<UnauthorizedMiddleware>();
         app.UseMiddleware<ForbiddenMiddleware>();
-        app.UseMiddleware<InternalServerErrorMiddleware>();
+        app.UseMiddleware<GlobalExceptionMiddleware>();
 
         return app;
     }

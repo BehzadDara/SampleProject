@@ -10,13 +10,13 @@ public class ForbiddenMiddleware(RequestDelegate next)
     {
         await next(context);
 
-        if (context.Response.StatusCode == (int)HttpStatusCode.Forbidden)
+        if (context.Response.StatusCode == StatusCodes.Status403Forbidden)
         {
             var result = new BaseResult();
             result.Forbidden();
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
 
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }

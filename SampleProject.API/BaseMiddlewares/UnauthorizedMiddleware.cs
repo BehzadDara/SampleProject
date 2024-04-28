@@ -10,13 +10,13 @@ public class UnauthorizedMiddleware(RequestDelegate next)
     {
         await next(context);
 
-        if (context.Response.StatusCode == (int)HttpStatusCode.Unauthorized)
+        if (context.Response.StatusCode == StatusCodes.Status401Unauthorized)
         {
             var result = new BaseResult();
             result.Unauthorized();
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
 
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }

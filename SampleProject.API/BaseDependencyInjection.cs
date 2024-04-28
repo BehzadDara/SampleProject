@@ -1,18 +1,11 @@
 ﻿using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SampleProject.Application.BaseFeatures;
-using SampleProject.Application.BaseFeatures.GetEnum;
-using SampleProject.Application.BaseViewModels;
-using SampleProject.Application.Features.SampleModel.Queries.GetGenderEnum;
 using SampleProject.Domain.BaseInterfaces;
-using SampleProject.Domain.Enums;
 using Serilog;
-using System.Reflection;
-using System.Runtime.Intrinsics.X86;
+using Serilog.Events;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -49,20 +42,13 @@ public static class BaseDependencyInjection
     private static IServiceCollection RegisterMediatR(this IServiceCollection services)
     {
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(BaseResult<>)));
-        //services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-
-        //services.AddTransient(typeof(IBaseCommandQueryHandler<GetEnumQuery, BaseResult<IList<EnumViewModel>>>), typeof(GetEnumQueryHandler<>));
-        //services.AddTransient(typeof(IBaseCommandQueryHandler<>), typeof(GetEnumQueryHandler<>));
-        //services.AddScoped<IBaseCommandQueryHandler<GetEnumQuery<GenderEnum>>, GetEnumQueryHandler<GenderEnum>>();
 
         return services;
     }
 
     private static IServiceCollection RegisterValidator(this IServiceCollection services)
     {
-        //services.AddValidatorsFromAssemblyContaining(typeof(BaseResult<>));
-
-        //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddValidatorsFromAssemblyContaining(typeof(BaseResult<>));
 
         return services;
     }
@@ -70,8 +56,15 @@ public static class BaseDependencyInjection
     public static IServiceCollection RegisterLog(this IServiceCollection services)
     {
         Log.Logger = new LoggerConfiguration()
-            .WriteTo.Console()
+            .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
+            .WriteTo.File("../Logs/log.txt", restrictedToMinimumLevel: LogEventLevel.Information, rollingInterval: RollingInterval.Day)
+            .WriteTo.File("../Logs/logError.txt", restrictedToMinimumLevel: LogEventLevel.Error, rollingInterval: RollingInterval.Day)
             .CreateLogger();
+
+        services.AddLogging(loggingBuilder =>
+        {
+            loggingBuilder.AddSerilog(dispose: true);
+        });
 
         return services;
     }

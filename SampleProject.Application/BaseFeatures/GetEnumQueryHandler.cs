@@ -1,12 +1,11 @@
 ﻿using Humanizer;
 using SampleProject.Application.BaseViewModels;
 
-namespace SampleProject.Application.BaseFeatures.GetEnum;
+namespace SampleProject.Application.BaseFeatures;
 
-public class GetEnumQueryHandler<TEnum> : IBaseCommandQueryHandler<GetEnumQuery<TEnum>, IList<EnumViewModel>>
-    where TEnum : Enum
+public class GetEnumQueryHandler<TRequest, TEnum> where TEnum : Enum
 {
-    public async Task<BaseResult<IList<EnumViewModel>>> Handle(GetEnumQuery<TEnum> request, CancellationToken cancellationToken)
+    public async virtual Task<BaseResult<IList<EnumViewModel>>> Handle(TRequest request, CancellationToken cancellationToken)
     {
         var result = new BaseResult<IList<EnumViewModel>>();
         var data = new List<EnumViewModel>();

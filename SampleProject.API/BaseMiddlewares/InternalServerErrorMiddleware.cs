@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace SampleProject.API.BaseMiddlewares;
 
-public class InternalServerErrorMiddleware(RequestDelegate next, ILogger logger)
+public class InternalServerErrorMiddleware(RequestDelegate next, ILogger<InternalServerErrorMiddleware> logger)
 {
     public async Task Invoke(HttpContext context)
     {

@@ -10,6 +10,8 @@ public class CreateSampleModelCommandHandler(IUnitOfWork unitOfWork) : IBaseComm
     {
         var result = new BaseResult();
 
+        var validator = 
+
         var entity = request.ToEntity();
         await unitOfWork.SampleModelRepository.AddAsync(entity, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);

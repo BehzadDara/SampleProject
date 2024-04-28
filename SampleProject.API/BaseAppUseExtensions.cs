@@ -21,8 +21,6 @@ public static class BaseAppUseExtensions
     {
         app.UseMiddleware<UnauthorizedMiddleware>();
         app.UseMiddleware<ForbiddenMiddleware>();
-        //app.UseMiddleware<BadRequestMiddleware<CreateSampleModelCommand>>();
-        //app.UseMiddleware<BadRequestMiddleware<UpdateSampleModelCommand>>();
         app.UseMiddleware<InternalServerErrorMiddleware>();
 
         return app;

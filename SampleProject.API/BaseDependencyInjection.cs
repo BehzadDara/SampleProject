@@ -6,6 +6,7 @@ using SampleProject.Application.BaseFeatures;
 using SampleProject.Domain.BaseInterfaces;
 using Serilog;
 using Serilog.Events;
+using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -114,21 +115,7 @@ public static class BaseDependencyInjection
                 BearerFormat = "JWT",
                 Scheme = "bearer"
             });
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-            });
-            //c.OperationFilter<SecurityRequirementsOperationFilter>();
+            c.OperationFilter<BaseSecurityRequirementsOperationFilter>();
         });
 
         return services;

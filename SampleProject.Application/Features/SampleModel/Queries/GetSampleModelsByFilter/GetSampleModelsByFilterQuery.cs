@@ -1,13 +1,14 @@
 ﻿using SampleProject.Application.BaseFeatures;
 using SampleProject.Application.ViewModels;
 using SampleProject.Domain.BaseEnums;
+using SampleProject.Domain.Enums;
 
 namespace SampleProject.Application.Features.SampleModel.Queries.GetSampleModelsByFilter;
 
 public record GetSampleModelsByFilterQuery(
     int? MinAge,
     int? MaxAge,
-    int? Gender,
+    GenderEnum? Gender,
     OrderSampleModelByFilter? OrderBy,
     int PageSize = 25,
     int PageNumber = 1,

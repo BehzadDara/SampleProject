@@ -1,4 +1,5 @@
 ﻿using SampleProject.Application.BaseFeatures;
+using SampleProject.Domain.Enums;
 
 namespace SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
 
@@ -7,6 +8,6 @@ public record UpdateSampleModelCommand(
     string FirstName,
     string LastName,
     int Age,
-    int Gender,
+    GenderEnum Gender,
     string Address
     ) : IBaseCommandQuery;

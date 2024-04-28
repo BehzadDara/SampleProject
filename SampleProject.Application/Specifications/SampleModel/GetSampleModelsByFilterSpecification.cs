@@ -17,7 +17,7 @@ public class GetSampleModelsByFilterSpecification : BaseSpecification<Domain.Mod
         }
         if (query.Gender.HasValue)
         {
-            AddCriteria(x => (int)x.Gender == query.Gender);
+            AddCriteria(x => x.Gender == query.Gender);
         }
 
         switch (query.OrderBy)

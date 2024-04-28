@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using Humanizer;
 using SampleProject.Application.BaseViewModels;
 using SampleProject.Application.Features.SampleModel.Commands.CreateSampleModel;
 using SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
 using SampleProject.Application.ViewModels;
-using SampleProject.Domain.Enums;
 using SampleProject.Domain.Models;
 
 namespace SampleProject.Application;

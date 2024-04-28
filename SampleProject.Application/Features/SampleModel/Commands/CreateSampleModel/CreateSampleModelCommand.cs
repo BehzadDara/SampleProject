@@ -1,4 +1,5 @@
 ﻿using SampleProject.Application.BaseFeatures;
+using SampleProject.Domain.Enums;
 
 namespace SampleProject.Application.Features.SampleModel.Commands.CreateSampleModel;
 
@@ -6,6 +7,6 @@ public record CreateSampleModelCommand(
     string FirstName,
     string LastName,
     int Age,
-    int Gender,
+    GenderEnum Gender,
     string Address
     ) : IBaseCommandQuery;

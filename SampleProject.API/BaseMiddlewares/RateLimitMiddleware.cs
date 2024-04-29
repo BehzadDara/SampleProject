@@ -22,8 +22,6 @@ public class RateLimitMiddleware(RequestDelegate next, IMemoryCache memoryCache,
             result.TooManyRequest();
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
-
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
         else

@@ -18,8 +18,6 @@ public class GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExcep
             result.BadRequest(ex.Errors);
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = StatusCodes.Status400BadRequest;
-
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
         catch (Exception ex)
@@ -30,8 +28,6 @@ public class GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExcep
             result.InternalServerError();
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
     }

@@ -15,8 +15,6 @@ public class UnauthorizedMiddleware(RequestDelegate next)
             result.Unauthorized();
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
     }

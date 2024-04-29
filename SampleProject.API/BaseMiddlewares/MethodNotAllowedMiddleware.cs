@@ -15,8 +15,6 @@ public class MethodNotAllowedMiddleware(RequestDelegate next)
             result.MethodNotAllowed();
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = StatusCodes.Status405MethodNotAllowed;
-
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
     }

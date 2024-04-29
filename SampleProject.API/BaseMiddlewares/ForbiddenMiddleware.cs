@@ -15,8 +15,6 @@ public class ForbiddenMiddleware(RequestDelegate next)
             result.Forbidden();
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = StatusCodes.Status403Forbidden;
-
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
     }

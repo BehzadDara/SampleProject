@@ -88,6 +88,15 @@ namespace SampleProject.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Method Not Allowed!.
+        /// </summary>
+        public static string MethodNotAllowed {
+            get {
+                return ResourceManager.GetString("MethodNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not Found!.
         /// </summary>
         public static string NotFound {

@@ -126,6 +126,9 @@
   <data name="InternalServerError" xml:space="preserve">
     <value>Internal Server Error!</value>
   </data>
+  <data name="MethodNotAllowed" xml:space="preserve">
+    <value>Method Not Allowed!</value>
+  </data>
   <data name="NotFound" xml:space="preserve">
     <value>Not Found!</value>
   </data>

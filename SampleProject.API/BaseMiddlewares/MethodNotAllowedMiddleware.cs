@@ -3,19 +3,19 @@ using System.Text.Json;
 
 namespace SampleProject.API.BaseMiddlewares;
 
-public class ForbiddenMiddleware(RequestDelegate next)
+public class MethodNotAllowedMiddleware(RequestDelegate next)
 {
     public async Task Invoke(HttpContext context)
     {
         await next(context);
 
-        if (context.Response.StatusCode == StatusCodes.Status403Forbidden)
+        if (context.Response.StatusCode == StatusCodes.Status405MethodNotAllowed)
         {
             var result = new BaseResult();
-            result.Forbidden();
+            result.MethodNotAllowed();
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            context.Response.StatusCode = StatusCodes.Status405MethodNotAllowed;
 
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }

@@ -1,6 +1,5 @@
 ﻿using SampleProject.Application.BaseExceptions;
 using SampleProject.Application.BaseFeatures;
-using System.Net;
 using System.Text.Json;
 
 namespace SampleProject.API.BaseMiddlewares;

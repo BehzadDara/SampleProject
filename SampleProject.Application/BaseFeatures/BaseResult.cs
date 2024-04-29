@@ -161,7 +161,7 @@ public class BaseResult
     }
     #endregion
 
-    #region InternalServerError
+    #region TooManyRequest
     public void TooManyRequest()
     {
         TooManyRequest(Resources.Messages.TooManyRequest);
@@ -170,6 +170,19 @@ public class BaseResult
     public void TooManyRequest(string message)
     {
         StatusCode = StatusCodes.Status429TooManyRequests;
+        AddErrorMessage(message);
+    }
+    #endregion
+
+    #region MethodNotAllowed
+    public void MethodNotAllowed()
+    {
+        MethodNotAllowed(Resources.Messages.MethodNotAllowed);
+    }
+
+    public void MethodNotAllowed(string message)
+    {
+        StatusCode = StatusCodes.Status405MethodNotAllowed;
         AddErrorMessage(message);
     }
     #endregion

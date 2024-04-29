@@ -10,11 +10,6 @@ public abstract class BaseController : ControllerBase
 {
     protected IActionResult BaseApiResult(BaseResult result)
     {
-        return result.StatusCode switch
-        {
-            StatusCodes.Status200OK => Ok(result),
-            StatusCodes.Status404NotFound => NotFound(result),
-            _ => throw new Exception()
-        };
+        return Ok(result);
     }
 }

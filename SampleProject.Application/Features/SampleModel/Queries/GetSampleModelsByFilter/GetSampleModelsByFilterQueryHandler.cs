@@ -9,14 +9,13 @@ public class GetSampleModelsByFilterQueryHandler(IUnitOfWork unitOfWork) : IBase
 {
     public async Task<BaseResult<PagedList<SampleModelViewModel>>> Handle(GetSampleModelsByFilterQuery request, CancellationToken cancellationToken)
     {
-        var result = new BaseResult<PagedList<SampleModelViewModel>>();
-
         var specification = new GetSampleModelsByFilterSpecification(request);
         var (totalCount, data) = await unitOfWork.SampleModelRepository.GetByFilter(specification, cancellationToken);
 
         var viewModel = data.ToViewModel();
         var pagedList = PagedList<SampleModelViewModel>.Create(request.PageSize, request.PageNumber, totalCount, viewModel);
 
+        var result = new BaseResult<PagedList<SampleModelViewModel>>();
         result.AddValue(pagedList);
         result.Success();
         return result;

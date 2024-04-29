@@ -7,12 +7,11 @@ public class CreateSampleModelCommandHandler(IUnitOfWork unitOfWork) : IBaseComm
 {
     public async Task<BaseResult> Handle(CreateSampleModelCommand request, CancellationToken cancellationToken)
     {
-        var result = new BaseResult();
-
         var entity = request.ToEntity();
         await unitOfWork.SampleModelRepository.AddAsync(entity, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
 
+        var result = new BaseResult();
         result.Success();
         return result;
     }

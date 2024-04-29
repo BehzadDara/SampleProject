@@ -1,4 +1,5 @@
-﻿using SampleProject.Application.BaseFeatures;
+﻿using SampleProject.Application.BaseExceptions;
+using SampleProject.Application.BaseFeatures;
 using SampleProject.Domain.Interfaces;
 
 namespace SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
@@ -7,19 +8,14 @@ public class UpdateSampleModelCommandHandler(IUnitOfWork unitOfWork) : IBaseComm
 {
     public async Task<BaseResult> Handle(UpdateSampleModelCommand request, CancellationToken cancellationToken)
     {
-        var result = new BaseResult();
-
-        var existEntity = await unitOfWork.SampleModelRepository.GetByIdAsync(request.Id, cancellationToken);
-        if (existEntity is null)
-        {
-            result.NotFound();
-            return result;
-        }
+        var existEntity = await unitOfWork.SampleModelRepository.GetByIdAsync(request.Id, cancellationToken)
+            ?? throw new BaseNotFoundException();
 
         var entity = request.ToEntity(existEntity);
         await unitOfWork.SampleModelRepository.UpdateAsync(entity, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
 
+        var result = new BaseResult();
         result.Success();
         return result;
     }

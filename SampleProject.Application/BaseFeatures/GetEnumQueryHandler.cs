@@ -7,7 +7,6 @@ public class GetEnumQueryHandler<TRequest, TEnum> where TEnum : Enum
 {
     public async virtual Task<BaseResult<IList<EnumViewModel>>> Handle(TRequest request, CancellationToken cancellationToken)
     {
-        var result = new BaseResult<IList<EnumViewModel>>();
         var data = new List<EnumViewModel>();
 
         await Task.Run(() =>
@@ -21,6 +20,7 @@ public class GetEnumQueryHandler<TRequest, TEnum> where TEnum : Enum
             )).ToList();
         }, cancellationToken);
 
+        var result = new BaseResult<IList<EnumViewModel>>();
         result.AddValue(data);
         result.Success();
         return result;

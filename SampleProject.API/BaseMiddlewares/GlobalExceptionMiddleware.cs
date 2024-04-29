@@ -20,6 +20,14 @@ public class GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExcep
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
+        catch (BaseNotFoundException)
+        {
+            var result = new BaseResult();
+            result.NotFound();
+
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(JsonSerializer.Serialize(result));
+        }
         catch (Exception ex)
         {
             logger.LogError(ex.Message);

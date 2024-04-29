@@ -8,11 +8,10 @@ public class GetAllSampleModelsQueryHandler(IUnitOfWork unitOfWork) : IBaseComma
 {
     public async Task<BaseResult<IList<SampleModelViewModel>>> Handle(GetAllSampleModelsQuery request, CancellationToken cancellationToken)
     {
-        var result = new BaseResult<IList<SampleModelViewModel>>();
-
         var entities = await unitOfWork.SampleModelRepository.GetAllAsync(cancellationToken);
         var viewModels = entities.ToViewModel();
 
+        var result = new BaseResult<IList<SampleModelViewModel>>();
         result.AddValue(viewModels);
         result.Success();
         return result;

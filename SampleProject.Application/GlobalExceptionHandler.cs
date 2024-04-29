@@ -19,60 +19,46 @@ public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptio
         catch (BadRequestException ex)
         {
             result.BadRequest(ex.Errors);
-
-            context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonSerializer.Serialize(result));
+            await SetContext(context, result, StatusCodes.Status400BadRequest);
         }
         catch (UnauthorizedException)
         {
             result.Unauthorized();
-
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonSerializer.Serialize(result));
+            await SetContext(context, result, StatusCodes.Status401Unauthorized);
         }
         catch (ForbiddenException)
         {
             result.Forbidden();
-
-            context.Response.StatusCode = StatusCodes.Status403Forbidden;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonSerializer.Serialize(result));
+            await SetContext(context, result, StatusCodes.Status403Forbidden);
         }
         catch (NotFoundException)
         {
             result.NotFound();
-
-            context.Response.StatusCode = StatusCodes.Status404NotFound;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonSerializer.Serialize(result));
+            await SetContext(context, result, StatusCodes.Status404NotFound);
         }
         catch (MethodNotAllowedException)
         {
             result.MethodNotAllowed();
-
-            context.Response.StatusCode = StatusCodes.Status405MethodNotAllowed;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonSerializer.Serialize(result));
+            await SetContext(context, result, StatusCodes.Status405MethodNotAllowed);
         }
         catch (TooManyRequestException)
         {
             result.TooManyRequest();
-
-            context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonSerializer.Serialize(result));
+            await SetContext(context, result, StatusCodes.Status429TooManyRequests);
         }
         catch (Exception ex)
         {
             logger.LogError(ex.Message);
 
             result.InternalServerError();
-
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonSerializer.Serialize(result));
+            await SetContext(context, result, StatusCodes.Status500InternalServerError);
         }
+    }
+
+    private static async Task SetContext(HttpContext context, BaseResult result, int statusCode)
+    {
+        context.Response.StatusCode = statusCode;
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonSerializer.Serialize(result));
     }
 }

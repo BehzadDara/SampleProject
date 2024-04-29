@@ -31,7 +31,7 @@ public class LoginCommandHandler(IConfiguration config) : IBaseCommandQueryHandl
         }, cancellationToken);
 
         result.AddValue(token);
-        result.Success();
+        result.OK();
         return result;
     }
 

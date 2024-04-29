@@ -13,7 +13,7 @@ public class GetAllSampleModelsQueryHandler(IUnitOfWork unitOfWork) : IBaseComma
 
         var result = new BaseResult<IList<SampleModelViewModel>>();
         result.AddValue(viewModels);
-        result.Success();
+        result.OK();
         return result;
     }
 }

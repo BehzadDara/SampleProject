@@ -12,7 +12,7 @@ public class CreateSampleModelCommandHandler(IUnitOfWork unitOfWork) : IBaseComm
         await unitOfWork.CompleteAsync(cancellationToken);
 
         var result = new BaseResult();
-        result.Success();
+        result.OK();
         return result;
     }
 }

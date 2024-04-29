@@ -1,6 +1,4 @@
 ﻿using FluentValidation.Results;
-using Microsoft.AspNetCore.Http;
-using System.Text.Json.Serialization;
 
 namespace SampleProject.Application.BaseFeatures;
 
@@ -19,13 +17,22 @@ public class BaseResult
     #region Properties
     public bool IsSuccess { get; set; }
 
-    [JsonIgnore] public int StatusCode { get; set; }
-
     public List<string> Errors { get; set; } = [];
 
     public Dictionary<string, List<string>> ValidationErrors { get; set; } = [];
 
     public List<string> Successes { get; set; } = [];
+    #endregion
+
+
+    #region SuccessMessage
+    public void AddSuccessMessage(string message)
+    {
+        if (!string.IsNullOrEmpty(message) && !Successes.Contains(message))
+        {
+            Successes.Add(message);
+        }
+    }
     #endregion
 
     #region ErrorMessage
@@ -34,29 +41,7 @@ public class BaseResult
         if (!string.IsNullOrEmpty(message) && !Errors.Contains(message))
         {
             Errors.Add(message);
-            Failed();
         }
-    }
-
-    public void AddErrorMessages(List<string> messages)
-    {
-        messages.ForEach(AddErrorMessage);
-    }
-    #endregion
-
-    #region SuccessMessage
-    public void AddSuccessMessage(string message)
-    {
-        if (!string.IsNullOrEmpty(message) && !Successes.Contains(message))
-        {
-            Successes.Add(message);
-            Succeed();
-        }
-    }
-
-    public void AddSuccessMessages(List<string> messages)
-    {
-        messages.ForEach(AddSuccessMessage);
     }
     #endregion
 
@@ -72,129 +57,90 @@ public class BaseResult
             }
 
             value.Add(message);
-            Failed();
         }
     }
+
     public void AddValidationErrorMessages(List<ValidationFailure> messages)
     {
         messages.ForEach(message => AddValidationErrorMessage(message.PropertyName, message.ErrorMessage));
     }
-
     #endregion
 
-    #region Success
-    public void Success()
-    {
-        Success(Resources.Messages.SuccessAction);
-    }
 
-    public void Success(string message)
+    #region OK
+    public void OK()
     {
-        StatusCode = StatusCodes.Status200OK;
-        AddSuccessMessage(message);
-    }
-    #endregion
-
-    #region NotFound
-    public void NotFound()
-    {
-        NotFound(Resources.Messages.NotFound);
-    }
-
-    public void NotFound(string message)
-    {
-        StatusCode = StatusCodes.Status404NotFound;
-        AddErrorMessage(message);
+        Succeed(Resources.Messages.SuccessAction);
     }
     #endregion
 
     #region BadRequest
     public void BadRequest(List<ValidationFailure> errors)
     {
-        BadRequest(errors, Resources.Messages.BadRequest);
-    }
-
-    public void BadRequest(List<ValidationFailure> errors, string message)
-    {
-        StatusCode = StatusCodes.Status400BadRequest;
-        AddValidationErrorMessages(errors);
-        AddErrorMessage(message);
+        Failed(Resources.Messages.BadRequest, errors);
     }
     #endregion
 
     #region Unauthorized
     public void Unauthorized()
     {
-        Unauthorized(Resources.Messages.Unauthorized);
-    }
-
-    public void Unauthorized(string message)
-    {
-        StatusCode = StatusCodes.Status401Unauthorized;
-        AddErrorMessage(message);
+        Failed(Resources.Messages.Unauthorized);
     }
     #endregion
 
     #region Forbidden
     public void Forbidden()
     {
-        Forbidden(Resources.Messages.Forbidden);
-    }
-
-    public void Forbidden(string message)
-    {
-        StatusCode = StatusCodes.Status403Forbidden;
-        AddErrorMessage(message);
+        Failed(Resources.Messages.Forbidden);
     }
     #endregion
 
-    #region InternalServerError
-    public void InternalServerError()
+    #region NotFound
+    public void NotFound()
     {
-        InternalServerError(Resources.Messages.InternalServerError);
-    }
-
-    public void InternalServerError(string message)
-    {
-        StatusCode = StatusCodes.Status500InternalServerError;
-        AddErrorMessage(message);
-    }
-    #endregion
-
-    #region TooManyRequest
-    public void TooManyRequest()
-    {
-        TooManyRequest(Resources.Messages.TooManyRequest);
-    }
-
-    public void TooManyRequest(string message)
-    {
-        StatusCode = StatusCodes.Status429TooManyRequests;
-        AddErrorMessage(message);
+        Failed(Resources.Messages.NotFound);
     }
     #endregion
 
     #region MethodNotAllowed
     public void MethodNotAllowed()
     {
-        MethodNotAllowed(Resources.Messages.MethodNotAllowed);
-    }
-
-    public void MethodNotAllowed(string message)
-    {
-        StatusCode = StatusCodes.Status405MethodNotAllowed;
-        AddErrorMessage(message);
+        Failed(Resources.Messages.MethodNotAllowed);
     }
     #endregion
 
-    #region IsSuccess
-    private void Succeed()
+    #region TooManyRequest
+    public void TooManyRequest()
     {
+        Failed(Resources.Messages.TooManyRequest);
+    }
+    #endregion
+
+    #region InternalServerError
+    public void InternalServerError()
+    {
+        Failed(Resources.Messages.InternalServerError);
+    }
+    #endregion
+
+
+    #region IsSuccess
+    private void Succeed(string message)
+    {
+        AddSuccessMessage(message);
         IsSuccess = true;
     }
 
-    private void Failed()
+    private void Failed(string message)
     {
+        AddErrorMessage(message);
+        IsSuccess = false;
+    }
+
+    private void Failed(string message, List<ValidationFailure> errors)
+    {
+        AddErrorMessage(message);
+        AddValidationErrorMessages(errors);
         IsSuccess = false;
     }
     #endregion

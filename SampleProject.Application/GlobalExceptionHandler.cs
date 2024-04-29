@@ -10,55 +10,57 @@ public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptio
 {
     public async Task Invoke(HttpContext context)
     {
+        var result = new BaseResult();
+
         try
         {
             await next(context);
         }
         catch (BadRequestException ex)
         {
-            var result = new BaseResult();
             result.BadRequest(ex.Errors);
 
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
         catch (UnauthorizedException)
         {
-            var result = new BaseResult();
             result.Unauthorized();
 
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
         catch (ForbiddenException)
         {
-            var result = new BaseResult();
             result.Forbidden();
 
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
         catch (NotFoundException)
         {
-            var result = new BaseResult();
             result.NotFound();
 
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
         catch (MethodNotAllowedException)
         {
-            var result = new BaseResult();
             result.MethodNotAllowed();
 
+            context.Response.StatusCode = StatusCodes.Status405MethodNotAllowed;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
         catch (TooManyRequestException)
         {
-            var result = new BaseResult();
             result.TooManyRequest();
 
+            context.Response.StatusCode = StatusCodes.Status429TooManyRequests;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }
@@ -66,9 +68,9 @@ public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptio
         {
             logger.LogError(ex.Message);
 
-            var result = new BaseResult();
             result.InternalServerError();
 
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonSerializer.Serialize(result));
         }

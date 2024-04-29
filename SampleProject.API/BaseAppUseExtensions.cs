@@ -18,9 +18,9 @@ public static class BaseAppUseExtensions
 
     public static IApplicationBuilder UsingMiddlewares(this IApplicationBuilder app)
     {
+        app.UseMiddleware<GlobalExceptionHandler>();
         app.UseMiddleware<RateLimitMiddleware>();
         app.UseMiddleware<HttpResponseMiddleware>();
-        app.UseMiddleware<GlobalExceptionHandler>();
 
         return app;
     }

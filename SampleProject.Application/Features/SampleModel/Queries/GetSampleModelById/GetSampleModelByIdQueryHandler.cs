@@ -16,7 +16,7 @@ public class GetSampleModelByIdQueryHandler(IUnitOfWork unitOfWork) : IBaseComma
 
         var result = new BaseResult<SampleModelViewModel>();
         result.AddValue(viewModel);
-        result.Success();
+        result.OK();
         return result;
     }
 }

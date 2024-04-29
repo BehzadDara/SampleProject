@@ -17,7 +17,7 @@ public class GetSampleModelsByFilterQueryHandler(IUnitOfWork unitOfWork) : IBase
 
         var result = new BaseResult<PagedList<SampleModelViewModel>>();
         result.AddValue(pagedList);
-        result.Success();
+        result.OK();
         return result;
     }
 }

@@ -22,7 +22,7 @@ public class GetEnumQueryHandler<TRequest, TEnum> where TEnum : Enum
 
         var result = new BaseResult<IList<EnumViewModel>>();
         result.AddValue(data);
-        result.Success();
+        result.OK();
         return result;
     }
 }

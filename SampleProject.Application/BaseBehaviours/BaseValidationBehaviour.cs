@@ -17,7 +17,7 @@ public class BaseValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator
 
             if (!validationResult.IsValid)
             {
-                throw new BaseValidationException(validationResult.Errors);
+                throw new BadRequestException(validationResult.Errors);
             }
         }
         return await next();

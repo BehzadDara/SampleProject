@@ -1,6 +1,5 @@
 ﻿namespace SampleProject.Application.BaseExceptions;
 
-public class BaseNotFoundException : Exception
+public class NotFoundException : Exception
 {
 }
-

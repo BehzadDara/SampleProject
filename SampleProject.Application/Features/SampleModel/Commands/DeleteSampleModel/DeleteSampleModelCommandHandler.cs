@@ -9,7 +9,7 @@ public class DeleteSampleModelCommandHandler(IUnitOfWork unitOfWork) : IBaseComm
     public async Task<BaseResult> Handle(DeleteSampleModelCommand request, CancellationToken cancellationToken)
     {
         var existEntity = await unitOfWork.SampleModelRepository.GetByIdAsync(request.Id, cancellationToken) 
-            ?? throw new BaseNotFoundException();
+            ?? throw new NotFoundException();
 
         await unitOfWork.SampleModelRepository.DeleteAsync(existEntity, cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);

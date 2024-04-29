@@ -1,6 +1,5 @@
-﻿using SampleProject.API.BaseMiddlewares;
-using SampleProject.Application.Features.SampleModel.Commands.CreateSampleModel;
-using SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
+﻿using SampleProject.Application;
+using SampleProject.Application.BaseMiddlewares;
 
 namespace SampleProject.API;
 
@@ -19,11 +18,9 @@ public static class BaseAppUseExtensions
 
     public static IApplicationBuilder UsingMiddlewares(this IApplicationBuilder app)
     {
-        app.UseMiddleware<MethodNotAllowedMiddleware>();
         app.UseMiddleware<RateLimitMiddleware>();
-        app.UseMiddleware<UnauthorizedMiddleware>();
-        app.UseMiddleware<ForbiddenMiddleware>();
-        app.UseMiddleware<GlobalExceptionMiddleware>();
+        app.UseMiddleware<HttpResponseMiddleware>();
+        app.UseMiddleware<GlobalExceptionHandler>();
 
         return app;
     }

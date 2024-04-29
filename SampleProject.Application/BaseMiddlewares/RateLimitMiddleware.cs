@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using SampleProject.Application.BaseFeatures;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
+using SampleProject.Application.BaseExceptions;
 using SampleProject.Domain.BaseInterfaces;
-using System.Text.Json;
 
-namespace SampleProject.API.BaseMiddlewares;
+namespace SampleProject.Application.BaseMiddlewares;
 
 public class RateLimitMiddleware(RequestDelegate next, IMemoryCache memoryCache, ICurrentUser currentUser)
 {
@@ -18,11 +18,7 @@ public class RateLimitMiddleware(RequestDelegate next, IMemoryCache memoryCache,
         
         if (requestCount > countLimit)
         {
-            var result = new BaseResult();
-            result.TooManyRequest();
-
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonSerializer.Serialize(result));
+            throw new TooManyRequestException();
         }
         else
         {

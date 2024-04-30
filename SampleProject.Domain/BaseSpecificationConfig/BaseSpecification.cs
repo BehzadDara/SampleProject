@@ -76,22 +76,13 @@ public abstract class BaseSpecification<TEntity>
         }
     }
 
-    private class ReplaceParameterVisitor : ExpressionVisitor
+    private class ReplaceParameterVisitor(ParameterExpression oldParameter, ParameterExpression newParameter) : ExpressionVisitor
     {
-        private readonly ParameterExpression _oldParameter;
-        private readonly ParameterExpression _newParameter;
-
-        public ReplaceParameterVisitor(ParameterExpression oldParameter, ParameterExpression newParameter)
-        {
-            _oldParameter = oldParameter;
-            _newParameter = newParameter;
-        }
-
         protected override Expression VisitParameter(ParameterExpression node)
         {
-            if (ReferenceEquals(node, _oldParameter))
+            if (ReferenceEquals(node, oldParameter))
             {
-                return _newParameter;
+                return newParameter;
             }
 
             return base.VisitParameter(node);

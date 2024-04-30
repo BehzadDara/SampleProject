@@ -16,7 +16,7 @@ public class SampleModelRepository(
     {
         var query = Set.Specify(specification).Where(x => !x.IsDeleted);
 
-        var totalCount = await query.CountAsync(x => !x.IsDeleted, cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken);
         var data = await query.Skip(specification.Skip).Take(specification.Take).ToListAsync(cancellationToken);
 
         return (totalCount, data);

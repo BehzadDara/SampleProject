@@ -1,7 +1,7 @@
 ﻿using SampleProject.Domain.BaseInterfaces;
 using System.Security.Claims;
 
-namespace SampleProject.API;
+namespace SampleProject.API.Configs;
 
 public class CurrentUser(IHttpContextAccessor httpContextAccessor) : ICurrentUser
 {

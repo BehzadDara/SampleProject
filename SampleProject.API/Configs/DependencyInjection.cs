@@ -7,7 +7,7 @@ using FluentValidation;
 using SampleProject.Infrastructure.Implementations;
 using Microsoft.EntityFrameworkCore;
 
-namespace SampleProject.API;
+namespace SampleProject.API.Configs;
 
 public static class DependencyInjection
 {

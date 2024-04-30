@@ -1,4 +1,4 @@
-﻿namespace SampleProject.API;
+﻿namespace SampleProject.API.Configs;
 
 public static class AppUseExtensions
 {

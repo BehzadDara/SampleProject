@@ -11,7 +11,7 @@ using Serilog.Events;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace SampleProject.API;
+namespace SampleProject.API.Configs;
 
 public static class BaseDependencyInjection
 {

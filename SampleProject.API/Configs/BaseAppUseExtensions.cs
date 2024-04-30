@@ -1,7 +1,7 @@
 ﻿using SampleProject.Application;
 using SampleProject.Application.BaseMiddlewares;
 
-namespace SampleProject.API;
+namespace SampleProject.API.Configs;
 
 public static class BaseAppUseExtensions
 {

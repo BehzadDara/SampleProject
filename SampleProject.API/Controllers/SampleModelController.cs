@@ -11,14 +11,17 @@ using SampleProject.Application.Features.SampleModel.Queries.GetGenderEnum;
 using SampleProject.Application.Features.SampleModel.Queries.GetSampleModelById;
 using SampleProject.Application.Features.SampleModel.Queries.GetSampleModelsByFilter;
 using SampleProject.Application.ViewModels;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace SampleProject.API.Controllers;
 
+[SwaggerTag("SampleModel Service")]
 public class SampleModelController(IMediator mediator) : BaseController
 {
     [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SampleModelViewModel))]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerOperation("Get By Id")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(SampleModelViewModel))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Not Found", typeof(void))]
     public async Task<IActionResult> Get(Guid id)
     {
         var result = await mediator.Send(new GetSampleModelByIdQuery(id));
@@ -26,7 +29,8 @@ public class SampleModelController(IMediator mediator) : BaseController
     }
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<SampleModelViewModel>))]
+    [SwaggerOperation("Get All")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(List<SampleModelViewModel>))]
     public async Task<IActionResult> GetAll()
     {
         var result = await mediator.Send(new GetAllSampleModelsQuery());
@@ -34,7 +38,8 @@ public class SampleModelController(IMediator mediator) : BaseController
     }
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<SampleModelViewModel>))]
+    [SwaggerOperation("Get By Filter")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(List<SampleModelViewModel>))]
     public async Task<IActionResult> GetByFilter([FromQuery] GetSampleModelsByFilterQuery request)
     {
         var result = await mediator.Send(request);
@@ -43,9 +48,10 @@ public class SampleModelController(IMediator mediator) : BaseController
 
     [HttpPost]
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [SwaggerOperation("Create")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Created", typeof(void))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Validation Error Occured", typeof(void))]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized", typeof(void))]
     public async Task<IActionResult> Create(CreateSampleModelCommand request)
     {
         var result = await mediator.Send(request);
@@ -54,10 +60,11 @@ public class SampleModelController(IMediator mediator) : BaseController
 
     [HttpPut]
     [Authorize]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerOperation("Update")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Created", typeof(void))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Validation Error Occured", typeof(void))]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized", typeof(void))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Not Found", typeof(void))]
     public async Task<IActionResult> Update(UpdateSampleModelCommand request)
     {
         var result = await mediator.Send(request);
@@ -66,10 +73,12 @@ public class SampleModelController(IMediator mediator) : BaseController
 
     [HttpDelete("{id}")]
     [Authorize(Policy = "CanDeletePolicy")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerOperation("Update")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Created", typeof(void))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Validation Error Occured", typeof(void))]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized", typeof(void))]
+    [SwaggerResponse(StatusCodes.Status403Forbidden, "Access Denied", typeof(void))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Not Found", typeof(void))]
     public async Task<IActionResult> Delete(Guid id)
     {
         var result = await mediator.Send(new DeleteSampleModelCommand(id));
@@ -77,7 +86,8 @@ public class SampleModelController(IMediator mediator) : BaseController
     }
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<EnumViewModel>))]
+    [SwaggerOperation("Get Gender Enum")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(List<EnumViewModel>))]
     public async Task<IActionResult> GenderEnum()
     {
         var result = await mediator.Send(new GetGenderEnumQuery());

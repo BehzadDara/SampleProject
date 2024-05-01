@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SampleProject.Application.BaseFeatures;
 using SampleProject.Application.BaseFeatures.Authentication.Login;
 using Swashbuckle.AspNetCore.Annotations;
 

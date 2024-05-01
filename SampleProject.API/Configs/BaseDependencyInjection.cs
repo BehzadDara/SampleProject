@@ -8,6 +8,7 @@ using SampleProject.Application.BaseFeatures;
 using SampleProject.Domain.BaseInterfaces;
 using Serilog;
 using Serilog.Events;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -117,8 +118,16 @@ public static class BaseDependencyInjection
             c.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "Sample Project",
-                Version = "v1"
+                Version = "v1",
+                Description = Resources.ConstantTexts.SwaggerDescription,
+                Contact = new OpenApiContact
+                {
+                    Name = "Behzad Dara",
+                    Email = "Behzad.Dara.99@gmail.com",
+                    Url = new Uri("https://www.linkedin.com/in/behzaddara/")
+                }
             });
+
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
@@ -128,7 +137,14 @@ public static class BaseDependencyInjection
                 BearerFormat = "JWT",
                 Scheme = "bearer"
             });
-            c.OperationFilter<BaseSecurityRequirementsOperationFilter>();
+
+            c.OperationFilter<BaseSecurityRequirementsOperationFilter>(); 
+            
+            /*var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            c.IncludeXmlComments(xmlPath); */
+            
+            c.EnableAnnotations();
         });
 
         return services;

@@ -22,27 +22,27 @@ public class SampleModelController(IMediator mediator) : BaseController
     [SwaggerOperation("Get By Id")]
     [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(SampleModelViewModel))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Not Found", typeof(void))]
-    public async Task<IActionResult> Get(Guid id)
+    public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetSampleModelByIdQuery(id));
+        var result = await mediator.Send(new GetSampleModelByIdQuery(id), cancellationToken);
         return BaseApiResult(result);
     }
 
     [HttpGet]
     [SwaggerOperation("Get All")]
     [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(List<SampleModelViewModel>))]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetAllSampleModelsQuery());
+        var result = await mediator.Send(new GetAllSampleModelsQuery(), cancellationToken);
         return BaseApiResult(result);
     }
 
     [HttpGet]
     [SwaggerOperation("Get By Filter")]
     [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(List<SampleModelViewModel>))]
-    public async Task<IActionResult> GetByFilter([FromQuery] GetSampleModelsByFilterQuery request)
+    public async Task<IActionResult> GetByFilter([FromQuery] GetSampleModelsByFilterQuery request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(request);
+        var result = await mediator.Send(request, cancellationToken);
         return BaseApiResult(result);
     }
 
@@ -52,9 +52,9 @@ public class SampleModelController(IMediator mediator) : BaseController
     [SwaggerResponse(StatusCodes.Status200OK, "Created", typeof(void))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Validation Error Occured", typeof(void))]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized", typeof(void))]
-    public async Task<IActionResult> Create(CreateSampleModelCommand request)
+    public async Task<IActionResult> Create(CreateSampleModelCommand request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(request);
+        var result = await mediator.Send(request, cancellationToken);
         return BaseApiResult(result);
     }
 
@@ -65,9 +65,9 @@ public class SampleModelController(IMediator mediator) : BaseController
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Validation Error Occured", typeof(void))]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized", typeof(void))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Not Found", typeof(void))]
-    public async Task<IActionResult> Update(UpdateSampleModelCommand request)
+    public async Task<IActionResult> Update(UpdateSampleModelCommand request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(request);
+        var result = await mediator.Send(request, cancellationToken);
         return BaseApiResult(result);
     }
 
@@ -79,18 +79,18 @@ public class SampleModelController(IMediator mediator) : BaseController
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized", typeof(void))]
     [SwaggerResponse(StatusCodes.Status403Forbidden, "Access Denied", typeof(void))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Not Found", typeof(void))]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new DeleteSampleModelCommand(id));
+        var result = await mediator.Send(new DeleteSampleModelCommand(id), cancellationToken);
         return BaseApiResult(result);
     }
 
     [HttpGet]
     [SwaggerOperation("Get Gender Enum")]
     [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(List<EnumViewModel>))]
-    public async Task<IActionResult> GenderEnum()
+    public async Task<IActionResult> GenderEnum(CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetGenderEnumQuery());
+        var result = await mediator.Send(new GetGenderEnumQuery(), cancellationToken);
         return BaseApiResult(result);
     }
 }

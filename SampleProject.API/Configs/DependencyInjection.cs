@@ -1,9 +1,6 @@
 ﻿using SampleProject.Domain.Interfaces;
 using SampleProject.Infrastructure.Repositories;
 using SampleProject.Infrastructure;
-using SampleProject.Application.Features.SampleModel.Commands.CreateSampleModel;
-using SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
-using FluentValidation;
 using SampleProject.Infrastructure.Implementations;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +22,7 @@ public static class DependencyInjection
     {
         services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
         services.AddScoped(typeof(ISampleModelRepository), typeof(SampleModelRepository));
+        services.AddScoped(typeof(IAnotherSampleModelRepository), typeof(AnotherSampleModelRepository));
 
         return services;
     }

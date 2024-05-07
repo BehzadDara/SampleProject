@@ -10,7 +10,6 @@
 	  <PackageReference Include="Dapper" Version="2.1.35" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4" />
   </ItemGroup>
 
   <ItemGroup>

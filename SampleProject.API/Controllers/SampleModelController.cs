@@ -10,6 +10,7 @@ using SampleProject.Application.Features.SampleModel.Queries.GetAllSampleModels;
 using SampleProject.Application.Features.SampleModel.Queries.GetGenderEnum;
 using SampleProject.Application.Features.SampleModel.Queries.GetSampleModelById;
 using SampleProject.Application.Features.SampleModel.Queries.GetSampleModelsByFilter;
+using SampleProject.Application.Features.SampleModel.Queries.GetSampleModelTotalCount;
 using SampleProject.Application.ViewModels;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -43,6 +44,15 @@ public class SampleModelController(IMediator mediator) : BaseController
     public async Task<IActionResult> GetByFilter([FromQuery] GetSampleModelsByFilterQuery request, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(request, cancellationToken);
+        return BaseApiResult(result);
+    }
+
+    [HttpGet]
+    [SwaggerOperation("Get Total Count")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(int))]
+    public async Task<IActionResult> GetTotalCount(CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetSampleModelTotalCountQuery(), cancellationToken);
         return BaseApiResult(result);
     }
 

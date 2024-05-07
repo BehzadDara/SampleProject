@@ -1,15 +1,37 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SampleProject.Domain.BaseInterfaces;
 using SampleProject.Domain.BaseModels;
+using SampleProject.Domain.BaseSpecificationConfig;
+using System.Data;
 
 namespace SampleProject.Infrastructure.Implementations;
 
 public class BaseRepository<TEntity>(
-    BaseDBContext _dbContext,
+    BaseDBContext dbContext,
+    IConfiguration configuration,
     ICurrentUser currentUser
     ) : IBaseRepository<TEntity> where TEntity : Entity
 {
-    protected DbSet<TEntity> Set => _dbContext.Set<TEntity>();
+    protected DbSet<TEntity> Set => dbContext.Set<TEntity>();
+    protected SqlConnection connection = new(configuration.GetConnectionString("SampleProjectConnection"));
+    protected IQueryable<TEntity> SetAsNoTracking 
+    {
+        get
+        {
+            var query = Set.AsNoTracking();
+
+            if (typeof(TEntity).IsSubclassOf(typeof(TrackableEntity)))
+            {
+                query = query.Where(e => !(e as TrackableEntity)!.IsDeleted);
+            }
+
+            return query;
+        }
+    }
+
 
     public async Task<bool> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
@@ -40,7 +62,7 @@ public class BaseRepository<TEntity>(
         {
             await Task.Run(() =>
             {
-                _dbContext.Update(entity);
+                dbContext.Update(entity);
             }, cancellationToken);
 
             return true;
@@ -61,14 +83,14 @@ public class BaseRepository<TEntity>(
 
                 await Task.Run(() =>
                 {
-                    _dbContext.Update(entity);
+                    dbContext.Update(entity);
                 }, cancellationToken);
             }
             else
             {
                 await Task.Run(() =>
                 {
-                    _dbContext.Remove(entity);
+                    dbContext.Remove(entity);
                 }, cancellationToken);
             }
 
@@ -82,32 +104,62 @@ public class BaseRepository<TEntity>(
 
     public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var entity = await Set.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
-
-        if (entity is TrackableEntity trackable && trackable.IsDeleted)
-        {
-            return null;
-        }
-        
-        return entity;
+        return await SetAsNoTracking.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
-
-    /*public Task<IList<TEntity>> ListAsync(Specification<T> spec, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }*/
 
     public async Task<IList<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        var query = Set.AsNoTracking();
+        return await SetAsNoTracking.ToListAsync(cancellationToken);
+    }
 
-        if (typeof(TEntity).IsSubclassOf(typeof(TrackableEntity)))
+    public async Task<TEntity?> GetAsync(BaseSpecification<TEntity> specification, CancellationToken cancellationToken = default)
+    {
+        return await SetAsNoTracking.Specify(specification).FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<(int TotalCount, IList<TEntity> Data)> ListAsync(BaseSpecification<TEntity> specification, CancellationToken cancellationToken = default)
+    {
+        var query = SetAsNoTracking.Specify(specification);
+
+        var totalCount = await query.CountAsync(cancellationToken);
+        var data = await query.Skip(specification.Skip).Take(specification.Take).ToListAsync(cancellationToken);
+
+        return (totalCount, data);
+    }
+
+    public async Task<TResult?> QueryGetAsync<TResult>(string query, object? param = null, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    {
+        if (connection.State == ConnectionState.Closed)
+            await connection.OpenAsync(cancellationToken);
+        try
         {
-            query = query.Where(e => !(e as TrackableEntity)!.IsDeleted);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return await connection.QueryFirstOrDefaultAsync<TResult>(query, param, transaction);
         }
+        finally
+        {
+            if (connection.State == ConnectionState.Open)
+                connection.Close();
+        }
+    }
 
-        var list = await query.ToListAsync(cancellationToken);
+    public async Task<IReadOnlyList<TResult>> QueryListAsync<TResult>(string query, object? param = null, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    {
+        if (connection.State == ConnectionState.Closed)
+            await connection.OpenAsync(cancellationToken);
 
-        return list;
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var result = await connection.QueryAsync<TResult>(query, param, transaction);
+            return result.AsList();
+        }
+        finally
+        {
+            if (connection.State == ConnectionState.Open)
+                connection.Close();
+        }
     }
 }

@@ -6,5 +6,5 @@ namespace SampleProject.Domain.Interfaces;
 
 public interface ISampleModelRepository : IBaseRepository<SampleModel>
 {
-    public Task<(int TotalCount, IList<SampleModel> Data)> GetByFilter(BaseSpecification<SampleModel> specification, CancellationToken cancellationToken = default);
+    public Task<int> GetTotalCount(CancellationToken cancellationToken = default);
 }

@@ -1,24 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Extensions.Configuration;
 using SampleProject.Domain.BaseInterfaces;
-using SampleProject.Domain.BaseSpecificationConfig;
 using SampleProject.Domain.Interfaces;
 using SampleProject.Domain.Models;
 using SampleProject.Infrastructure.Implementations;
+using SampleProject.Infrastructure.Repositories.QueryTexts;
 
 namespace SampleProject.Infrastructure.Repositories;
 
 public class SampleModelRepository(
     BaseDBContext dbContext,
+    IConfiguration configuration,
     ICurrentUser currentUser
-    ) : BaseRepository<SampleModel>(dbContext, currentUser), ISampleModelRepository
+    ) : BaseRepository<SampleModel>(dbContext, configuration, currentUser), ISampleModelRepository
 {
-    public async Task<(int TotalCount, IList<SampleModel> Data)> GetByFilter(BaseSpecification<SampleModel> specification, CancellationToken cancellationToken = default)
+    public async Task<int> GetTotalCount(CancellationToken cancellationToken = default)
     {
-        var query = Set.Specify(specification).Where(x => !x.IsDeleted);
-
-        var totalCount = await query.CountAsync(cancellationToken);
-        var data = await query.Skip(specification.Skip).Take(specification.Take).ToListAsync(cancellationToken);
-
-        return (totalCount, data);
+        var result = await QueryGetAsync<int>(Queries.GetSampleModelTotalCount, cancellationToken: cancellationToken);
+        return result;
     }
 }

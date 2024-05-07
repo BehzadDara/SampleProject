@@ -5,8 +5,10 @@ namespace SampleProject.Infrastructure;
 
 public class UnitOfWork(
     BaseDBContext dbContext,
-    ISampleModelRepository sampleModelRepository
+    ISampleModelRepository sampleModelRepository,
+    IAnotherSampleModelRepository anotherSampleModelRepository
     ) : BaseUnitOfWork(dbContext), IUnitOfWork
 {
     public ISampleModelRepository SampleModelRepository { get; init; } = sampleModelRepository;
+    public IAnotherSampleModelRepository AnotherSampleModelRepository { get; init; } = anotherSampleModelRepository;
 }

@@ -2,5 +2,16 @@
 
 public static class Queries
 {
-    public static string GetSampleModelTotalCount => "select count(*) from[SampleProjectDB].[dbo].[SampleModels] where IsDeleted = 0";
+
+    internal static string GetSampleModelTotalCount = GetQuery(nameof(GetSampleModelTotalCount));
+
+    private static string GetQuery(string name)
+    {
+#if DEBUG
+        return File.ReadAllText($"../SampleProject.Infrastructure/Repositories/QueryTexts/{name}.sql");
+#else
+        return File.ReadAllText($"Repositories/QueryTexts/{name}.sql");
+#endif
+    }
+
 }

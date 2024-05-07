@@ -11,7 +11,7 @@ public class SampleModelRepository(
     BaseDBContext dbContext,
     IConfiguration configuration,
     ICurrentUser currentUser
-    ) : BaseRepository<SampleModel>(dbContext, configuration, currentUser), ISampleModelRepository
+    ) : BaseRepository<SampleModel>(dbContext, new(configuration.GetConnectionString("SampleProjectConnection")), currentUser), ISampleModelRepository
 {
     public async Task<int> GetTotalCount(CancellationToken cancellationToken = default)
     {

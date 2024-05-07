@@ -11,13 +11,12 @@ namespace SampleProject.Infrastructure.Implementations;
 
 public class BaseRepository<TEntity>(
     BaseDBContext dbContext,
-    IConfiguration configuration,
+    SqlConnection connection,
     ICurrentUser currentUser
-    ) : IBaseRepository<TEntity> where TEntity : Entity
+    ) : IBaseRepository<TEntity>, IDisposable where TEntity : Entity
 {
     protected DbSet<TEntity> Set => dbContext.Set<TEntity>();
-    protected SqlConnection connection = new(configuration.GetConnectionString("SampleProjectConnection"));
-    protected IQueryable<TEntity> SetAsNoTracking 
+    protected IQueryable<TEntity> SetAsNoTracking
     {
         get
         {
@@ -161,5 +160,11 @@ public class BaseRepository<TEntity>(
             if (connection.State == ConnectionState.Open)
                 connection.Close();
         }
+    }
+
+    public void Dispose()
+    {
+        connection.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

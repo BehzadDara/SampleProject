@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SampleProject.Domain.BaseInterfaces;
 using SampleProject.Domain.BaseModels;
 
@@ -7,9 +6,8 @@ namespace SampleProject.Infrastructure.Implementations;
 
 public class BaseRepository<TEntity>(
     BaseDBContext dbContext,
-    SqlConnection connection,
     ICurrentUser currentUser
-    ) : BaseReadOnlyRepository<TEntity>(dbContext, connection),
+    ) : BaseReadOnlyRepository<TEntity>(dbContext),
     IBaseRepository<TEntity> where TEntity : Entity
 {
     protected DbSet<TEntity> Set => dbContext.Set<TEntity>();

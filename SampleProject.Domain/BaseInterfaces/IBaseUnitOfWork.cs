@@ -2,5 +2,5 @@
 
 public interface IBaseUnitOfWork
 {
-    Task<bool> CompleteAsync(CancellationToken cancellationToken = default);
+    Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

@@ -3,7 +3,7 @@ using SampleProject.Domain.Models;
 
 namespace SampleProject.Domain.Interfaces;
 
-public interface IAnotherSampleModelRepository : IBaseRepository<AnotherSampleModel>
+public interface IAnotherSampleModelRepository : IBaseReadOnlyRepository<AnotherSampleModel>
 {
     public Task<int> GetTotalCount(CancellationToken cancellationToken = default);
 }

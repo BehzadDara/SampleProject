@@ -9,9 +9,8 @@ namespace SampleProject.Infrastructure.Repositories;
 
 public class AnotherSampleModelRepository(
     BaseDBContext dbContext,
-    IConfiguration configuration,
-    ICurrentUser currentUser
-    ) : BaseRepository<AnotherSampleModel>(dbContext, new(configuration.GetConnectionString("AnotherSampleProjectConnection")), currentUser), IAnotherSampleModelRepository
+    IConfiguration configuration
+    ) : BaseReadOnlyRepository<AnotherSampleModel>(dbContext, new(configuration.GetConnectionString("AnotherSampleProjectConnection"))), IAnotherSampleModelRepository
 {
     public async Task<int> GetTotalCount(CancellationToken cancellationToken = default)
     {

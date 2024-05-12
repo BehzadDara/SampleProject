@@ -12,7 +12,7 @@ public class DeleteSampleModelCommandHandler(IUnitOfWork unitOfWork) : IBaseComm
             ?? throw new NotFoundException();
 
         await unitOfWork.SampleModelRepository.DeleteAsync(existEntity, cancellationToken);
-        await unitOfWork.CompleteAsync(cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         var result = new BaseResult();
         result.OK();

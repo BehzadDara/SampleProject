@@ -13,7 +13,7 @@ public class UpdateSampleModelCommandHandler(IUnitOfWork unitOfWork) : IBaseComm
 
         var entity = request.ToEntity(existEntity);
         await unitOfWork.SampleModelRepository.UpdateAsync(entity, cancellationToken);
-        await unitOfWork.CompleteAsync(cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         var result = new BaseResult();
         result.OK();

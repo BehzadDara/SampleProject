@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SampleProject.Domain.BaseInterfaces;
 using SampleProject.Domain.Interfaces;
 using SampleProject.Domain.Models;

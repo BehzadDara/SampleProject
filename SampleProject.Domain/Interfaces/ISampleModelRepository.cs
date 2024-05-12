@@ -1,5 +1,4 @@
 ﻿using SampleProject.Domain.BaseInterfaces;
-using SampleProject.Domain.BaseSpecificationConfig;
 using SampleProject.Domain.Models;
 
 namespace SampleProject.Domain.Interfaces;

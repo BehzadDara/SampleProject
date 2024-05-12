@@ -14,7 +14,7 @@ public class BaseRepository<TEntity>(
 {
     protected DbSet<TEntity> Set => dbContext.Set<TEntity>();
 
-    public async Task<bool> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         if (entity is TrackableEntity trackable)
         {
@@ -24,15 +24,13 @@ public class BaseRepository<TEntity>(
         try
         {
             await Set.AddAsync(entity, cancellationToken);
-            return true;
         }
         catch
         {
-            return false;
         }
     }
 
-    public async Task<bool> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         if (entity is TrackableEntity trackable)
         {
@@ -45,16 +43,13 @@ public class BaseRepository<TEntity>(
             {
                 dbContext.Update(entity);
             }, cancellationToken);
-
-            return true;
         }
         catch
         {
-            return false;
         }
     }
 
-    public async Task<bool> DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -74,12 +69,9 @@ public class BaseRepository<TEntity>(
                     dbContext.Remove(entity);
                 }, cancellationToken);
             }
-
-            return true;
         }
         catch
         {
-            return false;
         }
     }
 }

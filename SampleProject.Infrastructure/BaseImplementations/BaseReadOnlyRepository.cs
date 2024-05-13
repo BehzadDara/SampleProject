@@ -2,33 +2,14 @@
 using SampleProject.Domain.BaseInterfaces;
 using SampleProject.Domain.BaseModels;
 using SampleProject.Domain.BaseSpecificationConfig;
-using System.Data;
+using SampleProject.Infrastructure.BaseImplementations;
 
 namespace SampleProject.Infrastructure.Implementations;
 
 public class BaseReadOnlyRepository<TEntity>(
     BaseDBContext dbContext
-    ) : IBaseReadOnlyRepository<TEntity> where TEntity : Entity
+    ) : BaseRepositoryProperties<TEntity>(dbContext), IBaseReadOnlyRepository<TEntity> where TEntity : Entity
 {
-    protected readonly BaseDBContext _dbContext = dbContext;
-
-    protected DbSet<TEntity> Set => _dbContext.Set<TEntity>();
-
-    protected IQueryable<TEntity> SetAsNoTracking
-    {
-        get
-        {
-            var query = Set.AsNoTracking();
-
-            if (typeof(TEntity).IsSubclassOf(typeof(TrackableEntity)))
-            {
-                query = query.Where(e => !(e as TrackableEntity)!.IsDeleted);
-            }
-
-            return query;
-        }
-    }
-
     public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await SetAsNoTracking.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);

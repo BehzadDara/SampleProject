@@ -28,7 +28,7 @@ public class BaseRepository<TEntity>(
 
         await Task.Run(() =>
         {
-            dbContext.Update(entity);
+            Set.Update(entity);
         }, cancellationToken);
     }
 
@@ -40,14 +40,14 @@ public class BaseRepository<TEntity>(
 
             await Task.Run(() =>
             {
-                dbContext.Update(entity);
+                Set.Update(entity);
             }, cancellationToken);
         }
         else
         {
             await Task.Run(() =>
             {
-                dbContext.Remove(entity);
+                Set.Remove(entity);
             }, cancellationToken);
         }
     }

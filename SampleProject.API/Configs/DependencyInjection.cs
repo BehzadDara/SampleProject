@@ -34,10 +34,10 @@ public static class DependencyInjection
             ServiceLifetime.Scoped);
         services.AddScoped<BaseDBContext>(provider => provider.GetService<SampleProjectDBContext>()!);
 
-        /*services.AddDbContext<AnotherSampleProjectDBContext>(options =>
+        services.AddDbContext<AnotherSampleProjectDBContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("AnotherSampleProjectConnection")),
             ServiceLifetime.Scoped);
-        services.AddScoped<BaseDBContext>(provider => provider.GetService<AnotherSampleProjectDBContext>()!);*/
+        services.AddScoped<BaseDBContext>(provider => provider.GetService<AnotherSampleProjectDBContext>()!);
 
         return services;
     }

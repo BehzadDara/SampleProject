@@ -13,7 +13,7 @@ public class SampleModelRepository(
 {
     public async Task<int> GetTotalCount(CancellationToken cancellationToken = default)
     {
-        var result = await dbContext.QueryGetAsync<int>(Queries.GetSampleModelTotalCount, cancellationToken);
+        var result = await _dbContext.QueryGetAsync<int>(Queries.GetSampleModelTotalCount, cancellationToken);
         return result;
     }
 }

@@ -10,13 +10,15 @@ public class BaseReadOnlyRepository<TEntity>(
     BaseDBContext dbContext
     ) : IBaseReadOnlyRepository<TEntity> where TEntity : Entity
 {
-    private readonly BaseDBContext _dbContext = dbContext;
+    protected readonly BaseDBContext _dbContext = dbContext;
+
+    protected DbSet<TEntity> Set => _dbContext.Set<TEntity>();
 
     protected IQueryable<TEntity> SetAsNoTracking
     {
         get
         {
-            var query = _dbContext.Set<TEntity>().AsNoTracking();
+            var query = Set.AsNoTracking();
 
             if (typeof(TEntity).IsSubclassOf(typeof(TrackableEntity)))
             {

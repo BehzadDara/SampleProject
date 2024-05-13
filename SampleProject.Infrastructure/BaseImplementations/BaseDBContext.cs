@@ -33,7 +33,8 @@ public abstract class BaseDBContext(DbContextOptions options) : DbContext(option
     public async Task<TResult?> QueryGetAsync<TResult>(string query, CancellationToken cancellationToken)
     {
         var result = await QueryListAsync<TResult>(query, cancellationToken);
-        return result[0];
+
+        return result.Count > 0 ? result[0] : default;
     }
 
     public async Task<IReadOnlyList<TResult>> QueryListAsync<TResult>(string query, CancellationToken cancellationToken)

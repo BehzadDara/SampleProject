@@ -32,17 +32,11 @@ public abstract class BaseDBContext(DbContextOptions options) : DbContext(option
 
     public async Task<TResult?> QueryGetAsync<TResult>(string query, CancellationToken cancellationToken)
     {
-        var queryable = await QueryAsync<TResult>(query, cancellationToken);
-        return await queryable.FirstOrDefaultAsync(cancellationToken);
+        var result = await QueryListAsync<TResult>(query, cancellationToken);
+        return result[0];
     }
 
     public async Task<IReadOnlyList<TResult>> QueryListAsync<TResult>(string query, CancellationToken cancellationToken)
-    {
-        var queryable = await QueryAsync<TResult>(query, cancellationToken);
-        return await queryable.ToListAsync(cancellationToken);
-    }
-
-    private async Task<IQueryable<TResult>> QueryAsync<TResult>(string query, CancellationToken cancellationToken)
     {
         if (Database.GetDbConnection().State == ConnectionState.Closed)
             await Database.OpenConnectionAsync(cancellationToken);
@@ -51,7 +45,7 @@ public abstract class BaseDBContext(DbContextOptions options) : DbContext(option
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            return Database.SqlQueryRaw<TResult>(query);
+            return await Database.SqlQueryRaw<TResult>(query).ToListAsync(cancellationToken);
         }
         finally
         {

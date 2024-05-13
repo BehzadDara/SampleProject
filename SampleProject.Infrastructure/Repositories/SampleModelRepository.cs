@@ -2,7 +2,7 @@
 using SampleProject.Domain.Interfaces;
 using SampleProject.Domain.Models;
 using SampleProject.Infrastructure.Implementations;
-using SampleProject.Infrastructure.Repositories.QueryTexts;
+using SampleProject.Infrastructure.QueryTexts;
 
 namespace SampleProject.Infrastructure.Repositories;
 

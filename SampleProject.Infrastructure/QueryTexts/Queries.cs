@@ -1,4 +1,4 @@
-﻿namespace SampleProject.Infrastructure.Repositories.QueryTexts;
+﻿namespace SampleProject.Infrastructure.QueryTexts;
 
 public static class Queries
 {
@@ -9,9 +9,9 @@ public static class Queries
     private static string GetQuery(string name)
     {
 #if DEBUG
-        return File.ReadAllText($"../SampleProject.Infrastructure/Repositories/QueryTexts/{name}.sql");
+        return File.ReadAllText($"../SampleProject.Infrastructure/QueryTexts/{name}.sql");
 #else
-        return File.ReadAllText($"Repositories/QueryTexts/{name}.sql");
+        return File.ReadAllText($"QueryTexts/{name}.sql");
 #endif
     }
 

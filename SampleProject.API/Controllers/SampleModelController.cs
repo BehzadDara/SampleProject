@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using BuildingBlocks.API.Controllers;
+using BuildingBlocks.Application.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SampleProject.API.BaseControllers;
-using SampleProject.Application.BaseViewModels;
 using SampleProject.Application.Features.SampleModel.Commands.CreateSampleModel;
 using SampleProject.Application.Features.SampleModel.Commands.DeleteSampleModel;
 using SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
@@ -26,7 +26,7 @@ public class SampleModelController(IMediator mediator) : BaseController
     public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetSampleModelByIdQuery(id), cancellationToken);
-        return BaseApiResult(result);
+        return ApiResult(result);
     }
 
     [HttpGet]
@@ -35,7 +35,7 @@ public class SampleModelController(IMediator mediator) : BaseController
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetAllSampleModelsQuery(), cancellationToken);
-        return BaseApiResult(result);
+        return ApiResult(result);
     }
 
     [HttpGet]
@@ -44,7 +44,7 @@ public class SampleModelController(IMediator mediator) : BaseController
     public async Task<IActionResult> GetByFilter([FromQuery] GetSampleModelsByFilterQuery request, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(request, cancellationToken);
-        return BaseApiResult(result);
+        return ApiResult(result);
     }
 
     [HttpGet]
@@ -53,7 +53,7 @@ public class SampleModelController(IMediator mediator) : BaseController
     public async Task<IActionResult> GetTotalCount(CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetSampleModelTotalCountQuery(), cancellationToken);
-        return BaseApiResult(result);
+        return ApiResult(result);
     }
 
     [HttpPost]
@@ -65,7 +65,7 @@ public class SampleModelController(IMediator mediator) : BaseController
     public async Task<IActionResult> Create(CreateSampleModelCommand request, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(request, cancellationToken);
-        return BaseApiResult(result);
+        return ApiResult(result);
     }
 
     [HttpPut]
@@ -78,7 +78,7 @@ public class SampleModelController(IMediator mediator) : BaseController
     public async Task<IActionResult> Update(UpdateSampleModelCommand request, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(request, cancellationToken);
-        return BaseApiResult(result);
+        return ApiResult(result);
     }
 
     [HttpDelete("{id}")]
@@ -92,7 +92,7 @@ public class SampleModelController(IMediator mediator) : BaseController
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new DeleteSampleModelCommand(id), cancellationToken);
-        return BaseApiResult(result);
+        return ApiResult(result);
     }
 
     [HttpGet]
@@ -101,6 +101,6 @@ public class SampleModelController(IMediator mediator) : BaseController
     public async Task<IActionResult> GenderEnum(CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetGenderEnumQuery(), cancellationToken);
-        return BaseApiResult(result);
+        return ApiResult(result);
     }
 }

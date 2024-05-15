@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BuildingBlocks.Application\BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\SampleProject.Domain\SampleProject.Domain.csproj" />
     <ProjectReference Include="..\SampleProject.Resources\SampleProject.Resources.csproj" />
   </ItemGroup>

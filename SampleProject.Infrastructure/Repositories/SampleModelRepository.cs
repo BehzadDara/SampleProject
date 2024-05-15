@@ -1,15 +1,15 @@
-﻿using SampleProject.Domain.BaseInterfaces;
+﻿using BuildingBlocks.Domain.Interfaces;
+using BuildingBlocks.Infrastructure.Implementations;
 using SampleProject.Domain.Interfaces;
 using SampleProject.Domain.Models;
-using SampleProject.Infrastructure.Implementations;
 using SampleProject.Infrastructure.QueryTexts;
 
 namespace SampleProject.Infrastructure.Repositories;
 
 public class SampleModelRepository(
-    BaseDBContext dbContext,
+    DBContext dbContext,
     ICurrentUser currentUser
-    ) : BaseRepository<SampleModel>(dbContext, currentUser), ISampleModelRepository
+    ) : Repository<SampleModel>(dbContext, currentUser), ISampleModelRepository
 {
     public async Task<int> GetTotalCount(CancellationToken cancellationToken = default)
     {

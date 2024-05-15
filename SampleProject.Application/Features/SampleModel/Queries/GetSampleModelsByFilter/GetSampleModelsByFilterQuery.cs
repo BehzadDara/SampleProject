@@ -1,6 +1,6 @@
-﻿using SampleProject.Application.BaseFeatures;
+﻿using BuildingBlocks.Application.Features;
+using BuildingBlocks.Domain.Enums;
 using SampleProject.Application.ViewModels;
-using SampleProject.Domain.BaseEnums;
 using SampleProject.Domain.Enums;
 
 namespace SampleProject.Application.Features.SampleModel.Queries.GetSampleModelsByFilter;
@@ -13,7 +13,7 @@ public record GetSampleModelsByFilterQuery(
     int PageSize = 25,
     int PageNumber = 1,
     OrderType OrderType = OrderType.Ascending
-    ) : IBaseCommandQuery<PagedList<SampleModelViewModel>>;
+    ) : ICommandQuery<PagedList<SampleModelViewModel>>;
 
 public enum OrderSampleModelByFilter
 {

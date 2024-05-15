@@ -1,9 +1,9 @@
-﻿using SampleProject.Domain.BaseInterfaces;
+﻿using BuildingBlocks.Domain.Interfaces;
 using SampleProject.Domain.Models;
 
 namespace SampleProject.Domain.Interfaces;
 
-public interface ISampleModelRepository : IBaseRepository<SampleModel>
+public interface ISampleModelRepository : IRepository<SampleModel>
 {
     public Task<int> GetTotalCount(CancellationToken cancellationToken = default);
 }

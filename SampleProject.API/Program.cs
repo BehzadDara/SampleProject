@@ -1,3 +1,4 @@
+using BuildingBlocks.API.Configs;
 using SampleProject.API.Configs;
 
 var builder = WebApplication.CreateBuilder(args);

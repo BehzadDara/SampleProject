@@ -29,9 +29,13 @@
 	<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SampleProject.Application\SampleProject.Application.csproj" />
-    <ProjectReference Include="..\SampleProject.Infrastructure\SampleProject.Infrastructure.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\BuildingBlocks.API\BuildingBlocks.API.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\SampleProject.Application\SampleProject.Application.csproj" />
+		<ProjectReference Include="..\SampleProject.Infrastructure\SampleProject.Infrastructure.csproj" />
+	</ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿using BuildingBlocks.API.Controllers;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SampleProject.API.BaseControllers;
 using SampleProject.Application.Features.AnotherSampleModel.Queries.GetAnotherSampleModelTotalCount;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -15,6 +15,6 @@ public class AnotherSampleModelController(IMediator mediator) : BaseController
     public async Task<IActionResult> GetTotalCount(CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetAnotherSampleModelTotalCountQuery(), cancellationToken);
-        return BaseApiResult(result);
+        return ApiResult(result);
     }
 }

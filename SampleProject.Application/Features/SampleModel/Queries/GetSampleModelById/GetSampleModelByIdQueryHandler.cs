@@ -1,20 +1,20 @@
-﻿using SampleProject.Application.BaseExceptions;
-using SampleProject.Application.BaseFeatures;
+﻿using BuildingBlocks.Application.Exceptions;
+using BuildingBlocks.Application.Features;
 using SampleProject.Application.ViewModels;
 using SampleProject.Domain.Interfaces;
 
 namespace SampleProject.Application.Features.SampleModel.Queries.GetSampleModelById;
 
-public class GetSampleModelByIdQueryHandler(IUnitOfWork unitOfWork) : IBaseCommandQueryHandler<GetSampleModelByIdQuery, SampleModelViewModel>
+public class GetSampleModelByIdQueryHandler(ISampleProjectUnitOfWork unitOfWork) : ICommandQueryHandler<GetSampleModelByIdQuery, SampleModelViewModel>
 {
-    public async Task<BaseResult<SampleModelViewModel>> Handle(GetSampleModelByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<SampleModelViewModel>> Handle(GetSampleModelByIdQuery request, CancellationToken cancellationToken)
     {
         var existEntity = await unitOfWork.SampleModelRepository.GetByIdAsync(request.Id, cancellationToken)
             ?? throw new NotFoundException();
 
         var viewModel = existEntity.ToViewModel();
 
-        var result = new BaseResult<SampleModelViewModel>();
+        var result = new Result<SampleModelViewModel>();
         result.AddValue(viewModel);
         result.OK();
         return result;

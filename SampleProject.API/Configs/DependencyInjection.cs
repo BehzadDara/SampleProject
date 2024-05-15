@@ -1,8 +1,8 @@
 ﻿using SampleProject.Domain.Interfaces;
 using SampleProject.Infrastructure.Repositories;
 using SampleProject.Infrastructure;
-using SampleProject.Infrastructure.Implementations;
 using Microsoft.EntityFrameworkCore;
+using BuildingBlocks.Infrastructure.Implementations;
 
 namespace SampleProject.API.Configs;
 
@@ -20,7 +20,7 @@ public static class DependencyInjection
 
     private static IServiceCollection RegisterRepositories(this IServiceCollection services)
     {
-        services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+        services.AddScoped(typeof(ISampleProjectUnitOfWork), typeof(SampleProjectUnitOfWork));
         services.AddScoped(typeof(ISampleModelRepository), typeof(SampleModelRepository));
         services.AddScoped(typeof(IAnotherSampleModelRepository), typeof(AnotherSampleModelRepository));
 
@@ -32,12 +32,12 @@ public static class DependencyInjection
         services.AddDbContext<SampleProjectDBContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("SampleProjectConnection")),
             ServiceLifetime.Scoped);
-        services.AddScoped<BaseDBContext>(provider => provider.GetService<SampleProjectDBContext>()!);
+        services.AddScoped<DBContext>(provider => provider.GetService<SampleProjectDBContext>()!);
 
         services.AddDbContext<AnotherSampleProjectDBContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("AnotherSampleProjectConnection")),
             ServiceLifetime.Scoped);
-        services.AddScoped<BaseDBContext>(provider => provider.GetService<AnotherSampleProjectDBContext>()!);
+        services.AddScoped<DBContext>(provider => provider.GetService<AnotherSampleProjectDBContext>()!);
 
         return services;
     }

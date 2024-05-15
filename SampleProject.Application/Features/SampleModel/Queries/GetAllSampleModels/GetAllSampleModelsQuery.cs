@@ -1,7 +1,7 @@
-﻿using SampleProject.Application.BaseFeatures;
+﻿using BuildingBlocks.Application.Features;
 using SampleProject.Application.ViewModels;
 
 namespace SampleProject.Application.Features.SampleModel.Queries.GetAllSampleModels;
 
 public record GetAllSampleModelsQuery(
-    ) : IBaseCommandQuery<IList<SampleModelViewModel>>;
+    ) : ICommandQuery<IList<SampleModelViewModel>>;

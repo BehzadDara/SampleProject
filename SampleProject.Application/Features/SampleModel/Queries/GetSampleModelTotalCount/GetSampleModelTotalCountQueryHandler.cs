@@ -1,15 +1,15 @@
-﻿using SampleProject.Application.BaseFeatures;
+﻿using BuildingBlocks.Application.Features;
 using SampleProject.Domain.Interfaces;
 
 namespace SampleProject.Application.Features.SampleModel.Queries.GetSampleModelTotalCount;
 
-public class GetSampleModelTotalCountQueryHandler(IUnitOfWork unitOfWork) : IBaseCommandQueryHandler<GetSampleModelTotalCountQuery, int>
+public class GetSampleModelTotalCountQueryHandler(ISampleProjectUnitOfWork unitOfWork) : ICommandQueryHandler<GetSampleModelTotalCountQuery, int>
 {
-    public async Task<BaseResult<int>> Handle(GetSampleModelTotalCountQuery request, CancellationToken cancellationToken)
+    public async Task<Result<int>> Handle(GetSampleModelTotalCountQuery request, CancellationToken cancellationToken)
     {
         var totalCount = await unitOfWork.SampleModelRepository.GetTotalCount(cancellationToken);
 
-        var result = new BaseResult<int>();
+        var result = new Result<int>();
         result.AddValue(totalCount);
         result.OK();
         return result;

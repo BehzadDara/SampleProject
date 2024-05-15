@@ -1,4 +1,4 @@
-﻿using SampleProject.Application.BaseViewModels;
+﻿using BuildingBlocks.Application.ViewModels;
 
 namespace SampleProject.Application.ViewModels;
 

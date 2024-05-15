@@ -1,9 +1,9 @@
-﻿using SampleProject.Domain.BaseSpecificationConfig;
+﻿using BuildingBlocks.Domain.SpecificationConfig;
 using SampleProject.Application.Features.SampleModel.Queries.GetSampleModelsByFilter;
 
 namespace SampleProject.Application.Specifications.SampleModel;
 
-public class GetSampleModelsByFilterSpecification : BaseSpecification<Domain.Models.SampleModel>
+public class GetSampleModelsByFilterSpecification : Specification<Domain.Models.SampleModel>
 {
     public GetSampleModelsByFilterSpecification(GetSampleModelsByFilterQuery query)
     {

@@ -1,13 +1,13 @@
-﻿using SampleProject.Domain.Interfaces;
+﻿using BuildingBlocks.Infrastructure.Implementations;
+using SampleProject.Domain.Interfaces;
 using SampleProject.Domain.Models;
-using SampleProject.Infrastructure.Implementations;
 using SampleProject.Infrastructure.QueryTexts;
 
 namespace SampleProject.Infrastructure.Repositories;
 
 public class AnotherSampleModelRepository(
-    BaseDBContext dbContext
-    ) : BaseReadOnlyRepository<AnotherSampleModel>(dbContext), IAnotherSampleModelRepository
+    DBContext dbContext
+    ) : ReadOnlyRepository<AnotherSampleModel>(dbContext), IAnotherSampleModelRepository
 {
     public async Task<int> GetTotalCount(CancellationToken cancellationToken = default)
     {

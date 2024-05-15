@@ -1,6 +1,6 @@
-﻿using SampleProject.Application.BaseFeatures;
+﻿using BuildingBlocks.Application.Features;
 
 namespace SampleProject.Application.Features.AnotherSampleModel.Queries.GetAnotherSampleModelTotalCount;
 
 public record GetAnotherSampleModelTotalCountQuery(
-) : IBaseCommandQuery<int>;
+) : ICommandQuery<int>;

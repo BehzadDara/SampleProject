@@ -1,4 +1,4 @@
-﻿using SampleProject.Application.BaseFeatures;
+﻿using BuildingBlocks.Application.Features;
 using SampleProject.Domain.Enums;
 
 namespace SampleProject.Application.Features.SampleModel.Commands.CreateSampleModel;
@@ -9,4 +9,4 @@ public record CreateSampleModelCommand(
     int Age,
     GenderEnum Gender,
     string Address
-    ) : IBaseCommandQuery;
+    ) : ICommandQuery;

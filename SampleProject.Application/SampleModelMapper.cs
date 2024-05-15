@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SampleProject.Application.BaseViewModels;
+using BuildingBlocks.Application.ViewModels;
 using SampleProject.Application.Features.SampleModel.Commands.CreateSampleModel;
 using SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
 using SampleProject.Application.ViewModels;

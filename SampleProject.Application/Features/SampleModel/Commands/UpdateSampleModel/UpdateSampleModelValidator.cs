@@ -1,6 +1,5 @@
-﻿using FluentValidation;
-using SampleProject.Application.BaseMethods;
-using SampleProject.Domain.Enums;
+﻿using BuildingBlocks.Application.Methods;
+using FluentValidation;
 
 namespace SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
 

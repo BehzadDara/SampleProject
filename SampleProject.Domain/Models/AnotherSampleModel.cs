@@ -1,4 +1,4 @@
-﻿using SampleProject.Domain.BaseModels;
+﻿using BuildingBlocks.Domain.Models;
 
 namespace SampleProject.Domain.Models;
 

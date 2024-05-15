@@ -21,8 +21,6 @@ public static class DependencyInjection
     {
         services
             .RegisterControllers()
-            .RegisterMediatR()
-            .RegisterValidator()
             .RegisterLog()
             .RegisterMemoryCache()
             .RegisterAuthentication(configuration)
@@ -40,24 +38,6 @@ public static class DependencyInjection
             .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
         services.AddEndpointsApiExplorer();
-
-        return services;
-    }
-
-    private static IServiceCollection RegisterMediatR(this IServiceCollection services)
-    {
-        services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssemblyContaining(typeof(Result<>));
-            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-        });
-
-        return services;
-    }
-
-    private static IServiceCollection RegisterValidator(this IServiceCollection services)
-    {
-        services.AddValidatorsFromAssemblyContaining(typeof(Result<>));
 
         return services;
     }

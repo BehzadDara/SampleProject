@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using BuildingBlocks.Application.Exceptions;
+using BuildingBlocks.Application.Features;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace BuildingBlocks.Application.Features.Authentication.Login;
+namespace SampleProject.Application.Features.Authentication.Login;
 
 public class LoginCommandHandler(IConfiguration config) : ICommandQueryHandler<LoginCommand, string>
 {
@@ -20,8 +22,7 @@ public class LoginCommandHandler(IConfiguration config) : ICommandQueryHandler<L
 
         if (!isValidUser)
         {
-            result.NotFound();
-            return result;
+            throw new NotFoundException();
         }
 
         var token = string.Empty;

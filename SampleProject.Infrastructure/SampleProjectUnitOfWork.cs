@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.Domain.Interfaces;
-using BuildingBlocks.Infrastructure.Implementations;
+﻿using BuildingBlocks.Infrastructure.Implementations;
 using SampleProject.Domain.Interfaces;
 
 namespace SampleProject.Infrastructure;

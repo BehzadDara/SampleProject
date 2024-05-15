@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using BuildingBlocks.Application.Features.Authentication.Login;
 using Swashbuckle.AspNetCore.Annotations;
-using Microsoft.AspNetCore.Http;
+using BuildingBlocks.API.Controllers;
+using SampleProject.Application.Features.Authentication.Login;
 
-namespace BuildingBlocks.API.Controllers;
+namespace SampleProject.API.Controllers;
 
 [SwaggerTag("سرویس احراز هویت کاربر")]
 public class AuthenticationController(IMediator mediator) : BaseController

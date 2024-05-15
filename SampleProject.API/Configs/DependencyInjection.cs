@@ -3,6 +3,11 @@ using SampleProject.Infrastructure.Repositories;
 using SampleProject.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using BuildingBlocks.Infrastructure.Implementations;
+using SampleProject.Application;
+using BuildingBlocks.Application.Features;
+using FluentValidation;
+using BuildingBlocks.Application.Behaviours;
+using MediatR;
 
 namespace SampleProject.API.Configs;
 
@@ -13,7 +18,26 @@ public static class DependencyInjection
         services
             .RegisterRepositories()
             .RegisterDBContext(configuration)
-            .RegisterAuthentication();
+            .RegisterAuthentication()
+            .RegisterMediatR()
+            .RegisterValidator();
+
+        return services;
+    }
+    private static IServiceCollection RegisterMediatR(this IServiceCollection services)
+    {
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssemblyContaining(typeof(SampleModelMapper));
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+        });
+
+        return services;
+    }
+
+    private static IServiceCollection RegisterValidator(this IServiceCollection services)
+    {
+        services.AddValidatorsFromAssemblyContaining(typeof(SampleModelMapper));
 
         return services;
     }

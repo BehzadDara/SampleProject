@@ -109,6 +109,13 @@ public class Result
     }
     #endregion
 
+    #region Conflict
+    public void Conflict()
+    {
+        Failed(Resources.Messages.Conflict);
+    }
+    #endregion
+
     #region TooManyRequest
     public void TooManyRequest()
     {

@@ -70,7 +70,7 @@ public static class DependencyInjection
     {
         services.AddAuthorizationBuilder()
             .AddPolicy("CanDeletePolicy", policy =>
-                policy.RequireClaim("Permissions", "CanDelete"));
+            policy.RequireClaim("Permissions", "CanDelete"));
 
         return services;
     }

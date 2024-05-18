@@ -14,6 +14,7 @@ public class HttpResponseMiddleware(RequestDelegate next)
             case StatusCodes.Status401Unauthorized: throw new UnauthorizedException();
             case StatusCodes.Status403Forbidden: throw new ForbiddenException();
             case StatusCodes.Status405MethodNotAllowed: throw new MethodNotAllowedException();
+            case StatusCodes.Status409Conflict: throw new ConflictException();
         }
     }
 }

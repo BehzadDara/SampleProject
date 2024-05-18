@@ -2,7 +2,7 @@
 using BuildingBlocks.Application.Middlewares;
 using Microsoft.AspNetCore.Builder;
 
-namespace SampleProject.API.Configs;
+namespace BuildingBlocks.API.Configs;
 
 public static class AppUseExtensions
 {

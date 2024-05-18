@@ -8,6 +8,14 @@ public class UpdateSampleModelCommandHandler(ISampleProjectUnitOfWork unitOfWork
 {
     public async Task<Result> Handle(UpdateSampleModelCommand request, CancellationToken cancellationToken)
     {
+        var entities = await unitOfWork.SampleModelRepository.GetAllAsync(cancellationToken);
+        if (entities.Any(x => 
+                x.Id != request.Id &&
+                x.Address.Equals(request.Address, StringComparison.OrdinalIgnoreCase)))
+        {
+            throw new ConflictException();
+        }
+
         var existEntity = await unitOfWork.SampleModelRepository.GetByIdAsync(request.Id, cancellationToken)
             ?? throw new NotFoundException();
 

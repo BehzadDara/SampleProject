@@ -41,6 +41,11 @@ public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptio
             result.MethodNotAllowed();
             await SetContext(context, result, StatusCodes.Status405MethodNotAllowed);
         }
+        catch (ConflictException)
+        {
+            result.Conflict();
+            await SetContext(context, result, StatusCodes.Status409Conflict);
+        }
         catch (TooManyRequestException)
         {
             result.TooManyRequest();

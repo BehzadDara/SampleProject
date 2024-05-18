@@ -120,6 +120,9 @@
   <data name="BadRequest" xml:space="preserve">
     <value>Bad Request!</value>
   </data>
+  <data name="Conflict" xml:space="preserve">
+    <value>Conflict!</value>
+  </data>
   <data name="Forbidden" xml:space="preserve">
     <value>Forbidden!</value>
   </data>

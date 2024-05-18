@@ -70,6 +70,15 @@ namespace BuildingBlocks.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conflict!.
+        /// </summary>
+        public static string Conflict {
+            get {
+                return ResourceManager.GetString("Conflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forbidden!.
         /// </summary>
         public static string Forbidden {

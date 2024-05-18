@@ -1,8 +1,6 @@
-﻿using FluentValidation.Results;
+﻿namespace BuildingBlocks.Application.Exceptions;
 
-namespace BuildingBlocks.Application.Exceptions;
-
-public class BadRequestException(List<ValidationFailure> failures) : Exception
+public class BadRequestException(Dictionary<string, string[]> errors) : Exception
 {
-    public List<ValidationFailure> Errors { get; } = failures;
+    public Dictionary<string, string[]> Errors { get; } = errors;
 }

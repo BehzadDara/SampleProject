@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
 using BuildingBlocks.Application.Exceptions;
+using FluentValidation.Results;
+using Humanizer;
 
 namespace BuildingBlocks.Application.Behaviours;
 
@@ -17,9 +19,22 @@ public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRe
 
             if (!validationResult.IsValid)
             {
-                throw new BadRequestException(validationResult.Errors);
+                var failures = Serialize(validationResult.Errors);
+                throw new BadRequestException(failures);
             }
         }
         return await next();
+    }
+
+    private static Dictionary<string, string[]> Serialize(IEnumerable<ValidationFailure> failures)
+    {
+        var camelCaseFailures = failures
+            .GroupBy(failure => failure.PropertyName.Camelize())
+            .ToDictionary(
+                group => group.Key,
+                group => group.Select(failure => failure.ErrorMessage).ToArray()
+            );
+
+        return camelCaseFailures;
     }
 }

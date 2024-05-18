@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using BuildingBlocks.Application.Exceptions;
 using BuildingBlocks.Application.Features;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace BuildingBlocks.Application;
 
@@ -64,6 +65,14 @@ public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptio
     {
         context.Response.StatusCode = statusCode;
         context.Response.ContentType = "application/json";
-        await context.Response.WriteAsync(JsonSerializer.Serialize(result));
+        await context.Response.WriteAsync(JsonSerializer.Serialize(result, GetOptions()));
+    }
+
+    private static JsonSerializerOptions GetOptions()
+    {
+        return new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
     }
 }

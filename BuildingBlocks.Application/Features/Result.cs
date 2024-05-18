@@ -1,6 +1,4 @@
-﻿using FluentValidation.Results;
-
-namespace BuildingBlocks.Application.Features;
+﻿namespace BuildingBlocks.Application.Features;
 
 public class Result<T> : Result
 {
@@ -19,7 +17,7 @@ public class Result
 
     public List<string> Errors { get; set; } = [];
 
-    public Dictionary<string, List<string>> ValidationErrors { get; set; } = [];
+    public Dictionary<string, string[]> ValidationErrors { get; set; } = [];
 
     public List<string> Successes { get; set; } = [];
     #endregion
@@ -46,23 +44,9 @@ public class Result
     #endregion
 
     #region ValidationErrorMessage
-    public void AddValidationErrorMessage(string key, string message)
+    public void AddValidationErrorMessages(Dictionary<string, string[]> errors)
     {
-        if (!string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(message))
-        {
-            if (!ValidationErrors.TryGetValue(key, out List<string>? value))
-            {
-                value = ([]);
-                ValidationErrors[key] = value;
-            }
-
-            value.Add(message);
-        }
-    }
-
-    public void AddValidationErrorMessages(List<ValidationFailure> messages)
-    {
-        messages.ForEach(message => AddValidationErrorMessage(message.PropertyName, message.ErrorMessage));
+        ValidationErrors = errors;
     }
     #endregion
 
@@ -75,7 +59,7 @@ public class Result
     #endregion
 
     #region BadRequest
-    public void BadRequest(List<ValidationFailure> errors)
+    public void BadRequest(Dictionary<string, string[]> errors)
     {
         Failed(Resources.Messages.BadRequest, errors);
     }
@@ -144,11 +128,10 @@ public class Result
         IsSuccess = false;
     }
 
-    private void Failed(string message, List<ValidationFailure> errors)
+    private void Failed(string message, Dictionary<string, string[]> errors)
     {
-        AddErrorMessage(message);
+        Failed(message);
         AddValidationErrorMessages(errors);
-        IsSuccess = false;
     }
     #endregion
 }

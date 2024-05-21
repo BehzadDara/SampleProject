@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.API.Controllers;
+using BuildingBlocks.Application.Features;
 using BuildingBlocks.Application.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -40,7 +41,7 @@ public class SampleModelController(IMediator mediator) : BaseController
 
     [HttpGet]
     [SwaggerOperation("Get By Filter")]
-    [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(List<SampleModelViewModel>))]
+    [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(PagedList<SampleModelViewModel>))]
     public async Task<IActionResult> GetByFilter([FromQuery] GetSampleModelsByFilterQuery request, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(request, cancellationToken);

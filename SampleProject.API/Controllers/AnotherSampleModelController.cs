@@ -10,6 +10,12 @@ namespace SampleProject.API.Controllers;
 public class AnotherSampleModelController(IMediator mediator) : BaseController
 {
     [HttpGet]
+    public IActionResult RedirectTest()
+    {
+        return Redirect("https://app.keepa.ir/");
+    }
+
+    [HttpGet]
     [SwaggerOperation("Get Total Count")]
     [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(int))]
     public async Task<IActionResult> GetTotalCount(CancellationToken cancellationToken)

@@ -9,8 +9,8 @@ public static class AppUseExtensions
     public static IApplicationBuilder BaseAppUse(this IApplicationBuilder app)
     {
         app
-            .UsingMiddlewares()
             .UsingCors()
+            .UsingMiddlewares()
             .UsingSwagger()
             .UsingAuthorization();
 

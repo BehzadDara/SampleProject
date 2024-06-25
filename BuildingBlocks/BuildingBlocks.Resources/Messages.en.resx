@@ -150,6 +150,9 @@
   <data name="NotFound" xml:space="preserve">
     <value>Not Found!</value>
   </data>
+  <data name="NotImplemented" xml:space="preserve">
+    <value>NotImplemented!</value>
+  </data>
   <data name="Redirect" xml:space="preserve">
     <value>Redirect!</value>
   </data>

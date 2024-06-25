@@ -194,5 +194,14 @@ namespace BuildingBlocks.Resources {
                 return ResourceManager.GetString("Unauthorized", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to NotImplemented!.
+        /// </summary>
+        public static string NotImplemented {
+            get {
+                return ResourceManager.GetString("NotImplemented", resourceCulture);
+            }
+        }
     }
 }

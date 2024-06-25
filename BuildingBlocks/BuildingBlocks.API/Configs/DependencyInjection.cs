@@ -8,9 +8,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Localization;
-using System.Globalization;
+using Microsoft.FeatureManagement;
 
 namespace BuildingBlocks.API.Configs;
 
@@ -27,7 +25,8 @@ public static class DependencyInjection
             .RegisterSwagger()
             .RegisterCors()
             .RegisterHealthcheck()
-            .RegisterLocalization();
+            .RegisterLocalization()
+            .RegisterFeatureManagement();
 
         return services;
     }
@@ -154,6 +153,13 @@ public static class DependencyInjection
     public static IServiceCollection RegisterLocalization(this IServiceCollection services)
     {
         services.AddLocalization();
+
+        return services;
+    }
+
+    public static IServiceCollection RegisterFeatureManagement(this IServiceCollection services)
+    {
+        services.AddFeatureManagement();
 
         return services;
     }

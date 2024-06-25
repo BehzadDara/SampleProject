@@ -115,6 +115,13 @@ public class Result
     }
     #endregion
 
+    #region NotImplemented
+    public void NotImplemented(string message)
+    {
+        Failed(message);
+    }
+    #endregion
+
     #region InternalServerError
     public void InternalServerError()
     {

@@ -150,6 +150,9 @@
   <data name="NotFound" xml:space="preserve">
     <value>یافت نشد!</value>
   </data>
+  <data name="NotImplemented" xml:space="preserve">
+    <value>پیاده سازی نشده!</value>
+  </data>
   <data name="Redirect" xml:space="preserve">
     <value>ریدایرکت!</value>
   </data>

@@ -52,6 +52,11 @@ public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptio
             result.TooManyRequest(ex.Error);
             await SetContext(context, result, StatusCodes.Status429TooManyRequests);
         }
+        catch (Exceptions.NotImplementedException ex)
+        {
+            result.NotImplemented(ex.Error);
+            await SetContext(context, result, StatusCodes.Status501NotImplemented);
+        }
         catch (Exception ex)
         {
             logger.LogError(ex.Message);

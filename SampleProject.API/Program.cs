@@ -9,11 +9,4 @@ var app = builder.Build();
 
 app.BaseAppUse().AppUse();
 
-app.MapControllers();
-
-app.MapGet("/redirect", () =>
-{
-    return Results.Redirect("https://app.keepa.ir/", true);
-});
-
 app.Run();

@@ -24,7 +24,7 @@ public class SampleModelController(IMediator mediator) : BaseController
     [SwaggerOperation("Get By Id")]
     [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(SampleModelViewModel))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Not Found", typeof(void))]
-    public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Get(int id, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetSampleModelByIdQuery(id), cancellationToken);
         return ApiResult(result);
@@ -90,7 +90,7 @@ public class SampleModelController(IMediator mediator) : BaseController
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "Unauthorized", typeof(void))]
     [SwaggerResponse(StatusCodes.Status403Forbidden, "Access Denied", typeof(void))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Not Found", typeof(void))]
-    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new DeleteSampleModelCommand(id), cancellationToken);
         return ApiResult(result);

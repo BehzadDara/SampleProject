@@ -9,7 +9,7 @@ public class DeleteSampleModelCommandHandler(ISampleProjectUnitOfWork unitOfWork
     public async Task<Result> Handle(DeleteSampleModelCommand request, CancellationToken cancellationToken)
     {
         var existEntity = await unitOfWork.SampleModelRepository.GetByIdAsync(request.Id, cancellationToken) 
-            ?? throw new NotFoundException();
+            ?? throw new NotFoundException(BuildingBlocks.Resources.Messages.NotFound);
 
         await unitOfWork.SampleModelRepository.DeleteAsync(existEntity, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);

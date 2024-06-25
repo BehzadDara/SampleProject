@@ -9,4 +9,5 @@ public class SampleProjectDBContext(
     ) : DBContext(options)
 {
     public DbSet<SampleModel> SampleModels { get; set; }
+    public DbSet<AnotherSampleModel> AnotherSampleModels { get; set; }
 }

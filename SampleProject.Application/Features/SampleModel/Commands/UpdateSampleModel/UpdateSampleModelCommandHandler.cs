@@ -13,11 +13,11 @@ public class UpdateSampleModelCommandHandler(ISampleProjectUnitOfWork unitOfWork
                 x.Id != request.Id &&
                 x.Address.Equals(request.Address, StringComparison.OrdinalIgnoreCase)))
         {
-            throw new ConflictException();
+            throw new ConflictException(BuildingBlocks.Resources.Messages.Conflict);
         }
 
         var existEntity = await unitOfWork.SampleModelRepository.GetByIdAsync(request.Id, cancellationToken)
-            ?? throw new NotFoundException();
+            ?? throw new NotFoundException(BuildingBlocks.Resources.Messages.NotFound);
 
         var entity = request.ToEntity(existEntity);
         await unitOfWork.SampleModelRepository.UpdateAsync(entity, cancellationToken);

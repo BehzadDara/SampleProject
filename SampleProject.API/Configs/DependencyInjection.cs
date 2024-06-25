@@ -4,7 +4,6 @@ using SampleProject.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using BuildingBlocks.Infrastructure.Implementations;
 using SampleProject.Application;
-using BuildingBlocks.Application.Features;
 using FluentValidation;
 using BuildingBlocks.Application.Behaviours;
 using MediatR;
@@ -57,11 +56,6 @@ public static class DependencyInjection
             options.UseSqlServer(configuration.GetConnectionString("SampleProjectConnection")),
             ServiceLifetime.Scoped);
         services.AddScoped<DBContext>(provider => provider.GetService<SampleProjectDBContext>()!);
-
-        services.AddDbContext<AnotherSampleProjectDBContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("AnotherSampleProjectConnection")),
-            ServiceLifetime.Scoped);
-        services.AddScoped<DBContext>(provider => provider.GetService<AnotherSampleProjectDBContext>()!);
 
         return services;
     }

@@ -30,7 +30,6 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\BuildingBlocks.API\BuildingBlocks.API.csproj" />
 		<ProjectReference Include="..\BuildingBlocks\BuildingBlocks.API\BuildingBlocks.API.csproj" />
 	</ItemGroup>
 

@@ -3,5 +3,5 @@
 namespace SampleProject.Application.Features.SampleModel.Commands.DeleteSampleModel;
 
 public record DeleteSampleModelCommand(
-    Guid Id
+    int Id
     ) : ICommandQuery;

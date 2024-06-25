@@ -4,7 +4,7 @@ using SampleProject.Domain.Enums;
 namespace SampleProject.Application.Features.SampleModel.Commands.UpdateSampleModel;
 
 public record UpdateSampleModelCommand(
-    Guid Id,
+    int Id,
     string FirstName,
     string LastName,
     int Age,

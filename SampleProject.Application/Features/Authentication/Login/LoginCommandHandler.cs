@@ -22,7 +22,7 @@ public class LoginCommandHandler(IConfiguration config) : ICommandQueryHandler<L
 
         if (!isValidUser)
         {
-            throw new NotFoundException();
+            throw new NotFoundException(BuildingBlocks.Resources.Messages.NotFound);
         }
 
         var token = string.Empty;

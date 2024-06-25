@@ -10,7 +10,7 @@ public class GetSampleModelByIdQueryHandler(ISampleProjectUnitOfWork unitOfWork)
     public async Task<Result<SampleModelViewModel>> Handle(GetSampleModelByIdQuery request, CancellationToken cancellationToken)
     {
         var existEntity = await unitOfWork.SampleModelRepository.GetByIdAsync(request.Id, cancellationToken)
-            ?? throw new NotFoundException();
+            ?? throw new NotFoundException(BuildingBlocks.Resources.Messages.NotFound);
 
         var viewModel = existEntity.ToViewModel();
 

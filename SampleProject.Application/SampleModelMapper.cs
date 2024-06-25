@@ -21,7 +21,7 @@ public static class SampleModelMapper
         return mapper.Map<SampleModelViewModel>(input);
     }
 
-    public static IList<SampleModelViewModel> ToViewModel(this IList<SampleModel> input)
+    public static IReadOnlyList<SampleModelViewModel> ToViewModel(this IReadOnlyList<SampleModel> input)
     {
         var config = new MapperConfiguration(cfg =>
             cfg.CreateMap<SampleModel, SampleModelViewModel>()
@@ -30,7 +30,7 @@ public static class SampleModelMapper
 
         var mapper = new Mapper(config);
 
-        return mapper.Map<IList<SampleModelViewModel>>(input);
+        return mapper.Map<IReadOnlyList<SampleModelViewModel>>(input);
     }
 
     public static SampleModel ToEntity(this CreateSampleModelCommand input)

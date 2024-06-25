@@ -11,7 +11,7 @@ public class CreateSampleModelCommandHandler(ISampleProjectUnitOfWork unitOfWork
         var entities = await unitOfWork.SampleModelRepository.GetAllAsync(cancellationToken);
         if (entities.Any(x => x.Address.Equals(request.Address, StringComparison.OrdinalIgnoreCase)))
         {
-            throw new ConflictException();
+            throw new ConflictException(BuildingBlocks.Resources.Messages.Conflict);
         }
 
         var entity = request.ToEntity();

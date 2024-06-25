@@ -11,24 +11,12 @@ public static class AppUseExtensions
     public static IApplicationBuilder BaseAppUse(this IApplicationBuilder app)
     {
         app
-            .UsingEndpoints()
             .UsingMiddlewares()
             .UsingCors()
             .UsingSwagger()
-            .UsingAuthorization();
-
-        return app;
-    }
-
-    public static IApplicationBuilder UsingEndpoints(this IApplicationBuilder app)
-    {
-        app.UseRouting();
-
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-            endpoints.MapHealthChecks("/healthz", new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse });
-        });
+            .UsingAuthorization()
+            .UsingLocalization()
+            .UsingEndpoints();
 
         return app;
     }
@@ -60,6 +48,32 @@ public static class AppUseExtensions
     public static IApplicationBuilder UsingAuthorization(this IApplicationBuilder app)
     {
         app.UseAuthorization();
+
+        return app;
+    }
+
+    public static IApplicationBuilder UsingLocalization(this IApplicationBuilder app)
+    {
+        var supportedCultures = new[] { "en", "fa" };
+        var localizationOptions = new RequestLocalizationOptions()
+            .SetDefaultCulture(supportedCultures[0])
+            .AddSupportedCultures(supportedCultures)
+            .AddSupportedUICultures(supportedCultures);
+
+        app.UseRequestLocalization(localizationOptions);
+
+        return app;
+    }
+
+    public static IApplicationBuilder UsingEndpoints(this IApplicationBuilder app)
+    {
+        app.UseRouting();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapHealthChecks("/healthz", new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse });
+        });
 
         return app;
     }

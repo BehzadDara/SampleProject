@@ -12,12 +12,6 @@ namespace SampleProject.API.Controllers;
 public class AnotherSampleModelController(IMediator mediator) : BaseController
 {
     [HttpGet]
-    public IActionResult RedirectTest()
-    {
-        return Redirect("https://www.google.com/");
-    }
-
-    [HttpGet]
     [FeatureManager("AnotherSampleModelGetTotalCountFeature")]
     [SwaggerOperation("Get Total Count")]
     [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(int))]

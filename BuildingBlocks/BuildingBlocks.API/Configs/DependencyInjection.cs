@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.FeatureManagement;
+using Asp.Versioning;
 
 namespace BuildingBlocks.API.Configs;
 
@@ -18,6 +19,7 @@ public static class DependencyInjection
     {
         services
             .RegisterControllers()
+            .RegisterAPIVersioning()
             .RegisterLog()
             .RegisterMemoryCache()
             .RegisterAuthentication(configuration)
@@ -38,6 +40,29 @@ public static class DependencyInjection
             .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
         services.AddEndpointsApiExplorer();
+
+        return services;
+    }
+
+    public static IServiceCollection RegisterAPIVersioning(this IServiceCollection services)
+    {
+        services
+
+            .AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ApiVersionReader = ApiVersionReader.Combine(
+                    new UrlSegmentApiVersionReader(),
+                    new HeaderApiVersionReader("X-API-Version"));
+            })
+
+            .AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'V";
+                options.SubstituteApiVersionInUrl = true;
+            });
 
         return services;
     }
@@ -109,6 +134,19 @@ public static class DependencyInjection
                 }
             });
 
+            c.SwaggerDoc("v2", new OpenApiInfo
+            {
+                Title = "Project Swagger",
+                Version = "v2",
+                Description = Resources.ConstantTexts.SwaggerDescription,
+                Contact = new OpenApiContact
+                {
+                    Name = "Behzad Dara",
+                    Email = "Behzad.Dara.99@gmail.com",
+                    Url = new Uri("https://www.linkedin.com/in/behzaddara/")
+                }
+            });
+
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
@@ -117,6 +155,18 @@ public static class DependencyInjection
                 Type = SecuritySchemeType.Http,
                 BearerFormat = "JWT",
                 Scheme = "bearer"
+            });
+
+            c.DocInclusionPredicate((version, apiDesc) =>
+            {
+                var apiVersionAttributes = apiDesc.ActionDescriptor.EndpointMetadata.OfType<ApiVersionAttribute>();
+
+                if (apiVersionAttributes.Any())
+                {
+                    return apiDesc.GroupName == version;
+                }
+
+                return true;
             });
 
             c.OperationFilter<SecurityRequirementsOperationFilter>(); 

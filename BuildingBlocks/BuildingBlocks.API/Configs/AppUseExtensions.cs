@@ -40,7 +40,11 @@ public static class AppUseExtensions
     public static IApplicationBuilder UsingSwagger(this IApplicationBuilder app)
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+            options.SwaggerEndpoint("/swagger/v2/swagger.json", "API V2");
+        });
 
         return app;
     }

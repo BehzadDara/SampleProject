@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace SampleProject.API.Controllers;
 
 [SwaggerTag("AnotherSampleModel Service")]
-public class AnotherSampleModelController(IMediator mediator, IFeatureManager featureManager) : BaseController
+public class AnotherSampleModelController(IMediator mediator) : BaseController
 {
     [HttpGet]
     public IActionResult RedirectTest()

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using BuildingBlocks.Domain.Interfaces;
@@ -28,7 +29,8 @@ public static class DependencyInjection
             .RegisterCors()
             .RegisterHealthcheck()
             .RegisterLocalization()
-            .RegisterFeatureManagement();
+            .RegisterFeatureManagement()
+            .RegisterHangfire(configuration);
 
         return services;
     }
@@ -210,6 +212,18 @@ public static class DependencyInjection
     public static IServiceCollection RegisterFeatureManagement(this IServiceCollection services)
     {
         services.AddFeatureManagement();
+
+        return services;
+    }
+
+    public static IServiceCollection RegisterHangfire(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddHangfire(config => config
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(configuration.GetConnectionString("HangfireConnection")));
+
+        services.AddHangfireServer();
 
         return services;
     }

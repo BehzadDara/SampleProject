@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Application;
 using BuildingBlocks.Application.Middlewares;
+using Hangfire;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -16,7 +17,8 @@ public static class AppUseExtensions
             .UsingSwagger()
             .UsingAuthorization()
             .UsingLocalization()
-            .UsingEndpoints();
+            .UsingEndpoints()
+            .UsingHangfire();
 
         return app;
     }
@@ -78,6 +80,13 @@ public static class AppUseExtensions
             endpoints.MapControllers();
             endpoints.MapHealthChecks("/healthz", new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse });
         });
+
+        return app;
+    }
+
+    public static IApplicationBuilder UsingHangfire(this IApplicationBuilder app)
+    {
+        app.UseHangfireDashboard();
 
         return app;
     }

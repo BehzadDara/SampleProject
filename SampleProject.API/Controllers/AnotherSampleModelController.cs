@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.API.Controllers;
+﻿using BuildingBlocks.API.Attributes;
+using BuildingBlocks.API.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement;
@@ -17,14 +18,11 @@ public class AnotherSampleModelController(IMediator mediator, IFeatureManager fe
     }
 
     [HttpGet]
+    [FeatureManager("AnotherSampleModelGetTotalCountFeature")]
     [SwaggerOperation("Get Total Count")]
     [SwaggerResponse(StatusCodes.Status200OK, "Retrieved", typeof(int))]
-    [SwaggerResponse(StatusCodes.Status501NotImplemented, "Not implemented", typeof(void))]
     public async Task<IActionResult> GetTotalCount(CancellationToken cancellationToken)
     {
-        if (!await featureManager.IsEnabledAsync("AnotherSampleModelGetTotalCountFeature"))
-            throw new BuildingBlocks.Application.Exceptions.NotImplementedException(BuildingBlocks.Resources.Messages.NotImplemented);
-
         var result = await mediator.Send(new GetAnotherSampleModelTotalCountQuery(), cancellationToken);
         return ApiResult(result);
     }

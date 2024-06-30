@@ -11,6 +11,7 @@ public static class AppUseExtensions
 
         return app;
     }
+
     private static void UsingJobs()
     {
         RecurringJob.AddOrUpdate<HealthCheckJob>("SampleJob", x => HealthCheckJob.CheckStatus(), "*/10 * * * * *");

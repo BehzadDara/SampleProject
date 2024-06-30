@@ -7,17 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="BaseConfigureServices\**" />
-    <Compile Remove="ConfigureServices\**" />
-    <Content Remove="BaseConfigureServices\**" />
-    <Content Remove="ConfigureServices\**" />
-    <EmbeddedResource Remove="BaseConfigureServices\**" />
-    <EmbeddedResource Remove="ConfigureServices\**" />
-    <None Remove="BaseConfigureServices\**" />
-    <None Remove="ConfigureServices\**" />
-  </ItemGroup>
-
-  <ItemGroup>
 	<PackageReference Include="Hangfire.SqlServer" Version="1.8.14" />
 	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />

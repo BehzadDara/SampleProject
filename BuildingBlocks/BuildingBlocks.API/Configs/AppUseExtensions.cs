@@ -4,6 +4,7 @@ using Hangfire;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Prometheus;
 
 namespace BuildingBlocks.API.Configs;
 
@@ -17,8 +18,9 @@ public static class AppUseExtensions
             .UsingSwagger()
             .UsingAuthorization()
             .UsingLocalization()
-            .UsingEndpoints()
-            .UsingHangfire();
+            .UsingHangfire()
+            .UsingMetrics()
+            .UsingEndpoints();
 
         return app;
     }
@@ -71,6 +73,20 @@ public static class AppUseExtensions
         return app;
     }
 
+    public static IApplicationBuilder UsingHangfire(this IApplicationBuilder app)
+    {
+        app.UseHangfireDashboard();
+
+        return app;
+    }
+
+    public static IApplicationBuilder UsingMetrics(this IApplicationBuilder app)
+    {
+        app.UseHttpMetrics();
+
+        return app;
+    }
+
     public static IApplicationBuilder UsingEndpoints(this IApplicationBuilder app)
     {
         app.UseRouting();
@@ -79,14 +95,8 @@ public static class AppUseExtensions
         {
             endpoints.MapControllers();
             endpoints.MapHealthChecks("/healthz", new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse });
+            endpoints.MapMetrics("/metrics");
         });
-
-        return app;
-    }
-
-    public static IApplicationBuilder UsingHangfire(this IApplicationBuilder app)
-    {
-        app.UseHangfireDashboard();
 
         return app;
     }

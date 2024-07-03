@@ -11,7 +11,7 @@ namespace SampleProject.API.Controllers;
 public class AuthenticationController(IMediator mediator) : BaseController
 {
     [HttpPost]
-    [SwaggerOperation("دریافت توکن")]
+    [SwaggerOperation("دریافت توکن", "     دریافت توکن برای ورود به سامانه با ورودی های نام کاربری و رمز عبور")]
     [SwaggerRequestExample(typeof(LoginCommand), typeof(LoginCommandExample))]
     [SwaggerResponse(StatusCodes.Status200OK, "احراز هویت با موفقیت انجام شد", typeof(string))]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(TokenExample))]

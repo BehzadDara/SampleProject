@@ -7,6 +7,8 @@ using SampleProject.Application;
 using FluentValidation;
 using BuildingBlocks.Application.Behaviours;
 using MediatR;
+using Swashbuckle.AspNetCore.Filters;
+using SampleProject.Application.Features.Authentication.Login;
 
 namespace SampleProject.API.Configs;
 
@@ -19,7 +21,8 @@ public static class DependencyInjection
             .RegisterDBContext(configuration)
             .RegisterAuthentication()
             .RegisterMediatR()
-            .RegisterValidator();
+            .RegisterValidator()
+            .RegisterSwagger();
 
         return services;
     }
@@ -65,6 +68,13 @@ public static class DependencyInjection
         services.AddAuthorizationBuilder()
             .AddPolicy("CanDeletePolicy", policy =>
             policy.RequireClaim("Permissions", "CanDelete"));
+
+        return services;
+    }
+
+    private static IServiceCollection RegisterSwagger(this IServiceCollection services)
+    {
+        services.AddSwaggerExamplesFromAssemblyOf(typeof(SampleModelMapper));
 
         return services;
     }

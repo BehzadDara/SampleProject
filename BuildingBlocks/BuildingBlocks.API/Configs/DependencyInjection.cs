@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.FeatureManagement;
 using Asp.Versioning;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace BuildingBlocks.API.Configs;
 
@@ -171,8 +172,10 @@ public static class DependencyInjection
                 return true;
             });
 
-            c.OperationFilter<SecurityRequirementsOperationFilter>(); 
-            
+            c.OperationFilter<SecurityRequirementsOperationFilter>();
+
+            c.ExampleFilters();
+
             c.EnableAnnotations();
         });
 

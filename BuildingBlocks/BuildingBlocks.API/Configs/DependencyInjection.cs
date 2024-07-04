@@ -137,7 +137,7 @@ public static class DependencyInjection
                 }
             });
 
-            c.SwaggerDoc("v2", new OpenApiInfo
+            /*c.SwaggerDoc("v2", new OpenApiInfo
             {
                 Title = "Project Swagger",
                 Version = "v2",
@@ -148,7 +148,7 @@ public static class DependencyInjection
                     Email = "Behzad.Dara.99@gmail.com",
                     Url = new Uri("https://www.linkedin.com/in/behzaddara/")
                 }
-            });
+            });*/
 
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
@@ -160,7 +160,7 @@ public static class DependencyInjection
                 Scheme = "bearer"
             });
 
-            c.DocInclusionPredicate((version, apiDesc) =>
+            /*c.DocInclusionPredicate((version, apiDesc) =>
             {
                 var apiVersionAttributes = apiDesc.ActionDescriptor.EndpointMetadata.OfType<ApiVersionAttribute>();
 
@@ -170,9 +170,11 @@ public static class DependencyInjection
                 }
 
                 return true;
-            });
+            });*/
 
             c.OperationFilter<SecurityRequirementsOperationFilter>();
+
+            c.OperationFilter<AddAcceptLanguageHeaderParameter>();
 
             c.ExampleFilters();
 

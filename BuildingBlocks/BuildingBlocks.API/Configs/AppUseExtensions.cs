@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Application;
 using BuildingBlocks.Application.Middlewares;
+using BuildingBlocks.Domain.Enums;
 using Hangfire;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
@@ -47,7 +48,7 @@ public static class AppUseExtensions
         app.UseSwaggerUI(options =>
         {
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
-            options.SwaggerEndpoint("/swagger/v2/swagger.json", "API V2");
+            //options.SwaggerEndpoint("/swagger/v2/swagger.json", "API V2");
         });
 
         return app;
@@ -62,7 +63,12 @@ public static class AppUseExtensions
 
     public static IApplicationBuilder UsingLocalization(this IApplicationBuilder app)
     {
-        var supportedCultures = new[] { "en", "fa" };
+        var supportedCultures = Enum
+            .GetValues(typeof(Languages))
+            .Cast<Languages>()
+            .Select(x => x.ToString())
+            .ToArray();
+
         var localizationOptions = new RequestLocalizationOptions()
             .SetDefaultCulture(supportedCultures[0])
             .AddSupportedCultures(supportedCultures)

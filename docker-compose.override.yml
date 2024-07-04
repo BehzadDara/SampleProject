@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+
+  sampleprojectdb:
+    container_name: sampleprojectdb
+    environment:
+      - SA_PASSWORD=Admin1234
+      - ACCEPT_EULA=Y
+    restart: always
+    ports:
+      - 1433:1433
+
+  sampleproject.api:
+    container_name: sampleproject.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8001
+      - ConnectionStrings:SampleProjectConnection=Server=sampleprojectdb;Database=SampleProjectDB;User Id=sa;Password=Admin1234;TrustServerCertificate=True;
+      - ConnectionStrings:HangfireConnection=Server=sampleprojectdb;Database=SampleProjectDB;User Id=sa;Password=Admin1234;TrustServerCertificate=True;
+      # Connect sampleprojectdb in SSMS using IpConfig -> Ethernet adapter vEthernet (WSL) -> Ip V4
+    ports:
+      - "8001:8001"
+    depends_on:
+      - sampleprojectdb
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

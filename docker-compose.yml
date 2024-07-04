@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+
+  sampleprojectdb:
+    image: mcr.microsoft.com/mssql/server
+
+  sampleproject.api:
+    image: ${DOCKER_REGISTRY-}sampleprojectapi
+    build:
+      context: .
+      dockerfile: SampleProject.API/Dockerfile

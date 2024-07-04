@@ -19,7 +19,7 @@ public static class AppUseExtensions
             .UsingSwagger()
             .UsingAuthorization()
             .UsingLocalization()
-            .UsingHangfire()
+            //.UsingHangfire()
             .UsingMetrics()
             .UsingEndpoints();
 

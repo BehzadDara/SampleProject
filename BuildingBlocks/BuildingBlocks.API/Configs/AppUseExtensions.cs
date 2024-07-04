@@ -2,6 +2,7 @@
 using BuildingBlocks.Application.Middlewares;
 using BuildingBlocks.Domain.Enums;
 using Hangfire;
+using Hangfire.Dashboard;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -14,10 +15,10 @@ public static class AppUseExtensions
     public static IApplicationBuilder BaseAppUse(this IApplicationBuilder app)
     {
         app
+            .UsingLocalization()
             .UsingMiddlewares()
             .UsingCors()
             .UsingSwagger()
-            .UsingLocalization()
             .UsingHangfire()
             .UsingMetrics()
             .UsingRouting()
@@ -82,7 +83,10 @@ public static class AppUseExtensions
 
     public static IApplicationBuilder UsingHangfire(this IApplicationBuilder app)
     {
-        app.UseHangfireDashboard();
+        app.UseHangfireDashboard("/hangfire", new DashboardOptions
+        {
+            Authorization = new[] { new DashboardNoAuthorizationFilter() }
+        });
 
         return app;
     }
@@ -111,5 +115,13 @@ public static class AppUseExtensions
         });
 
         return app;
+    }
+}
+
+public class DashboardNoAuthorizationFilter : IDashboardAuthorizationFilter
+{
+    public bool Authorize(DashboardContext dashboardContext)
+    {
+        return true;
     }
 }

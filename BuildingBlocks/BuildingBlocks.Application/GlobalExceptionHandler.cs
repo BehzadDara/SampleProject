@@ -19,12 +19,12 @@ public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptio
         }
         catch (BadRequestException ex)
         {
-            result.BadRequest(ex.Errors);
+            result.BadRequest(ex.Error, ex.Errors);
             await SetContext(context, result, StatusCodes.Status400BadRequest);
         }
-        catch (UnauthorizedException)
+        catch (UnauthorizedException ex)
         {
-            result.Unauthorized();
+            result.Unauthorized(ex.Error);
             await SetContext(context, result, StatusCodes.Status401Unauthorized);
         }
         catch (ForbiddenException ex)
@@ -37,9 +37,9 @@ public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptio
             result.NotFound(ex.Error);
             await SetContext(context, result, StatusCodes.Status404NotFound);
         }
-        catch (MethodNotAllowedException)
+        catch (MethodNotAllowedException ex)
         {
-            result.MethodNotAllowed();
+            result.MethodNotAllowed(ex.Error);
             await SetContext(context, result, StatusCodes.Status405MethodNotAllowed);
         }
         catch (ConflictException ex)
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptio
         {
             logger.LogError(ex.Message);
 
-            result.InternalServerError();
+            result.InternalServerError(ex.Message);
             await SetContext(context, result, StatusCodes.Status500InternalServerError);
         }
     }

@@ -17,10 +17,11 @@ public static class AppUseExtensions
             .UsingMiddlewares()
             .UsingCors()
             .UsingSwagger()
-            .UsingAuthorization()
             .UsingLocalization()
-            //.UsingHangfire()
+            .UsingHangfire()
             .UsingMetrics()
+            .UsingRouting()
+            .UsingAuthorization()
             .UsingEndpoints();
 
         return app;
@@ -93,10 +94,15 @@ public static class AppUseExtensions
         return app;
     }
 
-    public static IApplicationBuilder UsingEndpoints(this IApplicationBuilder app)
+    public static IApplicationBuilder UsingRouting(this IApplicationBuilder app)
     {
         app.UseRouting();
 
+        return app;
+    }
+
+    public static IApplicationBuilder UsingEndpoints(this IApplicationBuilder app)
+    {
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

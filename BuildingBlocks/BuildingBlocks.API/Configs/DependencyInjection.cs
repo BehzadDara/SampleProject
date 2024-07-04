@@ -30,8 +30,8 @@ public static class DependencyInjection
             .RegisterCors()
             .RegisterHealthcheck()
             .RegisterLocalization()
-            .RegisterFeatureManagement();
-            //.RegisterHangfire(configuration);
+            .RegisterFeatureManagement()
+            .RegisterHangfire(configuration);
 
         return services;
     }

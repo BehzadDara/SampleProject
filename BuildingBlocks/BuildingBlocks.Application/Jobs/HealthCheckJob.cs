@@ -4,7 +4,7 @@ public class HealthCheckJob
 {
     public static async Task CheckStatus()
     {
-        string healthCheckUrl = "http://localhost:5274/healthz";
+        string healthCheckUrl = "http://localhost:8001/healthz";
 
         using var client = new HttpClient();
         try

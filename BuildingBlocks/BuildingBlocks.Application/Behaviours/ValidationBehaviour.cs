@@ -20,7 +20,7 @@ public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRe
             if (!validationResult.IsValid)
             {
                 var failures = Serialize(validationResult.Errors);
-                throw new BadRequestException(failures);
+                throw new BadRequestException(Resources.Messages.BadRequest, failures);
             }
         }
         return await next();

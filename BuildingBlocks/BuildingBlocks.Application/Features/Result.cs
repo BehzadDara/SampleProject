@@ -67,16 +67,16 @@ public class Result
     #endregion
 
     #region BadRequest
-    public void BadRequest(Dictionary<string, string[]> errors)
+    public void BadRequest(string message, Dictionary<string, string[]> errors)
     {
-        Failed(Resources.Messages.BadRequest, errors);
+        Failed(message, errors);
     }
     #endregion
 
     #region Unauthorized
-    public void Unauthorized()
+    public void Unauthorized(string message)
     {
-        Failed(Resources.Messages.Unauthorized);
+        Failed(message);
     }
     #endregion
 
@@ -95,9 +95,9 @@ public class Result
     #endregion
 
     #region MethodNotAllowed
-    public void MethodNotAllowed()
+    public void MethodNotAllowed(string message)
     {
-        Failed(Resources.Messages.MethodNotAllowed);
+        Failed(message);
     }
     #endregion
 
@@ -123,9 +123,9 @@ public class Result
     #endregion
 
     #region InternalServerError
-    public void InternalServerError()
+    public void InternalServerError(string message)
     {
-        Failed(Resources.Messages.InternalServerError);
+        Failed(message);
     }
     #endregion
 

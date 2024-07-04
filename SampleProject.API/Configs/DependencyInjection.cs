@@ -8,7 +8,6 @@ using FluentValidation;
 using BuildingBlocks.Application.Behaviours;
 using MediatR;
 using Swashbuckle.AspNetCore.Filters;
-using SampleProject.Application.Features.Authentication.Login;
 
 namespace SampleProject.API.Configs;
 

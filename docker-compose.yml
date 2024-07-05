@@ -10,3 +10,9 @@ services:
     build:
       context: .
       dockerfile: SampleProject.API/Dockerfile
+
+  prometheus:
+    image: prom/prometheus
+
+  grafana:
+    image: grafana/grafana

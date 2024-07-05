@@ -5,7 +5,7 @@ services:
   sampleprojectdb:
     container_name: sampleprojectdb
     environment:
-      - SA_PASSWORD=Admin1234!
+      - SA_PASSWORD=Admin1234!!
       - ACCEPT_EULA=Y
     restart: always
     ports:
@@ -16,8 +16,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8001
-      - ConnectionStrings:SampleProjectConnection=Server=sampleprojectdb;Database=SampleProjectDB;User Id=sa;Password=Admin1234!;TrustServerCertificate=True;
-      - ConnectionStrings:HangfireConnection=Server=sampleprojectdb;Database=SampleProjectDB;User Id=sa;Password=Admin1234!;TrustServerCertificate=True;
+      - ConnectionStrings:SampleProjectConnection=Server=sampleprojectdb;Database=SampleProjectDB;User Id=sa;Password=Admin1234!!;TrustServerCertificate=True;
+      - ConnectionStrings:HangfireConnection=Server=sampleprojectdb;Database=SampleProjectDB;User Id=sa;Password=Admin1234!!;TrustServerCertificate=True;
       # Connect sampleprojectdb in SSMS using IpConfig -> Ethernet adapter vEthernet (WSL) -> Ip V4
     ports:
       - "8001:8001"
@@ -26,3 +26,21 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+  prometheus:
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - sampleproject.api
+
+  grafana:
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "3400:3000"
+    depends_on:
+      - prometheus

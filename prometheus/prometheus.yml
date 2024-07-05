@@ -5,4 +5,4 @@ scrape_configs:
   - job_name: 'sample_project'
     scrape_interval: 5s
     static_configs:
-      - targets: ['localhost:8001']
+      - targets: ['sampleproject.api:8001']

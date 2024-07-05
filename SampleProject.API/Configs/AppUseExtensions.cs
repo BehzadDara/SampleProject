@@ -9,9 +9,9 @@ public static class AppUseExtensions
 {
     public static IApplicationBuilder AppUse(this IApplicationBuilder app)
     {
-        app.MigratingDatabase();
-
         UsingJobs();
+
+        app.MigratingDatabase();
 
         return app;
     }

@@ -10,6 +10,8 @@ services:
     restart: always
     ports:
       - 3500:1433
+    networks:
+      - sampleproject_network
 
   sampleproject.api:
     container_name: sampleproject.api
@@ -26,6 +28,8 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    networks:
+      - sampleproject_network
 
   prometheus:
     container_name: prometheus
@@ -35,6 +39,8 @@ services:
       - "9090:9090"
     depends_on:
       - sampleproject.api
+    networks:
+      - sampleproject_network
 
   grafana:
     container_name: grafana
@@ -44,3 +50,9 @@ services:
       - "3400:3000"
     depends_on:
       - prometheus
+    networks:
+      - sampleproject_network
+
+networks:
+  sampleproject_network:
+    driver: bridge

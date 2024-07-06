@@ -16,13 +16,13 @@ public static class AppUseExtensions
     {
         app
             .UsingLocalization()
-            .UsingMiddlewares()
             .UsingCors()
             .UsingSwagger()
             .UsingHangfire()
             .UsingMetrics()
             .UsingRouting()
             .UsingAuthorization()
+            .UsingMiddlewares()
             .UsingEndpoints();
 
         return app;
@@ -30,6 +30,7 @@ public static class AppUseExtensions
 
     public static IApplicationBuilder UsingMiddlewares(this IApplicationBuilder app)
     {
+        app.UseMiddleware<IdempotentMiddleware>();
         app.UseMiddleware<GlobalExceptionHandler>();
         //app.UseMiddleware<RateLimitMiddleware>();
         app.UseMiddleware<HttpResponseMiddleware>();

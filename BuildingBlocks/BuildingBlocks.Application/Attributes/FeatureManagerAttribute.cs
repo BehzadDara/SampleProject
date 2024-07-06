@@ -2,7 +2,7 @@
 using Microsoft.FeatureManagement;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlocks.API.Attributes;
+namespace BuildingBlocks.Application.Attributes;
 
 public class FeatureManagerAttribute(string featureKey) : ActionFilterAttribute
 {
@@ -12,7 +12,7 @@ public class FeatureManagerAttribute(string featureKey) : ActionFilterAttribute
 
         if (!await featureManager.IsEnabledAsync(featureKey))
         {
-            throw new Application.Exceptions.NotImplementedException(Resources.Messages.NotImplemented);
+            throw new Exceptions.NotImplementedException(Resources.Messages.NotImplemented);
         }
 
         await next();

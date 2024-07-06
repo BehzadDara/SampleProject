@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.API.Attributes;
+﻿using BuildingBlocks.Application.Attributes;
 using BuildingBlocks.API.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.API.Controllers;
+﻿using BuildingBlocks.Application.Attributes;
+using BuildingBlocks.API.Controllers;
 using BuildingBlocks.Application.Features;
 using BuildingBlocks.Application.ViewModels;
 using MediatR;
@@ -58,7 +59,8 @@ public class SampleModelController(IMediator mediator) : BaseController
     }
 
     [HttpPost]
-    [Authorize]
+    //[Authorize]
+    [Idempotent]
     [SwaggerOperation("Create")]
     [SwaggerResponse(StatusCodes.Status200OK, "Created", typeof(void))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Validation Error Occured", typeof(void))]

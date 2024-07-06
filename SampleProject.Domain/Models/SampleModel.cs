@@ -10,5 +10,4 @@ public class SampleModel : TrackableEntity
     public int Age { get; set; }
     public GenderEnum Gender { get; set; }
     public string Address { get; set; } = string.Empty;
-    public string Abc { get; set; } = string.Empty;
 }

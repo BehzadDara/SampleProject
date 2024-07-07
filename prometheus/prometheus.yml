@@ -4,5 +4,6 @@ global:
 scrape_configs:
   - job_name: 'sample_project'
     scrape_interval: 5s
+    metrics_path: '/metrics'
     static_configs:
-      - targets: ['sampleproject.api:8001']
+      - targets: ['host.docker.internal:8001']

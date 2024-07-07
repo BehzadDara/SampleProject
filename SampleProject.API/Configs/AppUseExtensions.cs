@@ -18,7 +18,7 @@ public static class AppUseExtensions
 
     private static void UsingJobs()
     {
-        RecurringJob.AddOrUpdate<HealthCheckJob>("SampleJob", x => HealthCheckJob.CheckStatus(), "*/10 * * * * *");
+        RecurringJob.AddOrUpdate<HealthCheckJob>("SampleJob", x => HealthCheckJob.CheckStatus(), "* * * * *");
     }
 
     private static IApplicationBuilder MigratingDatabase(this IApplicationBuilder app)

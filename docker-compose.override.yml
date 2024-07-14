@@ -22,6 +22,7 @@ services:
       - ConnectionStrings:HangfireConnection=Server=sampleprojectdb;Database=SampleProjectDB;User Id=sa;Password=Admin1234!!;TrustServerCertificate=True;
       # Connect sampleprojectdb in SSMS using IpConfig -> Ethernet adapter vEthernet (WSL) -> Ip V4
       - ConnectionStrings:RedisConnection=redis:6379,defaultdatabase=11
+      # Check redis content -> docker exec -it redis redis-cli
     ports:
       - "8001:8001"
     depends_on:

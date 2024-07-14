@@ -40,7 +40,7 @@ public class IdempotentMiddleware(RequestDelegate next, IMemoryCache cache, ICur
                 Content = responseText
             };
 
-            cache.Set(cacheKey, cacheEntry, TimeSpan.FromSeconds(10));
+            cache.Set(cacheKey, cacheEntry, TimeSpan.FromSeconds(5));
 
             await newResponseBody.CopyToAsync(originalResponseBody);
         }

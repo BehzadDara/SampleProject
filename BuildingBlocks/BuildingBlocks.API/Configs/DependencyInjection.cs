@@ -1,17 +1,18 @@
-﻿using Hangfire;
+﻿using Asp.Versioning;
+using BuildingBlocks.Domain.Interfaces;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using BuildingBlocks.Domain.Interfaces;
 using Serilog;
 using Serilog.Events;
+using StackExchange.Redis;
+using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using System.Text.Json.Serialization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.FeatureManagement;
-using Asp.Versioning;
-using Swashbuckle.AspNetCore.Filters;
 
 namespace BuildingBlocks.API.Configs;
 
@@ -24,6 +25,7 @@ public static class DependencyInjection
             .RegisterAPIVersioning()
             .RegisterLog()
             .RegisterMemoryCache()
+            .RegisterRedis(configuration)
             .RegisterAuthentication(configuration)
             .RegisterCurrentUser()
             .RegisterSwagger()
@@ -89,6 +91,17 @@ public static class DependencyInjection
     public static IServiceCollection RegisterMemoryCache(this IServiceCollection services)
     {
         services.AddMemoryCache();
+
+        return services;
+    }
+
+    public static IServiceCollection RegisterRedis(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddSingleton<IConnectionMultiplexer>(provider =>
+        {
+            var cfg = configuration.GetConnectionString("RedisConnection");
+            return ConnectionMultiplexer.Connect(cfg!);
+        });
 
         return services;
     }

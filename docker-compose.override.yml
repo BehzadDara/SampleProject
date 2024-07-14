@@ -9,7 +9,7 @@ services:
       - ACCEPT_EULA=Y
     restart: always
     ports:
-      - 3500:1433
+      - 3600:1433
     networks:
       - sampleproject_network
 
@@ -21,6 +21,7 @@ services:
       - ConnectionStrings:SampleProjectConnection=Server=sampleprojectdb;Database=SampleProjectDB;User Id=sa;Password=Admin1234!!;TrustServerCertificate=True;
       - ConnectionStrings:HangfireConnection=Server=sampleprojectdb;Database=SampleProjectDB;User Id=sa;Password=Admin1234!!;TrustServerCertificate=True;
       # Connect sampleprojectdb in SSMS using IpConfig -> Ethernet adapter vEthernet (WSL) -> Ip V4
+      - ConnectionStrings:RedisConnection=redis:6379,defaultdatabase=11
     ports:
       - "8001:8001"
     depends_on:
@@ -47,9 +48,25 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     ports:
-      - "3400:3000"
+      - "3700:3000"
     depends_on:
       - prometheus
+    networks:
+      - sampleproject_network
+
+  redis:
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - sampleproject_network
+
+  redisinsight:
+    container_name: redisinsight
+    ports:
+      - "8010:8001"
+    environment:
+      - REDIS_URL=redis://redis:6379
     networks:
       - sampleproject_network
 

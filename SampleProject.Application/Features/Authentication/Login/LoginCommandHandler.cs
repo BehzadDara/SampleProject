@@ -38,7 +38,7 @@ public class LoginCommandHandler(IConfiguration config) : ICommandQueryHandler<L
 
     private static bool IsValidUser(LoginCommand request)
     {
-        if (request.UserName == request.Password)
+        if (request.UserName == "MyUsername" && request.Password == "MyPassword")
         {
             return true;
         }
@@ -51,7 +51,7 @@ public class LoginCommandHandler(IConfiguration config) : ICommandQueryHandler<L
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         List<string> permissions = [];
-        if (username.Equals("string"))
+        if (username.Equals("MyUsername"))
         {
             permissions.Add("CanDelete");
         }

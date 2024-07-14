@@ -1,8 +1,8 @@
 ﻿using BuildingBlocks.Domain.Interfaces;
 using BuildingBlocks.Infrastructure.Implementations;
+using Microsoft.EntityFrameworkCore;
 using SampleProject.Domain.Interfaces;
 using SampleProject.Domain.Models;
-using SampleProject.Infrastructure.QueryTexts;
 
 namespace SampleProject.Infrastructure.Repositories;
 
@@ -13,7 +13,10 @@ public class SampleModelRepository(
 {
     public async Task<int> GetTotalCount(CancellationToken cancellationToken = default)
     {
-        var result = await _dbContext.QueryGetAsync<int>(Queries.GetSampleModelTotalCount, cancellationToken);
+        await Task.Delay(2000, cancellationToken); // To check Redis speed
+
+        var result = await SetAsNoTracking.CountAsync(cancellationToken);
+        //var result = await _dbContext.QueryGetAsync<int>(Queries.GetSampleModelTotalCount, cancellationToken);
         return result;
     }
 }

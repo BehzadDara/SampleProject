@@ -16,3 +16,9 @@ services:
 
   grafana:
     image: grafana/grafana
+
+  redis:
+    image: redis
+
+  redisinsight:
+    image: redislabs/redisinsight

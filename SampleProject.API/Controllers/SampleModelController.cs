@@ -1,5 +1,5 @@
-﻿using BuildingBlocks.Application.Attributes;
-using BuildingBlocks.API.Controllers;
+﻿using BuildingBlocks.API.Controllers;
+using BuildingBlocks.Application.Attributes;
 using BuildingBlocks.Application.Features;
 using BuildingBlocks.Application.ViewModels;
 using MediatR;
@@ -59,7 +59,7 @@ public class SampleModelController(IMediator mediator) : BaseController
     }
 
     [HttpPost]
-    //[Authorize]
+    [Authorize]
     [Idempotent]
     [SwaggerOperation("Create")]
     [SwaggerResponse(StatusCodes.Status200OK, "Created", typeof(void))]

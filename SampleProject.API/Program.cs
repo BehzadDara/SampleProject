@@ -7,6 +7,6 @@ builder.Services.BaseRegister(builder.Configuration).Register(builder.Configurat
 
 var app = builder.Build();
 
-app.BaseAppUse().AppUse();
+app.BaseAppUse().AppUse(builder.Configuration);
 
 app.Run();

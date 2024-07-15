@@ -22,3 +22,6 @@ services:
 
   redisinsight:
     image: redislabs/redisinsight
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch

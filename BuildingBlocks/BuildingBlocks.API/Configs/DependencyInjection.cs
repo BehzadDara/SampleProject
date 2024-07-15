@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using BuildingBlocks.Domain.Interfaces;
+using Elastic.Serilog.Sinks;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +24,7 @@ public static class DependencyInjection
         services
             .RegisterControllers()
             .RegisterAPIVersioning()
-            .RegisterLog()
+            .RegisterLog(configuration)
             .RegisterMemoryCache()
             .RegisterRedis(configuration)
             .RegisterAuthentication(configuration)
@@ -72,12 +73,13 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection RegisterLog(this IServiceCollection services)
+    public static IServiceCollection RegisterLog(this IServiceCollection services, IConfiguration configuration)
     {
         Log.Logger = new LoggerConfiguration()
             .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
             .WriteTo.File("../Logs/log.txt", restrictedToMinimumLevel: LogEventLevel.Information, rollingInterval: RollingInterval.Day)
             .WriteTo.File("../Logs/logError.txt", restrictedToMinimumLevel: LogEventLevel.Error, rollingInterval: RollingInterval.Day)
+            .WriteTo.Elasticsearch([new Uri(configuration["ElasticSearch:Uri"]!)], restrictedToMinimumLevel: LogEventLevel.Error)
             .CreateLogger();
 
         services.AddLogging(loggingBuilder =>

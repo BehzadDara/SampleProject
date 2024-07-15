@@ -1,10 +1,14 @@
-﻿namespace BuildingBlocks.Application.Jobs;
+﻿using Microsoft.Extensions.Configuration;
+
+namespace BuildingBlocks.Application.Jobs;
 
 public class HealthCheckJob
 {
-    public static async Task CheckStatus()
+    public static async Task CheckStatus(IConfiguration configuration)
     {
-        string healthCheckUrl = "http://localhost:8001/healthz";
+        //await Task.Run(() => Console.WriteLine("Job is running"));
+
+        string healthCheckUrl = configuration["HealthCheck:Uri"]!;
 
         using var client = new HttpClient();
         try

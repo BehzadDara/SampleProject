@@ -7,18 +7,18 @@ namespace SampleProject.API.Configs;
 
 public static class AppUseExtensions
 {
-    public static IApplicationBuilder AppUse(this IApplicationBuilder app)
+    public static IApplicationBuilder AppUse(this IApplicationBuilder app, IConfiguration configuration)
     {
         app.MigratingDatabase();
 
-        UsingJobs();
+        UsingJobs(configuration);
 
         return app;
     }
 
-    private static void UsingJobs()
+    private static void UsingJobs(IConfiguration configuration)
     {
-        RecurringJob.AddOrUpdate<HealthCheckJob>("SampleJob", x => HealthCheckJob.CheckStatus(), "* * * * *");
+        RecurringJob.AddOrUpdate<HealthCheckJob>("SampleJob", x => HealthCheckJob.CheckStatus(configuration), "* * * * *");
     }
 
     private static IApplicationBuilder MigratingDatabase(this IApplicationBuilder app)

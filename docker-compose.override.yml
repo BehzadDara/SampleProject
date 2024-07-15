@@ -23,8 +23,9 @@ services:
       # Connect sampleprojectdb in SSMS using IpConfig -> Ethernet adapter vEthernet (WSL) -> Ip V4
       - ConnectionStrings:RedisConnection=redis:6379,defaultdatabase=11
       # Check redis content -> docker exec -it redis redis-cli
+      - HealthCheck:Uri=http://localhost:8001/healthz
     ports:
-      - "8001:8001"
+      - "9001:8001"
     depends_on:
       - sampleprojectdb
     volumes:
@@ -65,11 +66,19 @@ services:
   redisinsight:
     container_name: redisinsight
     ports:
-      - "8010:8001"
+      - "9002:8001"
     environment:
       - REDIS_URL=redis://redis:6379
     networks:
       - sampleproject_network
+ 
+  elasticsearch:
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+      - "9300:9300"
 
 networks:
   sampleproject_network:

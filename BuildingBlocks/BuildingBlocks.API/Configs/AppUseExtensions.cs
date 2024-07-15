@@ -23,7 +23,8 @@ public static class AppUseExtensions
             .UsingRouting()
             .UsingAuthorization()
             .UsingMiddlewares()
-            .UsingEndpoints();
+            .UsingEndpoints()
+            .UsingSerilog();
 
         return app;
     }
@@ -114,6 +115,13 @@ public static class AppUseExtensions
             endpoints.MapHealthChecks("/healthz", new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse });
             endpoints.MapMetrics("/metrics");
         });
+
+        return app;
+    }
+
+    public static IApplicationBuilder UsingSerilog(this IApplicationBuilder app)
+    {
+        //app.useseri
 
         return app;
     }

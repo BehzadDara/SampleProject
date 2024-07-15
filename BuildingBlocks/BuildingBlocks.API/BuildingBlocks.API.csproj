@@ -22,8 +22,10 @@
 		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.6" />
 		<PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
 		<PackageReference Include="Serilog" Version="3.1.1" />
+		<PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
 		<PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+		<PackageReference Include="Serilog.Sinks.Elasticsearch" Version="10.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="StackExchange.Redis" Version="2.8.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />

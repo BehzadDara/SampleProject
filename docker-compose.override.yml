@@ -68,12 +68,14 @@ services:
     ports:
       - "8002:8001"
     environment:
-      - REDIS_URL=redis://redis:6379
+      - REDIS_URL=http://localhost:6379
     networks:
       - sampleproject_network
  
   elasticsearch:
     container_name: elasticsearch
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
@@ -86,7 +88,7 @@ services:
   kibana:
     container_name: kibana
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_URL=http://localhost:9200
       - XPACK_SECURITY_ENABLED=false
     ports:
       - "5601:5601"
@@ -98,3 +100,6 @@ services:
 networks:
   sampleproject_network:
     driver: bridge
+
+volumes:
+  elasticsearch-data:

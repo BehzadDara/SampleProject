@@ -1,17 +1,19 @@
 ﻿using Asp.Versioning;
 using BuildingBlocks.Domain.Interfaces;
-using Elastic.Serilog.Sinks;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
+using Serilog.Sinks.Elasticsearch;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Filters;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -19,12 +21,13 @@ namespace BuildingBlocks.API.Configs;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection BaseRegister(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection BaseRegister(this IServiceCollection services,
+        IConfiguration configuration, IHostBuilder hostBuilder)
     {
         services
             .RegisterControllers()
             .RegisterAPIVersioning()
-            .RegisterLog(configuration)
+            .RegisterLog(configuration, hostBuilder)
             .RegisterMemoryCache()
             .RegisterRedis(configuration)
             .RegisterAuthentication(configuration)
@@ -73,19 +76,31 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection RegisterLog(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection RegisterLog(this IServiceCollection services,
+        IConfiguration configuration, IHostBuilder hostBuilder)
     {
         Log.Logger = new LoggerConfiguration()
+            .Enrich.FromLogContext()
             .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
             .WriteTo.File("../Logs/log.txt", restrictedToMinimumLevel: LogEventLevel.Information, rollingInterval: RollingInterval.Day)
             .WriteTo.File("../Logs/logError.txt", restrictedToMinimumLevel: LogEventLevel.Error, rollingInterval: RollingInterval.Day)
-            .WriteTo.Elasticsearch([new Uri(configuration["ElasticSearch:Uri"]!)], restrictedToMinimumLevel: LogEventLevel.Error)
+            .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(configuration["ElasticSearch:Uri"]!))
+            {
+                AutoRegisterTemplate = true,
+                IndexFormat =
+                    $"{Assembly.GetExecutingAssembly().GetName().Name!.ToLower().Replace('.', '-')}-" +
+                    $"{DateTime.UtcNow:yyyy-MM}",
+                NumberOfReplicas = 2,
+                NumberOfShards = 1
+            })
             .CreateLogger();
 
         services.AddLogging(loggingBuilder =>
         {
             loggingBuilder.AddSerilog(dispose: true);
         });
+
+        //hostBuilder.UseSerilog();
 
         return services;
     }

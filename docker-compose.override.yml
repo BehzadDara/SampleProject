@@ -25,7 +25,7 @@ services:
       # Check redis content -> docker exec -it redis redis-cli
       - HealthCheck:Uri=http://localhost:8001/healthz
     ports:
-      - "9001:8001"
+      - "8001:8001"
     depends_on:
       - sampleprojectdb
     volumes:
@@ -66,7 +66,7 @@ services:
   redisinsight:
     container_name: redisinsight
     ports:
-      - "9002:8001"
+      - "8002:8001"
     environment:
       - REDIS_URL=redis://redis:6379
     networks:
@@ -76,9 +76,24 @@ services:
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
+      - xpack.security.enabled=false
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - "8200:9200"
+      - "8300:9300"
+    networks:
+      - sampleproject_network
+
+  kibana:
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - XPACK_SECURITY_ENABLED=false
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - sampleproject_network
 
 networks:
   sampleproject_network:

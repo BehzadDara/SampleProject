@@ -34,12 +34,35 @@ services:
     networks:
       - sampleproject_network
 
+  anothersampleprojectdb:
+    container_name: anothersampleprojectdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Admin1234
+      - POSTGRES_DB=anothersampleprojectdb
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  anothersampleproject.api:
+    container_name: anothersampleproject.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8002
+      - ConnectionStrings:AnotherSampleProjectConnection=Server=anothersampleprojectdb;Port=5432;Database=anothersampleprojectdb;User Id=postgres;Password=Admin1234
+    depends_on:
+      - anothersampleprojectdb
+    ports:
+      - 8002:8002
+
   prometheus:
     container_name: prometheus
     volumes:
       - ./prometheus/prometheus.yml:/etc/Monitoring/prometheus.yml
     ports:
-      - "9090:9090"
+      - "8090:9090"
     depends_on:
       - sampleproject.api
     networks:
@@ -66,7 +89,7 @@ services:
   redisinsight:
     container_name: redisinsight
     ports:
-      - "8002:8001"
+      - "8101:8001"
     environment:
       - REDIS_URL=http://localhost:6379
     networks:
@@ -96,6 +119,26 @@ services:
       - elasticsearch
     networks:
       - sampleproject_network
+ 
+  pgadmin:
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=behzad@dara.com
+      - PGADMIN_DEFAULT_PASSWORD=admin1234
+    restart: always
+    ports:
+      - 5050:80
+    volumes:
+      - pgadmin_data:/root/.pgadmin
+
+  portainer:
+    container_name: portainer
+    restart: always
+    ports:
+      - 9000:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
 
 networks:
   sampleproject_network:

@@ -11,6 +11,15 @@ services:
       context: .
       dockerfile: SampleProject.API/Dockerfile
 
+  anothersampleprojectdb:
+    image: postgres
+
+  anothersampleproject.api:
+    image: ${DOCKER_REGISTRY-}anothersampleprojectapi
+    build:
+      context: .
+      dockerfile: AnotherSampleProject.API/Dockerfile
+
   prometheus:
     image: prom/prometheus
 
@@ -28,3 +37,14 @@ services:
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.14.3
+
+  pgadmin:
+    image: dpage/pgadmin4
+    
+  portainer:
+    image: portainer/portainer-ce
+
+volumes:
+  portainer_data:
+  postgres_data:
+  pgadmin_data:

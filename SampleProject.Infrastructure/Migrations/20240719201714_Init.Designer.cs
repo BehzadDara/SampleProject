@@ -12,7 +12,7 @@ using SampleProject.Infrastructure;
 namespace SampleProject.Infrastructure.Migrations
 {
     [DbContext(typeof(SampleProjectDBContext))]
-    [Migration("20240704141856_Init")]
+    [Migration("20240719201714_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -73,10 +73,6 @@ namespace SampleProject.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Abc")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Address")
                         .IsRequired()

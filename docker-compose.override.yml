@@ -9,7 +9,7 @@ services:
       - ACCEPT_EULA=Y
     restart: always
     ports:
-      - 3600:1433
+      - 8600:1433
     networks:
       - sampleproject_network
 
@@ -83,15 +83,7 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
-    networks:
-      - sampleproject_network
-
-  redisinsight:
-    container_name: redisinsight
-    ports:
       - "8101:8001"
-    environment:
-      - REDIS_URL=http://localhost:6379
     networks:
       - sampleproject_network
  

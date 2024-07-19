@@ -27,10 +27,7 @@ services:
     image: grafana/grafana
 
   redis:
-    image: redis
-
-  redisinsight:
-    image: redislabs/redisinsight
+    image: redis/redis-stack
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3

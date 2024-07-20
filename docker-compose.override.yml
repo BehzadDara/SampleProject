@@ -18,8 +18,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8001
-      - ConnectionStrings:SampleProjectConnection=Server=sampleprojectdb;Database=SampleProjectDB;User Id=sa;Password=Admin1234!!;TrustServerCertificate=True;
-      - ConnectionStrings:HangfireConnection=Server=sampleprojectdb;Database=SampleProjectDB;User Id=sa;Password=Admin1234!!;TrustServerCertificate=True;
+      - ConnectionStrings:DefaultConnection=Server=sampleprojectdb;Database=SampleProjectDB;User Id=sa;Password=Admin1234!!;TrustServerCertificate=True;
       # Connect sampleprojectdb in SSMS using IpConfig -> Ethernet adapter vEthernet (WSL) -> Ip V4
       - ConnectionStrings:RedisConnection=redis:6379,defaultdatabase=11
       # Check redis content -> docker exec -it redis redis-cli
@@ -51,7 +50,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8002
-      - ConnectionStrings:AnotherSampleProjectConnection=Server=anothersampleprojectdb;Port=5432;Database=anothersampleprojectdb;User Id=postgres;Password=Admin1234
+      - ConnectionStrings:DefaultConnection=Server=anothersampleprojectdb;Port=5432;Database=anothersampleprojectdb;User Id=postgres;Password=Admin1234
     depends_on:
       - anothersampleprojectdb
     ports:

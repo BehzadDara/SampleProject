@@ -18,7 +18,7 @@ public static class AppUseExtensions
             .UsingLocalization()
             .UsingCors()
             .UsingSwagger()
-            //.UsingHangfire()
+            .UsingHangfire()
             .UsingMetrics()
             .UsingRouting()
             .UsingAuthorization()

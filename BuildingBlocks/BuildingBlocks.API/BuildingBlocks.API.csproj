@@ -14,10 +14,12 @@
 		<PackageReference Include="Consul" Version="1.7.14.3" />
 		<PackageReference Include="Elastic.Serilog.Sinks" Version="8.11.1" />
 		<PackageReference Include="Hangfire.AspNetCore" Version="1.8.14" />
-		<PackageReference Include="Hangfire.SqlServer" Version="1.8.14" />
+		<PackageReference Include="Hangfire.MemoryStorage" Version="1.8.1.1" />
 		<PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.7" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.7" />
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.6" />
 		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.6" />
 		<PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />

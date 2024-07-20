@@ -55,7 +55,7 @@ public static class DependencyInjection
     private static IServiceCollection RegisterDBContext(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<SampleProjectDBContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("SampleProjectConnection")),
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")),
             ServiceLifetime.Scoped);
         services.AddScoped<DBContext>(provider => provider.GetService<SampleProjectDBContext>()!);
 

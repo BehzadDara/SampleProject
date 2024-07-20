@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Data.Common;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace BuildingBlocks.Infrastructure.Implementations;
 

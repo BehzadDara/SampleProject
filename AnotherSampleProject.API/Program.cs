@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddDbContext<AnotherSampleProjectDBContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("AnotherSampleProjectConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 builder.Services.AddScoped<ITestModelService, TestModelService>();

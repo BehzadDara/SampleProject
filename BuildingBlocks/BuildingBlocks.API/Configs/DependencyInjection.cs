@@ -1,6 +1,8 @@
 ﻿using Asp.Versioning;
 using BuildingBlocks.Domain.Interfaces;
+using BuildingBlocks.Infrastructure.Implementations;
 using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,8 +38,8 @@ public static class DependencyInjection
             .RegisterCors()
             .RegisterHealthcheck()
             .RegisterLocalization()
-            .RegisterFeatureManagement();
-        //.RegisterHangfire(configuration);
+            .RegisterFeatureManagement()
+            .RegisterHangfire(configuration);
 
         return services;
     }
@@ -232,7 +234,8 @@ public static class DependencyInjection
 
     public static IServiceCollection RegisterHealthcheck(this IServiceCollection services)
     {
-        services.AddHealthChecks();
+        services.AddHealthChecks()
+            .AddDbContextCheck<DBContext>("Database HealthCheck");
 
         return services;
     }
@@ -253,10 +256,11 @@ public static class DependencyInjection
 
     public static IServiceCollection RegisterHangfire(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHangfire(config => config
-                .UseSimpleAssemblyNameTypeSerializer()
-                .UseRecommendedSerializerSettings()
-                .UseSqlServerStorage(configuration.GetConnectionString("HangfireConnection")));
+        services.AddHangfire(configuration => configuration
+            .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseDefaultTypeSerializer()
+            .UseMemoryStorage());
 
         services.AddHangfireServer();
 

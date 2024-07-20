@@ -11,14 +11,14 @@ public static class AppUseExtensions
     {
         app.MigratingDatabase();
 
-        //UsingJobs(configuration);
+        UsingJobs(configuration);
 
         return app;
     }
 
     private static void UsingJobs(IConfiguration configuration)
     {
-        RecurringJob.AddOrUpdate<HealthCheckJob>("SampleJob", x => HealthCheckJob.CheckStatus(configuration), "* * * * *");
+        RecurringJob.AddOrUpdate<HealthCheckJob>("SampleJob", x => HealthCheckJob.CheckStatus(configuration["HealthCheck:Uri"]!), "* * * * *");
     }
 
     private static IApplicationBuilder MigratingDatabase(this IApplicationBuilder app)

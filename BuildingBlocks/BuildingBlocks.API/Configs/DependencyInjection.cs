@@ -39,7 +39,7 @@ public static class DependencyInjection
             .RegisterHealthcheck()
             .RegisterLocalization()
             .RegisterFeatureManagement()
-            .RegisterHangfire(configuration);
+            .RegisterHangfire();
 
         return services;
     }
@@ -254,7 +254,7 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection RegisterHangfire(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection RegisterHangfire(this IServiceCollection services)
     {
         services.AddHangfire(configuration => configuration
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)

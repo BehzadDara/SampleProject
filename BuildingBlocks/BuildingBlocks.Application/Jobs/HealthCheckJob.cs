@@ -4,16 +4,12 @@ namespace BuildingBlocks.Application.Jobs;
 
 public class HealthCheckJob
 {
-    public static async Task CheckStatus(IConfiguration configuration)
+    public static async Task CheckStatus(string healthCheckURL)
     {
-        //await Task.Run(() => Console.WriteLine("Job is running"));
-
-        string healthCheckUrl = configuration["HealthCheck:Uri"]!;
-
         using var client = new HttpClient();
         try
         {
-            HttpResponseMessage response = await client.GetAsync(healthCheckUrl);
+            HttpResponseMessage response = await client.GetAsync(healthCheckURL);
             response.EnsureSuccessStatusCode();
 
             string responseBody = await response.Content.ReadAsStringAsync();

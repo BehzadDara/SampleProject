@@ -1,7 +1,10 @@
 ﻿using BuildingBlocks.Application.Jobs;
 using Hangfire;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using SampleProject.Infrastructure;
+using System.Text;
 
 namespace SampleProject.API.Configs;
 
@@ -13,7 +16,33 @@ public static class AppUseExtensions
 
         UsingJobs(configuration);
 
+        UsingRabbitMQ(configuration);
+
         return app;
+    }
+
+    private static void UsingRabbitMQ(IConfiguration configuration)
+    {
+        var factory = new ConnectionFactory()
+        {
+            HostName = configuration["RabbitMQSettings:HostName"],
+            UserName = configuration["RabbitMQSettings:UserName"],
+            Password = configuration["RabbitMQSettings:Password"]
+        };
+
+        var connection = factory.CreateConnection();
+        var channel = connection.CreateModel();
+        channel.QueueDeclare(queue: "TestModel_Notifications", durable: false, exclusive: false, autoDelete: false, arguments: null);
+
+        var consumer = new EventingBasicConsumer(channel);
+        consumer.Received += (model, ea) =>
+        {
+            var body = ea.Body.ToArray();
+            var message = Encoding.UTF8.GetString(body);
+            Console.WriteLine($"Received Message: {message}");
+        };
+
+        channel.BasicConsume(queue: "TestModel_Notifications", autoAck: true, consumer: consumer);
     }
 
     private static void UsingJobs(IConfiguration configuration)

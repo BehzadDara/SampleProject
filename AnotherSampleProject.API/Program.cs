@@ -24,8 +24,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<AnotherSampleProjectDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
 builder.Services.AddScoped<ITestModelService, TestModelService>();
+builder.Services.AddScoped<IRabbitMQService, RabbitMQService>();
+
+builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQSettings"));
 
 var app = builder.Build();
 
@@ -40,9 +42,13 @@ app.MapGet("/All", async (ITestModelService testService, CancellationToken cance
     return Results.Ok(items);
 });
 
-app.MapPost("/Add", async (ITestModelService testService, CancellationToken cancellationToken, [FromBody] string name) =>
+app.MapPost("/Add", async (
+    ITestModelService testService,
+    IRabbitMQService rabbitMQService,
+    CancellationToken cancellationToken, [FromBody] string name) =>
 {
     await testService.Add(name, cancellationToken);
+    rabbitMQService.SendAddTestModelMessage(name, cancellationToken);
     return Results.Ok();
 });
 

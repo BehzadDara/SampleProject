@@ -23,15 +23,25 @@ services:
       - ConnectionStrings:RedisConnection=redis:6379,defaultdatabase=11
       # Check redis content -> docker exec -it redis redis-cli
       - HealthCheck:Uri=http://localhost:8001/healthz
+      - RabbitMQSettings:HostName=rabbitmq
+      - RabbitMQSettings:UserName=user
+      - RabbitMQSettings:Password=password
     ports:
       - "8001:8001"
     depends_on:
       - sampleprojectdb
+      - rabbitmq
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
     networks:
       - sampleproject_network
+    healthcheck:
+        interval: 30s
+        timeout: 10s
+        retries: 5
+    # Health check and retry is for this purpose:
+    # RabbitMQ and Sender (AnotherSampleProject) should start first. Then SampleProject is able to be up...
 
   anothersampleprojectdb:
     container_name: anothersampleprojectdb
@@ -44,6 +54,8 @@ services:
       - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - sampleproject_network
 
   anothersampleproject.api:
     container_name: anothersampleproject.api
@@ -51,17 +63,23 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8002
       - ConnectionStrings:DefaultConnection=Server=anothersampleprojectdb;Port=5432;Database=anothersampleprojectdb;User Id=postgres;Password=Admin1234
+      - RabbitMQSettings:HostName=rabbitmq
+      - RabbitMQSettings:UserName=user
+      - RabbitMQSettings:Password=password
     depends_on:
       - anothersampleprojectdb
+      - rabbitmq
     ports:
       - 8002:8002
+    networks:
+      - sampleproject_network
 
   prometheus:
     container_name: prometheus
     volumes:
       - ./prometheus/prometheus.yml:/etc/Monitoring/prometheus.yml
     ports:
-      - "8090:9090"
+      - "9090:9090"
     depends_on:
       - sampleproject.api
     networks:
@@ -82,7 +100,7 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
-      - "8101:8001"
+      - "9101:8001"
     networks:
       - sampleproject_network
  
@@ -94,10 +112,11 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
     ports:
-      - "8200:9200"
-      - "8300:9300"
+      - "9200:9200"
+      - "9300:9300"
     networks:
       - sampleproject_network
+    # not working !
 
   kibana:
     container_name: kibana
@@ -110,6 +129,7 @@ services:
       - elasticsearch
     networks:
       - sampleproject_network
+    # not working !
  
   pgadmin:
     container_name: pgadmin
@@ -121,6 +141,8 @@ services:
       - 5050:80
     volumes:
       - pgadmin_data:/root/.pgadmin
+    networks:
+      - sampleproject_network
 
   portainer:
     container_name: portainer
@@ -130,10 +152,20 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    networks:
+      - sampleproject_network
+ 
+  rabbitmq:
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    networks:
+      - sampleproject_network
 
 networks:
   sampleproject_network:
     driver: bridge
-
-volumes:
-  elasticsearch-data:

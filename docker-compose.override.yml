@@ -166,6 +166,15 @@ services:
     networks:
       - sampleproject_network
 
+  nginx:
+    container_name: nginx
+    ports: 
+      - 8080:8001
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - sampleproject.api
+
 networks:
   sampleproject_network:
     driver: bridge

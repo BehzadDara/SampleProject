@@ -235,7 +235,8 @@ public static class DependencyInjection
     public static IServiceCollection RegisterHealthcheck(this IServiceCollection services)
     {
         services.AddHealthChecks()
-            .AddDbContextCheck<DBContext>("Database HealthCheck");
+            .AddDbContextCheck<DBContext>("Database HealthCheck")
+            .AddCheck<CustomHealthCheck>("Custom HealthCheck");
 
         return services;
     }

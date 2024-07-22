@@ -12,13 +12,7 @@ public static class AppUseExtensions
 {
     public static IApplicationBuilder AppUse(this IApplicationBuilder app, IConfiguration configuration)
     {
-        try
-        {
-            app.MigratingDatabase();
-        }
-        catch
-        {
-        }
+        app.MigratingDatabase();
 
         UsingJobs(configuration);
 

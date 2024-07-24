@@ -14,11 +14,29 @@ services:
   anothersampleprojectdb:
     image: postgres
 
-  anothersampleproject.api:
+  anothersampleproject.api1:
     image: ${DOCKER_REGISTRY-}anothersampleprojectapi
     build:
       context: .
       dockerfile: AnotherSampleProject.API/Dockerfile
+
+  anothersampleproject.api2:
+    image: ${DOCKER_REGISTRY-}anothersampleprojectapi
+    build:
+      context: .
+      dockerfile: AnotherSampleProject.API/Dockerfile
+
+  anothersampleproject.api3:
+    image: ${DOCKER_REGISTRY-}anothersampleprojectapi
+    build:
+      context: .
+      dockerfile: AnotherSampleProject.API/Dockerfile
+
+  anothersampleproject.loadbalancer:
+    image: ${DOCKER_REGISTRY-}anothersampleprojectloadbalancer
+    build:
+      context: .
+      dockerfile: AnotherSampleProject.LoadBalancer/Dockerfile
 
   prometheus:
     image: prom/prometheus

@@ -57,8 +57,8 @@ services:
     networks:
       - sampleproject_network
 
-  anothersampleproject.api:
-    container_name: anothersampleproject.api
+  anothersampleproject.api1:
+    container_name: anothersampleproject.api1
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8002
@@ -71,6 +71,56 @@ services:
       - rabbitmq
     ports:
       - 8002:8002
+    networks:
+      - sampleproject_network
+
+  anothersampleproject.api2:
+    container_name: anothersampleproject.api2
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8002
+      - ConnectionStrings:DefaultConnection=Server=anothersampleprojectdb;Port=5432;Database=anothersampleprojectdb;User Id=postgres;Password=Admin1234
+      - RabbitMQSettings:HostName=rabbitmq
+      - RabbitMQSettings:UserName=user
+      - RabbitMQSettings:Password=password
+    depends_on:
+      - anothersampleprojectdb
+      - rabbitmq
+    ports:
+      - 8003:8002
+    networks:
+      - sampleproject_network
+
+  anothersampleproject.api3:
+    container_name: anothersampleproject.api3
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8002
+      - ConnectionStrings:DefaultConnection=Server=anothersampleprojectdb;Port=5432;Database=anothersampleprojectdb;User Id=postgres;Password=Admin1234
+      - RabbitMQSettings:HostName=rabbitmq
+      - RabbitMQSettings:UserName=user
+      - RabbitMQSettings:Password=password
+    depends_on:
+      - anothersampleprojectdb
+      - rabbitmq
+    ports:
+      - 8004:8002
+    networks:
+      - sampleproject_network
+
+  anothersampleproject.loadbalancer:
+    container_name: anothersampleproject.loadbalancer
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8010
+      - ReverseProxy_Routes_api-route_ClusterId=api-cluster
+      - ReverseProxy_Routes_api-route_Match_Path={**catch-all}
+      - ReverseProxy_Clusters_api-cluster_LoadBalancingPolicy=RoundRobin
+      - ReverseProxy_Clusters_api-cluster_Destinations_destination1_Address=http://localhost:8002
+      - ReverseProxy_Clusters_api-cluster_Destinations_destination2_Address=http://localhost:8003
+      - ReverseProxy_Clusters_api-cluster_Destinations_destination3_Address=http://localhost:8004
+    ports:
+      - 8010:8010
     networks:
       - sampleproject_network
 

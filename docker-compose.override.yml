@@ -116,9 +116,9 @@ services:
       - ReverseProxy_Routes_api-route_ClusterId=api-cluster
       - ReverseProxy_Routes_api-route_Match_Path={**catch-all}
       - ReverseProxy_Clusters_api-cluster_LoadBalancingPolicy=RoundRobin
-      - ReverseProxy_Clusters_api-cluster_Destinations_destination1_Address=http://localhost:8002
-      - ReverseProxy_Clusters_api-cluster_Destinations_destination2_Address=http://localhost:8003
-      - ReverseProxy_Clusters_api-cluster_Destinations_destination3_Address=http://localhost:8004
+      - ReverseProxy_Clusters_api-cluster_Destinations_destination1_Address=http://anothersampleproject.api1:8002 # error
+      - ReverseProxy_Clusters_api-cluster_Destinations_destination2_Address=http://anothersampleproject.api2:8002
+      - ReverseProxy_Clusters_api-cluster_Destinations_destination3_Address=http://anothersampleproject.api1:8002
     ports:
       - 8010:8010
     networks:

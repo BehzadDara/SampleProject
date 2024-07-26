@@ -62,9 +62,6 @@ services:
   rabbitmq:
     image: rabbitmq:management
 
-  #nginx:
-  #  image: nginx
-
 volumes:
   portainer_data:
   postgres_data:

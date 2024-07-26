@@ -113,15 +113,20 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8010
-      - ReverseProxy_Routes_api-route_ClusterId=api-cluster
-      - ReverseProxy_Routes_api-route_Match_Path={**catch-all}
-      - ReverseProxy_Clusters_api-cluster_LoadBalancingPolicy=RoundRobin
-      - ReverseProxy_Clusters_api-cluster_Destinations_destination1_Address=http://anothersampleproject.api1:8002 #error
-      - ReverseProxy_Clusters_api-cluster_Destinations_destination1_Health_Active=http://anothersampleproject.api1:8002/healthz
-      - ReverseProxy_Clusters_api-cluster_Destinations_destination2_Address=http://anothersampleproject.api2:8002
-      - ReverseProxy_Clusters_api-cluster_Destinations_destination2_Health_Active=http://anothersampleproject.api2:8002/healthz
-      - ReverseProxy_Clusters_api-cluster_Destinations_destination3_Address=http://anothersampleproject.api3:8002
-      - ReverseProxy_Clusters_api-cluster_Destinations_destination3_Health_Active=http://anothersampleproject.api3:8002/healthz
+      - ReverseProxy:Routes:api-route:ClusterId=api-cluster
+      - ReverseProxy:Routes:api-route:Match:Path={**catch-all}
+      - ReverseProxy:Clusters:api-cluster:LoadBalancingPolicy=RoundRobin
+      - ReverseProxy:Clusters:api-cluster:HealthCheck:Active:Enabled=true
+      - ReverseProxy:Clusters:api-cluster:HealthCheck:Active:Interval=00:00:05
+      - ReverseProxy:Clusters:api-cluster:HealthCheck:Active:Timeout=00:00:05
+      - ReverseProxy:Clusters:api-cluster:HealthCheck:Active:Policy=ConsecutiveFailures
+      - ReverseProxy:Clusters:api-cluster:HealthCheck:Active:Path=/healthz
+      - ReverseProxy:Clusters:api-cluster:Destinations:destination1:Address=http://anothersampleproject.api1:8002
+      - ReverseProxy:Clusters:api-cluster:Destinations:destination1:Health:Active=http://anothersampleproject.api1:8002/healthz
+      - ReverseProxy:Clusters:api-cluster:Destinations:destination2:Address=http://anothersampleproject.api2:8002
+      - ReverseProxy:Clusters:api-cluster:Destinations:destination2:Health:Active=http://anothersampleproject.api2:8002/healthz
+      - ReverseProxy:Clusters:api-cluster:Destinations:destination3:Address=http://anothersampleproject.api3:8002
+      - ReverseProxy:Clusters:api-cluster:Destinations:destination3:Health:Active=http://anothersampleproject.api3:8002/healthz
     ports:
       - 8010:8010
     networks:

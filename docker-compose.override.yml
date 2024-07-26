@@ -179,7 +179,7 @@ services:
   kibana:
     container_name: kibana
     environment:
-      - ELASTICSEARCH_URL=http://localhost:9200
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
       - XPACK_SECURITY_ENABLED=false
     ports:
       - "15601:5601"

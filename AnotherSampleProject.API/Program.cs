@@ -29,6 +29,8 @@ builder.Services.AddScoped<IRabbitMQService, RabbitMQService>();
 
 builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQSettings"));
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 MigrateDatabase(app);
@@ -51,6 +53,8 @@ app.MapPost("/Add", async (
     rabbitMQService.SendAddTestModelMessage(name, cancellationToken);
     return Results.Ok();
 });
+
+app.MapHealthChecks("healthz");
 
 app.Run();
 

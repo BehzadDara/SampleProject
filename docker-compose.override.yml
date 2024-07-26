@@ -22,12 +22,12 @@ services:
       # Connect sampleprojectdb in SSMS using IpConfig -> Ethernet adapter vEthernet (WSL) -> Ip V4
       - ConnectionStrings:RedisConnection=redis:6379,defaultdatabase=11
       # Check redis content -> docker exec -it redis redis-cli
-      - HealthCheck:Uri=http://localhost:8001/healthz
+      - HealthCheck:Uri=http://sampleproject.api:8001/healthz
       - RabbitMQSettings:HostName=rabbitmq
       - RabbitMQSettings:UserName=user
       - RabbitMQSettings:Password=password
     ports:
-      - "8001:8001"
+      - "18001:8001"
     depends_on:
       - sampleprojectdb
       - rabbitmq
@@ -116,9 +116,12 @@ services:
       - ReverseProxy_Routes_api-route_ClusterId=api-cluster
       - ReverseProxy_Routes_api-route_Match_Path={**catch-all}
       - ReverseProxy_Clusters_api-cluster_LoadBalancingPolicy=RoundRobin
-      - ReverseProxy_Clusters_api-cluster_Destinations_destination1_Address=http://anothersampleproject.api1:8002 # error
+      - ReverseProxy_Clusters_api-cluster_Destinations_destination1_Address=http://anothersampleproject.api1:8002 #error
+      - ReverseProxy_Clusters_api-cluster_Destinations_destination1_Health_Active=http://anothersampleproject.api1:8002/healthz
       - ReverseProxy_Clusters_api-cluster_Destinations_destination2_Address=http://anothersampleproject.api2:8002
-      - ReverseProxy_Clusters_api-cluster_Destinations_destination3_Address=http://anothersampleproject.api1:8002
+      - ReverseProxy_Clusters_api-cluster_Destinations_destination2_Health_Active=http://anothersampleproject.api2:8002/healthz
+      - ReverseProxy_Clusters_api-cluster_Destinations_destination3_Address=http://anothersampleproject.api3:8002
+      - ReverseProxy_Clusters_api-cluster_Destinations_destination3_Health_Active=http://anothersampleproject.api3:8002/healthz
     ports:
       - 8010:8010
     networks:
@@ -174,7 +177,7 @@ services:
       - ELASTICSEARCH_URL=http://localhost:9200
       - XPACK_SECURITY_ENABLED=false
     ports:
-      - "5601:5601"
+      - "15601:5601"
     depends_on:
       - elasticsearch
     networks:
@@ -208,7 +211,7 @@ services:
   rabbitmq:
     container_name: rabbitmq
     ports:
-      - "5672:5672"
+      - "25672:5672"
       - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: user

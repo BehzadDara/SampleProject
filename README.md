@@ -6,9 +6,11 @@
 
 ## ⭐ Star This Repository!
 
+---
+
 ## 🔧 What's Inside?
 
-- **Clean Architecture & Design Patterns** like CQRS
+- **Clean Architecture** & **Design Patterns** like CQRS
 - **Database Support**: SQLServer, PostgreSQL
 - **Caching**: Redis
 - **Messaging**: RabbitMQ, Hangfire for background jobs
